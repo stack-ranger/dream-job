@@ -20,8 +20,5 @@ export default defineNextConfig({
     locales: ["en"],
     defaultLocale: "en",
   },
+  output: 'standalone'
 });
-
-module.exports = {
-  output: 'standalone',
-}
