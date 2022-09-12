@@ -11,11 +11,22 @@ const jobSelect = Prisma.validator<Prisma.jobsSelect>()({
 	keywords: true,
 });
 
+
+
 export const jobRouter = createRouter()
 	.query('selected', {
-		async resolve() {
+		input: z.object({
+			keywords: z.array(z.string()),
+		}),
+		async resolve({ input }) {
+
+			const jobWhere = Prisma.validator<Prisma.jobsWhereInput>()({
+				keywords: { hasEvery: input.keywords },
+			});
+
 			const jobs = await prisma.jobs.findMany({
-				select: jobSelect
+				select: jobSelect,
+				where: jobWhere,
 			});
 			return jobs;
 		}
