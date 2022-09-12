@@ -21,3 +21,7 @@ export default defineNextConfig({
     defaultLocale: "en",
   },
 });
+
+module.exports = {
+  output: 'standalone',
+}
