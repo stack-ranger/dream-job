@@ -1,8 +1,8 @@
 ## Job collector microservice
 
-Microservice to collect job postings and write them into the database. 
+Microservice to collect job postings from findwork.dev and write them into the database. 
 
-
+### Setup
 ```bash 
 # install dependencies
 yarn install
@@ -17,7 +17,17 @@ yarn start
 yarn dev
 ```
 
+### Create Schema (reuse the schema of the root project)
 ```bash
 # reuse prisma schema of parent directory
 npx prisma generate --schema=./../prisma/schema.prisma
 ```
+
+### Environment variables 
+
+Make sure to add the following fields to the .env or export the environment variables.
+```bash
+DATABASE_URL="postgresql://<USER>:<PASSWORD>@<IP>:<PORT>/<DB>?schema=<SCHEMA>"
+API_TOKEN="<YOUR TOKEN>"
+```
+
