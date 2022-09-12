@@ -16,3 +16,8 @@ yarn start
 # use ts-node to run without compilation
 yarn dev
 ```
+
+```bash
+# reuse prisma schema of parent directory
+npx prisma generate --schema=./../prisma/schema.prisma
+```
