@@ -10,3 +10,4 @@ jobs:
         run: |
           curl --request GET \
           --url 'https://stack-ranger.herokuapp.com/api/microservice' \
+          --header 'Authorization: ${{ secrets.AUTHORIZATION_HEADER }}' 

@@ -2,6 +2,7 @@ import { PrismaClient, Prisma } from '@prisma/client'
 
 // requires API_KEY to be set
 const API_KEY = process.env.API_KEY
+const AUTHORIZATION_HEADER = process.env.AUTHORIZATION_HEADER
 
 // requires DATABASE_URL to be set 
 const prisma = new PrismaClient();
@@ -83,6 +84,13 @@ const writeJobToDb = async function (job: Job) {
 }
 
 export default async function handler(req: any, res: any) {
+
+	// check if request is authorized
+	if (!req.headers.authorization || req.headers.authorization !== AUTHORIZATION_HEADER) {
+		res.status(401).json({ message: "Unauthorized" });
+		return;
+	}
 	await fetchJobs();
+
 	res.status(200).json({ message: "success" });
 }
