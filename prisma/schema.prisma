@@ -12,6 +12,7 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Example {
@@ -61,4 +62,20 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model jobs {
+  id String @id @default(cuid())
+  role String?
+  company_name String?
+  company_num_employees Int?
+  employment_type String?
+  location String?
+  remote Boolean?
+  logo String?
+  url String?
+  text String?
+  date_posted DateTime?
+  keywords String?
+  source String?
 }
