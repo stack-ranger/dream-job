@@ -1,0 +1,12 @@
+name: fetch-jobs-cron
+on:
+  schedule:
+    - cron: '0 1 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call API route to trigger fetch jobs
+        run: |
+          curl --request GET \
+          --url 'https://stack-ranger.herokuapp.com/api/microservice' \
