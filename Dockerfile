@@ -14,6 +14,7 @@ FROM node:16-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN npx prisma generate
 
 ARG DATABASE_URL
 RUN npm run build
