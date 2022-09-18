@@ -35,7 +35,7 @@ const fetchJobs = async function () {
 
 	while (!invalidPage) {
 
-		let start = new Date().getTime();
+		const start = new Date().getTime();
 
 		const resp = await fetch(`https://findwork.dev/api/jobs/\?page=${pageCounter}`, {
 			headers: { "Authorization": `Token ${API_KEY}` }
@@ -55,8 +55,8 @@ const fetchJobs = async function () {
 		);
 
 		// make sure to not exceed the rate limit
-		let end = new Date().getTime();
-		let time = end - start;
+		const end = new Date().getTime();
+		const time = end - start;
 		if (time < 1000) {
 			await new Promise(resolve => setTimeout(resolve, 1000 - time));
 		}
