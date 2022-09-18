@@ -11,7 +11,7 @@ type Job = {
 
 const extractSkills = (jobs: Job[], number: number | null) => {
 
-	let keyMap = new Map<string, number>();
+	const keyMap = new Map<string, number>();
 
 	// add to number of analysed jobs
 	keyMap.set("numberResults", jobs.length);
@@ -50,7 +50,7 @@ export const skillRouter = createRouter()
 		async resolve({ input }) {
 
 			// conact role with % to allow for partial matches
-			let roleConcat = input.role ? input.role.replace(" ", "&") : " ";
+			const roleConcat = input.role ? input.role.replace(" ", "&") : " ";
 
 			const jobs: Job[] = await prisma.jobs.findMany({
 				select: jobSelect,
