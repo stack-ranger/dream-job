@@ -1,12 +1,25 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
+import { JobContext } from '../context/jobContext';
+import { useContext } from "react";
+import { JobContextType } from "../types/job";
 
 const Home: NextPage = () => {
+
   const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
 
-  const jobs = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }]);
+  const { jobs, updateJobs } = useContext(JobContext) as JobContextType;
+
+  const jobQuery = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }],
+    {
+      onSuccess: (data) => {
+        updateJobs(data);
+      }
+    } 
+  );
   console.log(jobs);
+
 
   return (
     <>
