@@ -5,6 +5,9 @@ import { trpc } from "../utils/trpc";
 const Home: NextPage = () => {
   const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
 
+  const jobs = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }]);
+  console.log(jobs);
+
   return (
     <>
       <Head>
