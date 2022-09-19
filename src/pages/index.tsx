@@ -1,64 +1,65 @@
-import type { NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react"
-import Head from "next/head";
-import { trpc } from "../utils/trpc";
+import type { NextPage } from 'next'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import Head from 'next/head'
+import { trpc } from '../utils/trpc'
 
 const Home: NextPage = () => {
   // const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession()
 
-  if (status === "loading") {
-    return <main>Loading...</main>;
+  if (status === 'loading') {
+    return <main className="flex flex-col items-center pt-4">Loading...</main>
   }
 
-  const jobs = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }]);
-  console.log(jobs);
+  // const jobs = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }]);
+  // console.log(jobs);
 
   return (
-    <main>
-      <h1>Guestbook</h1>
-      {session ? (
-        <div>
-          <p>
-            hi {session.user?.name}
-          </p>
+    <main className="flex flex-col items-center">
+      <h1 className="text-3xl pt-4">Searches</h1>
+      <div className="pt-10">
+        {session ? (
+          <div>
+            <div>
+              <p>hi {session.user?.name}</p>
 
-          <button onClick={() => signOut()}>Logout</button>
-        </div>
-      ) : (
-        <div>
-          <button onClick={() => signIn("google")}>Login with Google</button>
-        </div>
-      )}
+              <button onClick={() => signOut()}>Logout</button>
+            </div>
+            <div className="mt-2">
+              <Searches />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div>
+              <button onClick={() => signIn('google')}>
+                Login with Google
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </main>
-  );
-};
+  )
+}
 
-export default Home;
+const Searches = () => {
+  const { data: searches, isLoading } = trpc.useQuery(['searches.getAll'])
 
-type TechnologyCardProps = {
-  name: string;
-  description: string;
-  documentation: string;
-};
-
-const TechnologyCard = ({
-  name,
-  description,
-  documentation,
-}: TechnologyCardProps) => {
+  if (isLoading) return <div>Fetching history...</div>
+  if (searches?.length === 0) return <div className='hover:cursor-pointer'>History is empty, make your first research</div>
   return (
-    <section className="flex flex-col justify-center p-6 duration-500 border-2 border-gray-500 rounded shadow-xl motion-safe:hover:scale-105">
-      <h2 className="text-lg text-gray-700">{name}</h2>
-      <p className="text-sm text-gray-600">{description}</p>
-      <a
-        className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
-        href={documentation}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Documentation
-      </a>
-    </section>
-  );
-};
+    <div className="flex flex-col gap-4">
+      {searches?.map((src, index) => {
+        return (
+          <div key={index}>
+            <p>{src.query}</p>
+            <span>- {src.result} -</span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+export default Home

@@ -12,7 +12,7 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
-    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+    // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Example {
@@ -54,6 +54,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    searches      Search[]
 }
 
 model VerificationToken {
@@ -78,4 +79,13 @@ model jobs {
   date_posted           DateTime? @db.Timestamp(6)
   keywords              String[]  @db.VarChar(255)
   source                String?   @db.VarChar(255)
+}
+
+model Search {
+    id        String      @id @default(cuid())
+    userId    String
+    createdAt DateTime    @default(now())
+    query     String?
+    result    String[]    @db.VarChar(255)
+    user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
