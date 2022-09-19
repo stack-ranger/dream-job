@@ -17,6 +17,8 @@ COPY . .
 RUN npx prisma generate
 
 ARG DATABASE_URL
+ARG AUTHORIZATION_HEADER
+ARG API_KEY
 RUN npm run build
 
 # Production image, copy all the files and run next
