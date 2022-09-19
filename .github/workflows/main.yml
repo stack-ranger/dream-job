@@ -50,9 +50,9 @@ jobs:
 
           # (Optional, default: "")
           # Additional options of docker build command.
-          docker_options: "--no-cache --build-arg 
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            AUTHORIZATION_HEADER=${{secrets.AUTHORIZATION_HEADER}}
+          docker_options: "--no-cache --build-arg \
+            DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            AUTHORIZATION_HEADER=${{secrets.AUTHORIZATION_HEADER}} \
             API_KEY=${{secrets.API_KEY}}
           "
 
