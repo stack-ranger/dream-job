@@ -1,29 +1,29 @@
-import { useMemo } from "react";
+import {useMemo} from "react";
 import * as d3 from "d3";
 import SkillPlotView from "./skillPlotView";
 
-const skills: Skill[] = [
-    { skill: "React", value: 100 },
-    { skill: "TypeScript", value: 90 },
-    { skill: "Docker", value: 80 },
-    { skill: "Tailwind", value: 70 },
-    { skill: "GraphQL", value: 60 },
-    { skill: "Next.js", value: 50 },
-    { skill: "Node.js", value: 40 },
-    { skill: "MongoDB", value: 20 }];
+type SkillPlotProps = {
+    skills: Skill[];
+    height: number;
+    width: number;
+}
 
-const SkillPlot = () => {
+/**
+ * D3 skill plot
+ * @param skills - skills to plot
+ * @param height - height of the plot
+ * @param width - width of the plot
+ */
+const SkillPlot = ({skills, height, width}: SkillPlotProps) => {
 
-    const width = 500;
-    const height = 500;
-
+    // useMemo to avoid re-rendering the plot
     const yScale = useMemo(() => {
         return d3
             .scaleBand()
             .domain(skills.map((skill) => skill.skill))
             .range([0, width])
             .padding(0.1);
-    }, [width]);
+    }, [skills, width]);
 
     const xScale = useMemo(() => {
         const [, max] = d3.extent(skills.map((d) => d.value));
@@ -31,9 +31,9 @@ const SkillPlot = () => {
             .scaleLinear()
             .domain([0, max || 10])
             .range([0, height]);
-    }, [height]);
+    }, [height, skills]);
 
-    return <SkillPlotView xScale={xScale} yScale={yScale} skills={skills} width={width} height={height} />
+    return <SkillPlotView xScale={xScale} yScale={yScale} skills={skills} width={width} height={height}/>
 };
 
 export default SkillPlot;
