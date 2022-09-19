@@ -65,17 +65,17 @@ model VerificationToken {
 }
 
 model jobs {
-  id String @id @default(cuid())
-  role String?
-  company_name String?
+  id                    String    @id @db.VarChar(255)
+  role                  String    @db.VarChar(255)
+  company_name          String    @db.VarChar(255)
   company_num_employees Int?
-  employment_type String?
-  location String?
-  remote Boolean?
-  logo String?
-  url String?
-  text String?
-  date_posted DateTime?
-  keywords String?
-  source String?
+  employment_type       String?   @db.VarChar(255)
+  location              String?   @db.VarChar(255)
+  remote                Boolean?
+  logo                  String?   @db.VarChar(255)
+  url                   String?   @db.VarChar(255)
+  text                  String?
+  date_posted           DateTime? @db.Timestamp(6)
+  keywords              String[]  @db.VarChar(255)
+  source                String?   @db.VarChar(255)
 }

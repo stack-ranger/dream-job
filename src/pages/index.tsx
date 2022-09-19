@@ -11,6 +11,9 @@ const Home: NextPage = () => {
     return <main>Loading...</main>;
   }
 
+  const jobs = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }]);
+  console.log(jobs);
+
   return (
     <main>
       <h1>Guestbook</h1>
