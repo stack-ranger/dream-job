@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 README.md-bak
+
+# microservice
+/microservice/node_modules
+/microservice/bin
