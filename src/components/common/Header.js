@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import homeIcon from "../../public/Home_Icon.svg";
-import userIcon from "../../public/User_Icon.svg";
-import signOutIcon from "../../public/Sign_InOut_Icon.svg";
-import signUpIcon from "../../public/Sign_Up_Icon.svg";
+import homeIcon from "../../../public/Home_Icon.svg";
+import userIcon from "../../../public/User_Icon.svg";
+import signOutIcon from "../../../public/Sign_InOut_Icon.svg";
+import signUpIcon from "../../../public/Sign_Up_Icon.svg";
+
 
 // TODO: make collapse
 const Topbar = (props) => {
