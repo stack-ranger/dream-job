@@ -56,10 +56,10 @@ jobs:
             --build-arg SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }} 
             --build-arg AUTHORIZATION_HEADER=${{secrets.AUTHORIZATION_HEADER}} 
             --build-arg API_KEY=${{secrets.API_KEY}}
-            --build-arg GOOGLE_CLIENT_ID=${{GOOGLE_CLIENT_ID}}
-            --build-arg GOOGLE_CLIENT_SECRET=${{GOOGLE_CLIENT_SECRET}} 
-            --build-arg NEXTAUTH_URL=${{NEXTAUTH_URL}} 
-            --build-arg NEXTAUTH_SECRET=${{NEXTAUTH_SECRET}} 
+            --build-arg GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}
+            --build-arg GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}} 
+            --build-arg NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}} 
+            --build-arg NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}} 
           "
 
           # (Optional, default: "web")
