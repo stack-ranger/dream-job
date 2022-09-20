@@ -14,6 +14,12 @@ const Home: NextPage = () => {
   // const jobs = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }]);
   // console.log(jobs);
 
+  const skills = trpc.useQuery(["skills.all", { role: "Frontend Developer", number: 20 }], {
+    async onSuccess(data) {
+      console.log(data);
+    },
+  });
+
   return (
     <main className="flex flex-col items-center">
       <h1 className="text-3xl pt-4">Searches</h1>
