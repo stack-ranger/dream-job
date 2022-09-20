@@ -16,6 +16,14 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npx prisma generate
 
+ARG DATABASE_URL
+ARG AUTHORIZATION_HEADER
+ARG API_KEY
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+ARG NEXTAUTH_URL
+ARG NEXTAUTH_SECRET
+
 RUN npm run build
 
 # Production image, copy all the files and run next
