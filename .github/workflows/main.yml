@@ -53,8 +53,13 @@ jobs:
           docker_options: "
             --no-cache 
             --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} 
+            --build-arg SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }} 
             --build-arg AUTHORIZATION_HEADER=${{secrets.AUTHORIZATION_HEADER}} 
             --build-arg API_KEY=${{secrets.API_KEY}}
+            --build-arg GOOGLE_CLIENT_ID=${{secrets.GOOGLE_CLIENT_ID}}
+            --build-arg GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}} 
+            --build-arg NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}} 
+            --build-arg NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}} 
           "
 
           # (Optional, default: "web")
