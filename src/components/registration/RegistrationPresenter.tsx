@@ -1,5 +1,5 @@
 import React from "react";
-import RegistrationView from "../../components/views/RegistrationView";
+import RegistrationView from "./RegistrationView";
 
 const Registration = () => {
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import ResultsView from "../../components/views/ResultsView";
+import ResultsView from "./ResultsView";
 
 const Results = () => {
     return (
