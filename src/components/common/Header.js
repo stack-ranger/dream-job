@@ -36,7 +36,7 @@ const Topbar = (props) => {
         <div className="flex items-center justify-center">
           <div className="flex">
             <div className="text-center cursor-pointer  pr-5">
-              <Link href='../../presenters/HomePresenter'>
+              <Link href='../../Home'>
                 <Image
                   src={homeIcon}
                   className=""
@@ -48,7 +48,7 @@ const Topbar = (props) => {
               <p className="text-xs  mt-1">HOME</p>
             </div>
             <div className="text-center cursor-pointer pr-5">
-              <Link href={isSignedIn ? "../../presenters/ProfilePresenter" : "../../presenters/RegistrationPresenter"}>
+              <Link href={isSignedIn ? "../Profile" : "../Register"}>
                 <Image
                   src={isSignedIn ? userIcon : signUpIcon}
                   className=""
@@ -62,7 +62,7 @@ const Topbar = (props) => {
               </p>
             </div>
             <div className="text-center cursor-pointer ">
-              <Link href="../../presenters/LoginPresenter">
+              <Link href="../Login">
                 <Image
                   src={signOutIcon}
                   className=""

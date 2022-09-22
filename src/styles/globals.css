@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://rsms.me/inter/inter.css');
+html { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter var', sans-serif; }
+}
+
+@layer base {
+    html {
+        font-family: 'Inter';
+    }
+}
+
+body {
+  background: linear-gradient(#23a6d5, #23d5ab);
+  background-size: 100%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+}
