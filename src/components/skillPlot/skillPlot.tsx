@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import SkillPlotView from "./skillPlotView";
 
 type SkillPlotProps = {
-    skills: Skill[];
+    skills: SkillCount[];
     height: number;
     width: number;
 }
@@ -20,13 +20,13 @@ const SkillPlot = ({skills, height, width}: SkillPlotProps) => {
     const yScale = useMemo(() => {
         return d3
             .scaleBand()
-            .domain(skills.map((skill) => skill.skill))
+            .domain(skills.map((skill) => skill.name))
             .range([0, width])
             .padding(0.1);
     }, [skills, width]);
 
     const xScale = useMemo(() => {
-        const [, max] = d3.extent(skills.map((d) => d.value));
+        const [, max] = d3.extent(skills.map((d) => d.count));
         return d3
             .scaleLinear()
             .domain([0, max || 10])

@@ -21,6 +21,11 @@ type Skill = {
     name: string
 }
 
+type SkillCount = {
+    name: string
+    count: number
+}
+
 type JobSkill = {
     job_id: string
     skill_name: string
