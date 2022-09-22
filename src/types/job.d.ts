@@ -11,6 +11,9 @@ type Job = {
     text: string
     date_posted: Date
     source: string
+}
+
+interface JobWithKeywords extends Job {
     keywords: string[]
 }
 
