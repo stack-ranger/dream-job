@@ -21,9 +21,9 @@ const Home: NextPage = () => {
   // });
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col items-center justify-center">
       <h1 className="text-3xl pt-4">Searches</h1>
-      <div className="pt-10">
+      <div>
         {session ? (
           <div>
             <div>

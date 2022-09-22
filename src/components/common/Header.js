@@ -12,79 +12,20 @@ const Topbar = (props) => {
   const [isSignedIn, setIsSignedIn] = useState(true);
 
   return (
-    <nav
-      className="
-        relative
-        flex flex-wrap
-        items-center
-        justify-between
-        bg-transparent
-        text-white
-        navbar navbar-expand-lg navbar-light
-        "
-    >
-      <div className="container-fluid w-full flex flex-wrap items-center justify-between px-6">
-        <div
-          className="collapse navbar-collapse flex-grow items-center"
-          id="navbarSupportedContent"
-        >
-          <div className="flex">
-            <h1 className="text-2xl pt-3 pb-3 pl-6">DREAM JOB</h1>
-          </div>
+    <>    
+      <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+        <div class="container flex flex-wrap justify-between items-center mx-auto">
+        <a href="/" class="flex items-center">
+            <span class="ml-6 self-center text-xl font-semibold whitespace-nowrap dark:text-white">DreamJob</span>
+        </a>
+        <div class="flex md:order-2">
+          <Link href="/history">
+            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-6 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">History</button>
+          </Link>
         </div>
-
-        <div className="flex items-center justify-center">
-          <div className="flex">
-            <div className="text-center cursor-pointer  pr-5">
-              <Link href='../../Home'>
-                <Image
-                  src={homeIcon}
-                  className=""
-                  alt="Log in Icon"
-                  width={25}
-                  height={25}
-                />
-              </Link>
-              <p className="text-xs  mt-1">HOME</p>
-            </div>
-            <div className="text-center cursor-pointer pr-5">
-              <Link href={isSignedIn ? "../Profile" : "../Register"}>
-                <Image
-                  src={isSignedIn ? userIcon : signUpIcon}
-                  className=""
-                  alt="Mode action"
-                  width={25}
-                  height={25}
-                />
-              </Link>
-              <p className="text-xs  mt-1">
-                {isSignedIn ? "PROFILE" : "SIGN UP"}
-              </p>
-            </div>
-            <div className="text-center cursor-pointer ">
-              <Link href="../Login">
-                <Image
-                  src={signOutIcon}
-                  className=""
-                  alt="Mode action"
-                  width={25}
-                  height={25}
-                />
-              </Link>
-              <p className="text-xs  mt-1">
-                {isSignedIn ? "SIGN OUT" : "SIGN IN"}
-              </p>
-            </div>
-            <button
-              className="ml-2 text-xs px-5 py-2 bg-white border border-rounded text-black"
-              onClick={() => setIsSignedIn((prevCheck) => !prevCheck)}
-            >
-              change dummy state
-            </button>
-          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 export default Topbar;
