@@ -11,6 +11,7 @@ type Job = {
     text: string
     date_posted: Date
     source: string
+    keywords: string[]
 }
 
 type Skill = {

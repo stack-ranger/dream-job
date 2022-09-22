@@ -33,7 +33,7 @@ const fetchJobs = async function () {
         }
         pageCounter++;
         numberJobsFetched += data.results.length;
-        data.results.map(async (job: Job) => {
+        data.results.map(async (job: JobWithKeywords) => {
             await writeJobToDb(job);
         });
 
@@ -51,7 +51,7 @@ const fetchJobs = async function () {
  * Write job to database with id as primary key
  * @param job to write into the database
  */
-const writeJobToDb = async function (job: Job) {
+const writeJobToDb = async function (job: JobWithKeywords) {
     const skills = job.keywords;
     try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -90,6 +90,5 @@ export default async function handler(req: any, res: any) {
         return;
     }
     await fetchJobs();
-
     res.status(200).json({message: "success"});
 }
