@@ -21,7 +21,7 @@ const fetchJobs = async function () {
 
         const start = new Date().getTime();
 
-        const resp = await fetch(`https://findwork.dev/api/jobs/\?page=${pageCounter}`, {
+        const resp = await fetch(`https://findwork.dev/api/jobs/?page=${pageCounter}&order_by=date`, {
             headers: {"Authorization": `Token ${API_KEY}`}
         })
         const data: any = await resp.json();
@@ -32,10 +32,17 @@ const fetchJobs = async function () {
             return;
         }
         pageCounter++;
-        numberJobsFetched += data.results.length;
-        data.results.map(async (job: JobWithKeywords) => {
-            await writeJobToDb(job);
-        });
+
+        let job: JobWithKeywords;
+        for (job of data.results) {
+            const success = await writeJobToDb(job);
+            if (!success) {
+                console.log("Added " + numberJobsFetched + " jobs to database.");
+                invalidPage = true;
+                break;
+            }
+            numberJobsFetched++;
+        }
 
         // make sure to not exceed the rate limit
         const end = new Date().getTime();
@@ -44,7 +51,6 @@ const fetchJobs = async function () {
             await new Promise(resolve => setTimeout(resolve, 1000 - time));
         }
     }
-    console.log("Number of jobs fetched: ", numberJobsFetched);
 }
 
 /**
@@ -58,13 +64,14 @@ const writeJobToDb = async function (job: JobWithKeywords) {
         // @ts-ignore
         delete job.keywords;
         await prisma.job.create({data: job});
-        console.log("Job with id " + job.id + " written to database.");
+        console.log("Added job " + job.role + " to database.");
     } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
             if (e.code === 'P2002') {
-                // console.log(
-                //     'Job with given ID already exists in database',
-                // )
+                console.log(
+                    'Job with given ID already exists in database',
+                )
+                return false;
             }
         }
     }
@@ -80,6 +87,7 @@ const writeJobToDb = async function (job: JobWithKeywords) {
             await prisma.jobSkill.create({data: {job_id: job.id, skill_name: skill}});
         } catch (e) {}
     }
+    return true;
 }
 
 export default async function handler(req: any, res: any) {
