@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import SkillSearchView from "./skillSearchView";
+import TagInputPresenter from "./tagInput/tagInputPresenter";
 
 const findMatches = (input: string, skillList: string[]) => {
     return skillList.filter(skill => {
@@ -31,7 +32,11 @@ const SkillSearchPresenter = ({skillList} : {skillList: string[]}) => {
     const setLastSkill = (skill: string) => {
         setInput(input.slice(0, input.lastIndexOf(",") + 1) + " " + skill + ", ");
     }
-    return (<SkillSearchView input={input} setInput={setInput} suggestions={suggestions} setLastSkill={setLastSkill}/>)
+    return (
+        <>
+            {/*<SkillSearchView input={input} setInput={setInput} suggestions={suggestions} setLastSkill={setLastSkill}/>*/}
+            <TagInputPresenter/>
+        </>)
 }
 
 export default SkillSearchPresenter;
