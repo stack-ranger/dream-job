@@ -1,5 +1,5 @@
 import React from "react";
-import SkillSearch from "../components/skillSearch/skillSearch";
+import SkillSearchPresenter from "../components/skillSearch/skillSearchPresenter";
 import {InferGetStaticPropsType} from "next";
 import {PrismaClient} from "@prisma/client";
 
@@ -8,7 +8,7 @@ const Jobs = ({ skillList } : InferGetStaticPropsType<typeof getStaticProps>) =>
     return(
         <div>
             <div className="flex">
-                <SkillSearch skillList={skillList}/>
+                <SkillSearchPresenter skillList={skillList}/>
             </div>
         </div>
     );
