@@ -1,37 +1,34 @@
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid'
-import {trpc} from "../../utils/trpc";
 import {useEffect, useState} from "react";
 
-const findMatches = (input: string, skillList: { name: string }[]) => {
+const findMatches = (input: string, skillList: string[]) => {
     return skillList.filter(skill => {
         const regex = new RegExp(input, 'gi');
-        return skill.name.match(regex);
+        return skill.match(regex);
     });
 }
 
-const SkillSearch = () => {
+const SkillSearch = ( {skillList} : {skillList: string[]}) => {
 
     const [input, setInput] = useState<string>("");
     const [skills, setSkills] = useState<string[]>([]);
     const [suggestions, setSuggestions] = useState<string[]>([]);
-    // TODO - change query to run SSR
-    const {data} = trpc.useQuery(["skills.list"]);
-    const skillList = data || [];
 
     useEffect(() => {
-        if (input.length > 0 && skillList) {
-            const searchArr = input.replace(" ", "").split(",");
-            const lastElement = searchArr[searchArr.length - 1];
+        const searchArr = input.replace(" ", "").split(",");
+        const lastElement = searchArr[searchArr.length - 1];
+        if (skillList && lastElement) {
             if (lastElement && lastElement.length > 0) {
-                const matches = findMatches(lastElement || "", skillList)
-                setSuggestions(matches.map(match => match.name).slice(0, Math.min(10, matches.length)));
+                const matches = findMatches(lastElement || "", skillList);
+                setSuggestions(matches.slice(0, Math.min(10, matches.length)));
             }
+        } else {
+            setSuggestions([]);
         }
     }, [input]);
 
     const setLastSkill = (skill: string) => {
-        setInput(input.slice(0, input.lastIndexOf(",") + 1) + skill + ", ");
-        console.log(input.slice(0, input.lastIndexOf(",") + 1) + skill);
+        setInput(input.slice(0, input.lastIndexOf(",") + 1) + " " + skill + ", ");
     }
 
     return (
@@ -48,7 +45,7 @@ const SkillSearch = () => {
                         <div>
                             <ul>
                                 {input.length > 0 && suggestions.length > 0 && suggestions.map((suggestion, i) =>
-                                    (<li className="bg-gray-50 border hover:bg-gray-300 border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 my-1"
+                                    (<li className="bg-gray-50 bg-opacity-25 hover:bg-gray-300 text-gray-900 text-sm rounded-lg p-2.5 my-1"
                                         key={i}
                                          onClick={() => setLastSkill(suggestion)}>
                                         {suggestion}
