@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import {SkillCount} from "~/types/job";
 
 interface SkillPlotViewProps {
     skills: SkillCount[];

@@ -1,6 +1,7 @@
 import {useMemo} from "react";
 import * as d3 from "d3";
 import SkillPlotView from "./skillPlotView";
+import {SkillCount} from "~/types/job";
 
 type SkillPlotProps = {
     skills: SkillCount[];

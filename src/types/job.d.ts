@@ -13,6 +13,18 @@ type Job = {
     source: string
 }
 
+export interface JobInterface {
+    id: string;
+    role: string;
+    company_name: string;
+}
+
+export type JobContextType = {
+   jobs: JobInterface[];
+    setJobs: (jobs: JobInterface[]) => void;
+};
+
+
 interface JobWithKeywords extends Job {
     keywords: string[]
 }
