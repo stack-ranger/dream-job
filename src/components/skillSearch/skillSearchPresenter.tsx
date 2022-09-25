@@ -1,6 +1,9 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import SkillSearchView from "./skillSearchView";
 import {InputChangeEventHandler} from "~/types/events";
+import {trpc} from "~/utils/trpc";
+import {JobContext} from "~/context/jobContext";
+import {JobContextType} from "~/types/job";
 
 const findMatches = (input: string, skillList: string[]) => {
     return skillList.filter(skill => {
@@ -16,6 +19,15 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
     const [skills, setSkills] = useState<string[]>([]);
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [search, setSearch] = useState<string>('');
+
+    const { setJobs } = useContext(JobContext) as JobContextType;
+
+    const { refetch } = trpc.useQuery(["jobs.all", { keywords: skills, number: 20 }], {enabled : false});
+    const onSearch = async(e: InputChangeEventHandler) => {
+        e.preventDefault();
+        const jobQuery = await refetch();
+        setJobs(jobQuery.data ? jobQuery.data : []);
+    }
 
     useEffect(() => {
         const trimmedSearch = search.trim();
@@ -64,7 +76,9 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
     };
 
     return (<SkillSearchView skills={skills} search={search} suggestions={suggestions} appendSkill={appendSkill}
-                             removeSkill={removeSkill} onKeyPress={onKeyPress} onSearchChange={onSearchChange}/>)
+                             removeSkill={removeSkill} onKeyPress={onKeyPress} onSearchChange={onSearchChange}
+                             onSearch={onSearch}
+    />);
 }
 
 export default SkillSearchPresenter;

@@ -1,23 +1,24 @@
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid'
 import {InputChangeEventHandler} from "~/types/events";
 
-const SkillSearchView = ({skills, search, suggestions, appendSkill, removeSkill, onKeyPress, onSearchChange}: {
+const SkillSearchView = ({skills, search, suggestions, appendSkill, removeSkill, onKeyPress, onSearchChange, onSearch}: {
     skills: string[],
     search: string,
     suggestions: string[],
     appendSkill: (skill: string) => void,
     removeSkill: (index: number) => void,
     onKeyPress: (e: InputChangeEventHandler) => void,
-    onSearchChange: (e: InputChangeEventHandler) => void
+    onSearchChange: (e: InputChangeEventHandler) => void,
+    onSearch: (e: InputChangeEventHandler) => void
 }) => {
     return (
-        <div>
+        <div className="w-96">
             <form className="flex items-center">
                 <label className="sr-only">Search</label>
                 <div className="relative w-full">
                     <div>
                         <div>
-                            <div className="flex w-96 overflow-auto border rounded-md bg-gray-50 p-1">
+                            <div className="flex w-96 overflow-auto border rounded-md bg-gray-50 p-2">
                                 {skills.map((tag, index) => (
                                     <div key={index} className="flex items-center bg-gray-300 rounded-md px-1 mx-1">
                                         {tag}
@@ -27,6 +28,8 @@ const SkillSearchView = ({skills, search, suggestions, appendSkill, removeSkill,
                                     </div>
                                 ))}
                                 <input
+                                    ref={ref => ref && ref.focus()}
+                                    onFocus={(e)=>e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)}
                                     disabled={skills.length >= 5}
                                     value={search}
                                     placeholder={skills.length <= 4 ? "Add a skill" : ""}
@@ -38,7 +41,7 @@ const SkillSearchView = ({skills, search, suggestions, appendSkill, removeSkill,
                         </div>
                     </div>
                 </div>
-                <button type="submit"
+                <button type="submit" onClick={onSearch}
                         className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                     <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true"/>
                     <span className="sr-only">Search</span>
