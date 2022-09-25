@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import SkillSearchView from "./skillSearchView";
+import {InputChangeEventHandler} from "~/types/events";
 
 const findMatches = (input: string, skillList: string[]) => {
     return skillList.filter(skill => {
@@ -8,7 +9,9 @@ const findMatches = (input: string, skillList: string[]) => {
     });
 }
 
-const SkillSearchPresenter = ({skillList} : {skillList: string[]}) => {
+const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
+
+    const maxSkills = 5;
 
     const [skills, setSkills] = useState<string[]>([]);
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -24,15 +27,44 @@ const SkillSearchPresenter = ({skillList} : {skillList: string[]}) => {
         }
     }, [search]);
 
-    const appendSkilll = (skill: string) => {
-        setSkills(oldSkills => [...oldSkills, skill]);
-        setSearch('');
+    const appendSkill = (skill: string) => {
+        if (skillList.includes(skill) && !skills.includes(skill) && skills.length < maxSkills) {
+            setSkills(oldSkills => [...oldSkills, skill]);
+            setSearch('');
+        }
     }
 
-    return (
-        <>
-            <SkillSearchView skills={skills} setSkills={setSkills} suggestions={suggestions} search={search} setSearch={setSearch} appendSkill={appendSkilll}/>
-        </>)
+    const removeSkill = (index: number) => {
+        setSkills(skills => skills.filter((skills, i) => i !== index))
+    }
+
+    const onSearchChange = (e: InputChangeEventHandler) => setSearch(e.target.value);
+
+    const onKeyPress = (e: InputChangeEventHandler) => {
+        if (e.key === "Backspace" && !search.length && skills.length) {
+            e.preventDefault();
+            const skillsCopy = [...skills];
+            setSkills(skillsCopy);
+            setSearch(skillsCopy.pop() || '');
+        }
+
+        // Limit the number of tags to 5
+        if (skills.length >= maxSkills) return;
+
+        const searchTrimmed = search.trim();
+        if ((e.key === " " || e.key === ",")
+            && searchTrimmed.length
+            && !skills.includes(searchTrimmed)
+            && skillList.includes(searchTrimmed)
+        ) {
+            e.preventDefault();
+            setSkills(oldSkills => [...oldSkills, searchTrimmed]);
+            setSearch('');
+        }
+    };
+
+    return (<SkillSearchView skills={skills} search={search} suggestions={suggestions} appendSkill={appendSkill}
+                             removeSkill={removeSkill} onKeyPress={onKeyPress} onSearchChange={onSearchChange}/>)
 }
 
 export default SkillSearchPresenter;
