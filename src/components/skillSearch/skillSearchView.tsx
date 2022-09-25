@@ -1,10 +1,13 @@
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid'
+import TagInputPresenter from "./tagInput/tagInputPresenter";
 
-const SkillSearchView = ({input, setInput, suggestions, setLastSkill}: {
-    input: string,
-    setInput: (input: string) => void,
+const SkillSearchView = ({skills, setSkills, search, setSearch, suggestions, appendSkill}: {
+    skills: string[],
+    setSkills: (skills: string[]) => void,
     suggestions: string[],
-    setLastSkill: (skill: string) => void
+    search: string,
+    setSearch: (search: string) => void,
+    appendSkill: (skill: string) => void
 }) => {
     return (
         <>
@@ -13,18 +16,14 @@ const SkillSearchView = ({input, setInput, suggestions, setLastSkill}: {
                 <div className="relative w-full">
                     <div>
                         <div>
-                            <input type="text" onChange={(e) => setInput(e.target.value)} value={input}
-                                   ref={ref => ref && ref.focus()}
-                                   onFocus={(e) => e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                   placeholder="Enter skills" required/>
+                            <TagInputPresenter search={search} setSearch={setSearch} skills={skills} setSkills={setSkills}/>
                         </div>
                         <div>
                             <ul>
-                                {input.length > 0 && suggestions.length > 0 && suggestions.map((suggestion, i) =>
+                                {search.trim() && suggestions.length > 0 && suggestions.map((suggestion, i) =>
                                     (<li className="bg-gray-50 bg-opacity-25 hover:bg-gray-300 text-gray-900 text-sm rounded-lg p-2.5 my-1"
                                          key={i}
-                                         onClick={() => setLastSkill(suggestion)}>
+                                         onClick={() => appendSkill(suggestion)}>
                                         {suggestion}
                                     </li>))}
                             </ul>

@@ -2,12 +2,14 @@ import {useState} from "react";
 import TagInputView from "./tagInputView";
 import {InputChangeEventHandler} from "../../../types/events";
 
-const TagInputPresenter = () => {
+const TagInputPresenter = ({ skills, setSkills, search, setSearch }: {
+    skills: string[],
+    setSkills: (skills: string[]) => void,
+    search: string,
+    setSearch: (search: string) => void
+}) => {
 
     const maxSkills = 5;
-
-    const [search, setSearch] = useState<string>('');
-    const [skills, setSkills] = useState<string[]>([]);
 
     const onChange = (e: InputChangeEventHandler) => setSearch(e.target.value);
 

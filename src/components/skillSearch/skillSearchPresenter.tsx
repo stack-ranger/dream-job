@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import SkillSearchView from "./skillSearchView";
-import TagInputPresenter from "./tagInput/tagInputPresenter";
 
 const findMatches = (input: string, skillList: string[]) => {
     return skillList.filter(skill => {
@@ -11,31 +10,28 @@ const findMatches = (input: string, skillList: string[]) => {
 
 const SkillSearchPresenter = ({skillList} : {skillList: string[]}) => {
 
-    const [input, setInput] = useState<string>("");
+    const [skills, setSkills] = useState<string[]>([]);
     const [suggestions, setSuggestions] = useState<string[]>([]);
-
-    // TODO set the skills
+    const [search, setSearch] = useState<string>('');
 
     useEffect(() => {
-        const searchArr = input.replace(" ", "").split(",");
-        const lastElement = searchArr[searchArr.length - 1];
-        if (skillList && lastElement) {
-            if (lastElement && lastElement.length > 0) {
-                const matches = findMatches(lastElement || "", skillList);
-                setSuggestions(matches.slice(0, Math.min(10, matches.length)));
-            }
+        const trimmedSearch = search.trim();
+        if (skillList && trimmedSearch.length) {
+            const matches = findMatches(trimmedSearch || "", skillList);
+            setSuggestions(matches.slice(0, Math.min(10, matches.length)));
         } else {
             setSuggestions([]);
         }
-    }, [input]);
+    }, [search]);
 
-    const setLastSkill = (skill: string) => {
-        setInput(input.slice(0, input.lastIndexOf(",") + 1) + " " + skill + ", ");
+    const appendSkilll = (skill: string) => {
+        setSkills(oldSkills => [...oldSkills, skill]);
+        setSearch('');
     }
+
     return (
         <>
-            {/*<SkillSearchView input={input} setInput={setInput} suggestions={suggestions} setLastSkill={setLastSkill}/>*/}
-            <TagInputPresenter/>
+            <SkillSearchView skills={skills} setSkills={setSkills} suggestions={suggestions} search={search} setSearch={setSearch} appendSkill={appendSkilll}/>
         </>)
 }
 
