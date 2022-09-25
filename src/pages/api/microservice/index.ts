@@ -1,4 +1,5 @@
 import {PrismaClient, Prisma} from '@prisma/client'
+import {JobWithKeywords} from "~/types/job";
 
 // requires API_KEY to be set
 const API_KEY = process.env.API_KEY
