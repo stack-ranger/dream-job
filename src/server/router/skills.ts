@@ -1,67 +1,34 @@
-import { prisma } from "../db/client"
-import { Prisma } from '@prisma/client';
-import { createRouter } from "./context"
-import { z } from "zod";
-
-type Job = {
-	role: string;
-	text: string | null;
-	keywords: string[];
-}
-
-const extractSkills = (jobs: Job[], number: number | null) => {
-
-	const keyMap = new Map<string, number>();
-
-	// add to number of analysed jobs
-	keyMap.set("numberResults", jobs.length);
-
-	jobs.forEach(job => {
-		job.keywords.forEach(keyword => {
-			const keyRef = keyMap.get(keyword)
-			const count = keyRef ? keyRef + 1 : 1;
-			keyMap.set(keyword, count);
-		});
-	});
-
-	// sort the keymap by the number of times the keyword appears
-	const sortedKeyMap = new Map([...keyMap.entries()].sort((a, b) => b[1] - a[1]));
-
-	// return the top n keywords (+1 for the number of analysed jobs)
-	if (number) {
-		return [...sortedKeyMap.keys()].slice(0, number+1);
-	}
-
-	return sortedKeyMap;
-}
-
-const jobSelect = Prisma.validator<Prisma.jobsSelect>()({
-	role: true,
-	text: true,
-	keywords: true,
-});
+import {prisma} from "../db/client"
+import {Prisma} from '@prisma/client';
+import {createRouter} from "./context"
+import {z} from "zod";
 
 export const skillRouter = createRouter()
 	.query('all', {
 		input: z.object({
 			role: z.string(),
-			number: z.number().min(1).nullish(),
+			number: z.number().min(1).max(100).nullish(),
 		}),
 		async resolve({ input }) {
-
-			// conact role with % to allow for partial matches
-			const roleConcat = input.role ? input.role.replace(" ", "&") : " ";
-
-			const jobs: Job[] = await prisma.jobs.findMany({
-				select: jobSelect,
-				where: {
-					OR: [
-						{ role: { search: roleConcat } },
-						{ text: { search: roleConcat } },
-					],
-				},
+			const roleCleaned = "%"  + input.role.replace(" ", "%") + "%";
+			const queryString = Prisma.sql`SELECT s.name, COUNT(j.id) as skill_count
+								FROM "public"."Skill" s
+								JOIN "public"."JobSkill" js ON js.skill_name = s.name
+								JOIN "public"."Job" j ON j.id  = js.job_id
+								WHERE LOWER(j.role) LIKE LOWER(${roleCleaned}) OR LOWER(j.text) LIKE LOWER(${roleCleaned})
+								GROUP BY s.name
+								ORDER BY skill_count desc 
+								LIMIT ${input.number || 20};`
+			const skillCounter: any = await prisma.$queryRaw(queryString);
+			// TODO - fix this type
+			return skillCounter.map((skillCount: {
+				name: string;
+				skill_count: bigint;
+			}) => {
+				return {
+					...skillCount,
+					count: Number(skillCount.skill_count)
+				}
 			});
-
-			return extractSkills(jobs, input.number ? input.number : null);
 		}
 	})

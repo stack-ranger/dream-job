@@ -1,7 +1,8 @@
 import * as d3 from "d3";
+import {SkillCount} from "~/types/skill";
 
 interface SkillPlotViewProps {
-    skills: Skill[];
+    skills: SkillCount[];
     xScale: d3.ScaleLinear<number, number>; // length of the bars, scales automatically
     yScale: d3.ScaleBand<string>; // the labels, scales automatically
     width: number;
@@ -23,13 +24,13 @@ export const SkillPlotView = ({xScale, yScale, width, height, skills}: SkillPlot
             <svg width={width} height={height}>
                 <g width={width} height={height}>
                     {skills.map((skill, i) => {
-                        const yOffset = yScale(skill.skill) || 0;
+                        const yOffset = yScale(skill.name) || 0;
                         return (
                             <g key={i}>
-                                <rect className={"fill-purple-300 hover:fill-purple-400"}
+                                <rect className={"fill-blue-300 hover:fill-blue-400"}
                                       x={xScale(0)}
                                       y={yOffset}
-                                      width={xScale(skill.value)}
+                                      width={xScale(skill.count)}
                                       height={yScale.bandwidth()}
                                 />
                                 <text
@@ -38,7 +39,7 @@ export const SkillPlotView = ({xScale, yScale, width, height, skills}: SkillPlot
                                     y={yScale.bandwidth() / 2 + yOffset}
                                     alignmentBaseline="central"
                                 >
-                                    {skill.skill}
+                                    {skill.name}
                                 </text>
                             </g>
                         );
