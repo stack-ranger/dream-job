@@ -1,30 +1,105 @@
-import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import homeIcon from "../../../public/Home_Icon.svg";
-import userIcon from "../../../public/User_Icon.svg";
-import signOutIcon from "../../../public/Sign_InOut_Icon.svg";
-import signUpIcon from "../../../public/Sign_Up_Icon.svg";
+import { useState } from "react";
+import { Navbar, Modal, Label, TextInput, Checkbox, Button } from "flowbite-react";
+import { signIn, signOut, useSession } from 'next-auth/react'
 
-// TODO: make collapse
 const Topbar = (props) => {
-  // Dummy auth token for now, chane later
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [loginModal, setLoginModal] = useState(false)
+  const { data: session, status } = useSession()
 
   return (
     <>    
-      <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
-        <div class="container flex flex-wrap justify-between items-center mx-auto">
-        <a href="/" class="flex items-center">
-            <span class="ml-6 self-center text-xl font-semibold whitespace-nowrap dark:text-white">DreamJob</span>
-        </a>
-        <div class="flex md:order-2">
-          <Link href="/history">
-            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-6 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">History</button>
-          </Link>
-        </div>
-        </div>
-      </nav>
+      <Navbar
+        fluid={true}
+        rounded={true}
+      >
+        <Navbar.Brand href="/">
+          <span className="ml-6 self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            DreamJob
+          </span>
+        </Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Navbar.Link href="/history">
+            History
+          </Navbar.Link>
+          <Navbar.Link
+            href="/"
+            active={true}
+          >
+            Home
+          </Navbar.Link>
+          {session ? 
+          <Navbar.Link href="#" onClick={() => signOut()}>
+            Logout
+          </Navbar.Link>
+          :
+          <Navbar.Link href="#" onClick={()=>setLoginModal(true)}>
+            Login
+          </Navbar.Link>}
+        </Navbar.Collapse>
+      </Navbar>
+      <Modal
+        show={loginModal}
+        size="md"
+        popup={true}
+        onClose={()=>setLoginModal(false)}
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Sign in to our platform
+            </h3>
+            <div className="w-full flex flex-row justify-center">
+              <Button color="dark" onClick={() => signIn('google')}>
+                Log in with Google 
+              </Button>
+            </div>
+            <hr />
+            <div>
+              <div className="mb-2 block">
+                <Label
+                  htmlFor="email"
+                  value="Your email"
+                />
+              </div>
+              <TextInput
+                id="email"
+                placeholder="name@company.com"
+                required={true}
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label
+                  htmlFor="password"
+                  value="Your password"
+                />
+              </div>
+              <TextInput
+                id="password"
+                type="password"
+                required={true}
+              />
+            </div>
+            <div className="w-full">
+              <Button>
+                Log in to your account
+              </Button>
+            </div>
+            <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+              Not registered?{' '}
+              <a
+                href="#"
+                className="text-blue-700 hover:underline dark:text-blue-500"
+              >
+                Create account
+              </a>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

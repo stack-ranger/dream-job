@@ -2,8 +2,14 @@ import type { NextPage } from 'next'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { trpc } from '../utils/trpc'
+import React from "react";
+import SkillSearchPresenter from "../components/skillSearch/skillSearchPresenter";
+import {InferGetStaticPropsType} from "next";
+import {PrismaClient} from "@prisma/client";
+import JobListPresenter from "~/components/jobList/jobListPresenter";
+import JobProvider from "~/context/jobContext";
 
-const Home: NextPage = () => {
+const Home: NextPage = ({skillList}: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const { data: session, status } = useSession()
 
@@ -21,51 +27,31 @@ const Home: NextPage = () => {
   // });
 
   return (
-    <main className="flex flex-col items-center justify-center">
-      <h1 className="text-3xl pt-4">Searches</h1>
-      <div>
-        {session ? (
-          <div>
-            <div>
-              <p>hi {session.user?.name}</p>
-
-              <button onClick={() => signOut()}>Logout</button>
-            </div>
-            <div className="mt-2">
-              <Searches />
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div>
-              <button onClick={() => signIn('google')}>
-                Login with Google
-              </button>
-            </div>
-          </div>
-        )}
+      <div className="flex-col">
+              <JobProvider>
+                  <div className="pt-12 flex justify-center">
+                      <SkillSearchPresenter skillList={skillList}/>
+                  </div>
+                  <JobListPresenter/>
+              </JobProvider>
       </div>
-    </main>
   )
 }
 
-const Searches = () => {
-  const { data: searches, isLoading } = trpc.useQuery(['searches.getAll'])
-
-  if (isLoading) return <div>Fetching history...</div>
-  if (searches?.length === 0) return <div className='hover:cursor-pointer'>History is empty, make your first research</div>
-  return (
-    <div className="flex flex-col gap-4">
-      {searches?.map((src, index) => {
-        return (
-          <div key={index}>
-            <p>{src.query}</p>
-            <span>- {src.result} -</span>
-          </div>
-        )
-      })}
-    </div>
-  )
+// generate skill list during build time (can be only done in pages)
+export async function getStaticProps() {
+  const prisma = new PrismaClient();
+  const skills = await prisma.skill.findMany({
+      select: {
+          name: true
+      }
+  });
+  const skillList = skills.map(skill => skill.name);
+  return {
+      props: {
+          skillList: skillList
+      },
+  }
 }
 
 export default Home
