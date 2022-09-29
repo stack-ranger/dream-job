@@ -20,25 +20,10 @@ export interface JobInterface {
 }
 
 export type JobContextType = {
-   jobs: JobInterface[];
+    jobs: JobInterface[];
     setJobs: (jobs: JobInterface[]) => void;
 };
 
-
 interface JobWithKeywords extends Job {
     keywords: string[]
-}
-
-type Skill = {
-    name: string
-}
-
-type SkillCount = {
-    name: string
-    count: number
-}
-
-type JobSkill = {
-    job_id: string
-    skill_name: string
 }

@@ -1,13 +1,8 @@
-import {useMemo} from "react";
+import {useContext, useMemo} from "react";
 import * as d3 from "d3";
 import SkillPlotView from "./skillPlotView";
-import {SkillCount} from "~/types/job";
-
-type SkillPlotProps = {
-    skills: SkillCount[];
-    height: number;
-    width: number;
-}
+import {SkillContextType} from "~/types/skill";
+import {SkillContext} from "~/context/skillContext";
 
 /**
  * D3 skill plot
@@ -15,7 +10,12 @@ type SkillPlotProps = {
  * @param height - height of the plot
  * @param width - width of the plot
  */
-const SkillPlot = ({skills, height, width}: SkillPlotProps) => {
+const SkillPlot = ({height, width}: {
+    height: number;
+    width: number
+}) => {
+
+    const { skills } = useContext(SkillContext) as SkillContextType;
 
     // useMemo to avoid re-rendering the plot
     const yScale = useMemo(() => {

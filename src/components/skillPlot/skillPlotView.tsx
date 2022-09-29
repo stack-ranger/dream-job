@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import {SkillCount} from "~/types/job";
+import {SkillCount} from "~/types/skill";
 
 interface SkillPlotViewProps {
     skills: SkillCount[];
@@ -27,7 +27,7 @@ export const SkillPlotView = ({xScale, yScale, width, height, skills}: SkillPlot
                         const yOffset = yScale(skill.name) || 0;
                         return (
                             <g key={i}>
-                                <rect className={"fill-purple-300 hover:fill-purple-400"}
+                                <rect className={"fill-blue-300 hover:fill-blue-400"}
                                       x={xScale(0)}
                                       y={yOffset}
                                       width={xScale(skill.count)}

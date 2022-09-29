@@ -3,11 +3,6 @@ import {Prisma} from '@prisma/client';
 import {createRouter} from "./context"
 import {z} from "zod";
 
-type SkillCount = {
-	name: string;
-	skill_count: number;
-}
-
 export const skillRouter = createRouter()
 	.query('all', {
 		input: z.object({
@@ -24,7 +19,16 @@ export const skillRouter = createRouter()
 								GROUP BY s.name
 								ORDER BY skill_count desc 
 								LIMIT ${input.number || 20};`
-			const skillCounter: SkillCount[] = await prisma.$queryRaw(queryString);
-			return skillCounter;
+			const skillCounter: any = await prisma.$queryRaw(queryString);
+			// TODO - fix this type
+			return skillCounter.map((skillCount: {
+				name: string;
+				skill_count: bigint;
+			}) => {
+				return {
+					...skillCount,
+					count: Number(skillCount.skill_count)
+				}
+			});
 		}
 	})
