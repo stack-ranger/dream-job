@@ -9,7 +9,7 @@ import {PrismaClient} from "@prisma/client";
 import JobListPresenter from "~/components/jobList/jobListPresenter";
 import JobProvider from "~/context/jobContext";
 
-const Home: NextPage = ({skillList}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({skillList}: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const { data: session, status } = useSession()
 
