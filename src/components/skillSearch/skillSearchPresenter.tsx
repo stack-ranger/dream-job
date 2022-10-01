@@ -22,9 +22,10 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
 
     const { setJobs } = useContext(JobContext) as JobContextType;
 
-    const { refetch } = trpc.useQuery(["jobs.all", { keywords: skills, number: 20 }], {enabled : false});
+    const { refetch } = trpc.useQuery(["jobs.all", { keywords: skills, number: 10 }], {enabled : false});
     const onSearch = async(e: InputChangeEventHandler) => {
         e.preventDefault();
+        setJobs([]);
         const jobQuery = await refetch();
         setJobs(jobQuery.data ? jobQuery.data : []);
     }

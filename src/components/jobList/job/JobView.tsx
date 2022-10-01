@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import {InputChangeEventHandler} from "~/types/events";
 
 
 const JobView = ({
@@ -13,7 +14,7 @@ const JobView = ({
                          role: string,
                          company_name: string,
                          imgLoader: ({src}: { src: string }) => string,
-                         imgError: () => void,
+                         imgError: (e: InputChangeEventHandler) => void,
                          placeholder: boolean
                          getRandomColor: () => string | undefined
                      }) => {
