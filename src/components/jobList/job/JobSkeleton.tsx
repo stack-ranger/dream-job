@@ -3,7 +3,7 @@ import { PhotoIcon } from '@heroicons/react/24/solid'
 const JobSkeleton = () => {
     return (
         <div
-            className="w-full max-w-sm animate-pulse bg-gray-100 rounded-lg border border-gray-200 shadow-md">
+            className="w-full max-w-sm hover:scale-105 animate-pulse bg-gray-100 rounded-lg border border-gray-200 shadow-md">
             <div className="flex flex-col items-center pb-10">
                 <div className="my-3">
                     <div

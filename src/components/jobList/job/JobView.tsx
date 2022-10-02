@@ -20,7 +20,7 @@ const JobView = ({
                      }) => {
     return (
         <div
-            className="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
+            className="w-full max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md">
             <div className="flex flex-col items-center pb-10">
                 <div className="my-3">
                     {placeholder ?
