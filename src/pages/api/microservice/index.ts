@@ -102,14 +102,11 @@ const createCompany = async ({company_name, company_num_employees}: {
  * @param job to write into the database
  */
 const writeJobToDb = async function (job: JobWithKeywords) {
-    const skills = job.keywords;
+    const skills = job.keywords || [];
     try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         delete job.keywords;
         await createCompany(
             {company_name: job.company_name, company_num_employees: job.company_num_employees});
-        // @ts-ignore
         delete job.company_num_employees;
         await prisma.job.create({data: job});
         console.log("Added job " + job.role + " to database.");

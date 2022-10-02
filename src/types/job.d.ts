@@ -30,5 +30,6 @@ export type JobContextType = {
 };
 
 interface JobWithKeywords extends Job {
-    keywords: string[]
+    company_num_employees?: null
+    keywords?: string[]
 }
