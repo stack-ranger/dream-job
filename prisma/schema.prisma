@@ -1,104 +1,110 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
-    previewFeatures = ["fullTextSearch"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
-    provider = "postgresql"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
-    // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model AkselTest {
+  ID       String  @id
+  Email    String?
+  Password String?
+}
+
+model Company {
+  company_name          String @id
+  company_num_employees Int?
+  logo_url              String @default("")
+  Job                   Job[]
 }
 
 model Example {
-    id String @id @default(cuid())
-}
-
-// Necessary for Next auth
-model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? @db.Text
-    access_token      String? @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    @@unique([provider, providerAccountId])
-}
-
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    searches      Search[]
-}
-
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-    @@unique([identifier, token])
-}
-
-model Search {
-    id        String      @id @default(cuid())
-    userId    String
-    createdAt DateTime    @default(now())
-    query     String?
-    result    String[]    @db.VarChar(255)
-    user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id String @id
 }
 
 model Job {
-  id                    String      @id
-  role                  String
-  company_name          String
-  company_num_employees Int?
-  employment_type       String?
-  location              String?
-  remote                Boolean?
-  logo                  String?
-  url                   String?
-  text                  String?
-  date_posted           DateTime?   @db.Timestamp(6)
-  source                String?
-  job_skill             JobSkill[]
+  id              String     @id
+  role            String
+  company_name    String
+  employment_type String?
+  location        String?
+  remote          Boolean?
+  logo            String?
+  url             String?
+  text            String?
+  date_posted     DateTime?  @db.Timestamp(6)
+  source          String?
+  Company         Company    @relation(fields: [company_name], references: [company_name], onDelete: NoAction, onUpdate: NoAction)
+  JobSkill        JobSkill[]
 }
 
 model JobSkill {
   job_id     String
   skill_name String
-  job        Job    @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_job")
-  skill      Skill  @relation(fields: [skill_name], references: [name], onDelete: NoAction, onUpdate: NoAction, map: "fk_skill")
+  Job        Job    @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_job")
+  Skill      Skill  @relation(fields: [skill_name], references: [name], onDelete: NoAction, onUpdate: NoAction, map: "fk_skill")
 
   @@id([job_id, skill_name])
 }
 
+model Search {
+  id        String   @id
+  userId    String
+  createdAt DateTime @default(now())
+  query     String?
+  result    String[] @db.VarChar(255)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id           String   @id
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Skill {
-  name      String      @id
-  job_skill JobSkill[]
+  name     String     @id
+  JobSkill JobSkill[]
+}
+
+model User {
+  id            String    @id
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  Account       Account[]
+  Search        Search[]
+  Session       Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
