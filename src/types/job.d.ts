@@ -22,6 +22,8 @@ export interface JobInterface {
 export type JobContextType = {
     jobs: JobInterface[];
     setJobs: (jobs: JobInterface[]) => void;
+    loading: boolean;
+    setLoading: (loading: boolean) => void;
 };
 
 interface JobWithKeywords extends Job {
