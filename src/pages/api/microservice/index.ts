@@ -52,6 +52,49 @@ const fetchJobs = async function () {
             await new Promise(resolve => setTimeout(resolve, 1000 - time));
         }
     }
+    return numberJobsFetched;
+}
+
+/**
+ * Images for jobs usually follow the pattern: https://findwork-dev-images.s3.amazonaws.com/Company-Name
+ * Check if the url is valid and return it if it is
+ * @param company_name
+ */
+const checkUrl = async (company_name: string) => {
+    const cleanName = company_name.replace(/ /g, '-');
+    const url = `https://findwork-dev-images.s3.amazonaws.com/${cleanName}`;
+    const response = await fetch(url);
+    return response.status === 200 ? url : "";
+}
+
+/**
+ * Create company entries in database
+ * @param company_name
+ * @param company_num_employees
+ */
+const createCompany = async ({company_name, company_num_employees}: {
+    company_name: string,
+    company_num_employees?: number | null,
+}) => {
+    const logo_url = await checkUrl(company_name);
+    try {
+        await prisma.company.create({
+            data: {
+                company_name,
+                company_num_employees,
+                logo_url
+            }
+        })
+        console.log("Added company " + company_name + " to database.");
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            if (e.code === 'P2002') {
+                console.log(
+                    'Company with given name already exists in database',
+                )
+            }
+        }
+    }
 }
 
 /**
@@ -64,6 +107,10 @@ const writeJobToDb = async function (job: JobWithKeywords) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         delete job.keywords;
+        await createCompany(
+            {company_name: job.company_name, company_num_employees: job.company_num_employees});
+        // @ts-ignore
+        delete job.company_num_employees;
         await prisma.job.create({data: job});
         console.log("Added job " + job.role + " to database.");
     } catch (e) {
@@ -80,13 +127,15 @@ const writeJobToDb = async function (job: JobWithKeywords) {
     for (const skill of skills) {
         try {
             await prisma.skill.create({data: {name: skill}});
-        } catch (e) {}
+        } catch (e) {
+        }
     }
     // create all the job_skill entries for the job
     for (const skill of skills) {
         try {
-            await prisma.jobSkill.create({data: {job_id: job.id, skill_name: skill}});
-        } catch (e) {}
+            await prisma.jobskill.create({data: {job_id: job.id, skill_name: skill}});
+        } catch (e) {
+        }
     }
     return true;
 }
@@ -98,6 +147,6 @@ export default async function handler(req: any, res: any) {
         res.status(401).json({message: "Unauthorized"});
         return;
     }
-    await fetchJobs();
-    res.status(200).json({message: "success"});
+    const numberJobsFetched = await fetchJobs();
+    res.status(200).json({message: "success", numberJobsFetched: numberJobsFetched});
 }
