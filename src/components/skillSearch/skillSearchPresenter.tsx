@@ -16,11 +16,9 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
 
     const maxSkills = 5;
 
-    const [skills, setSkills] = useState<string[]>([]);
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [search, setSearch] = useState<string>('');
-
-    const { setJobs, setLoading } = useContext(JobContext) as JobContextType;
+    const { setJobs, setLoading, skills, setSkills } = useContext(JobContext) as JobContextType;
 
     const { refetch } = trpc.useQuery(["jobs.all", { keywords: skills, number: 10 }], {enabled : false});
     const onSearch = async(e: InputChangeEventHandler) => {
@@ -44,13 +42,15 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
 
     const appendSkill = (skill: string) => {
         if (skillList.includes(skill) && !skills.includes(skill) && skills.length < maxSkills) {
-            setSkills(oldSkills => [...oldSkills, skill]);
+            const newSkills: string[] = [...skills, skill];
+            setSkills(newSkills);
             setSearch('');
         }
     }
 
     const removeSkill = (index: number) => {
-        setSkills(skills => skills.filter((skills, i) => i !== index))
+        const filteredSkills: string[] = skills.filter((_, i) => i !== index);
+        setSkills(filteredSkills);
     }
 
     const onSearchChange = (e: InputChangeEventHandler) => setSearch(e.target.value);
@@ -73,7 +73,8 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
             && skillList.includes(searchTrimmed)
         ) {
             e.preventDefault();
-            setSkills(oldSkills => [...oldSkills, searchTrimmed]);
+            const newSkills: string[] = [...skills, searchTrimmed];
+            setSkills(newSkills);
             setSearch('');
         }
     };

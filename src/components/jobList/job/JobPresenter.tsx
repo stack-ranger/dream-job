@@ -6,8 +6,9 @@ const getRandomColor = (company_name: string) => {
     return randColors[company_name.charCodeAt(0) % randColors.length];
 }
 
-const JobPresenter = ({job}: { job: JobInterface }) => {
+const JobPresenter = ({job, selectedSkills}: { job: JobInterface, selectedSkills: string[] }) => {
+    const matchedSkills = job.JobSkill.map(skill => skill.skill_name).filter(skill => selectedSkills.includes(skill));
     return (<JobView role={job.role} company_name={job.Company.company_name} getRandomColor={getRandomColor}
-                     logo_url={job.Company.logo_url}></JobView>);
+                     logo_url={job.Company.logo_url} matchedSkills={matchedSkills}></JobView>);
 }
 export default JobPresenter;

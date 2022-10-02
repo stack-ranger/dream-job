@@ -4,8 +4,8 @@ import {JobContext} from "~/context/jobContext";
 import {JobContextType} from "~/types/job";
 
 const JobListPresenter = () => {
-    const { jobs, loading } = useContext(JobContext) as JobContextType;
-    return (<JobListView jobs={jobs} loading={loading}/>);
+    const { jobs, loading, skills } = useContext(JobContext) as JobContextType;
+    return (<JobListView jobs={jobs} loading={loading} skills={skills}/>);
 }
 
 export default JobListPresenter;

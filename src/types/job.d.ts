@@ -19,7 +19,10 @@ export interface JobInterface {
     Company: {
         company_name: string;
         logo_url: string;
-    }
+    },
+    JobSkill: {
+        skill_name: string;
+    }[],
 }
 
 export type JobContextType = {
@@ -27,6 +30,8 @@ export type JobContextType = {
     setJobs: (jobs: JobInterface[]) => void;
     loading: boolean;
     setLoading: (loading: boolean) => void;
+    skills: string[];
+    setSkills: (skills: string[]) => void;
 };
 
 interface JobWithKeywords extends Job {

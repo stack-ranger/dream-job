@@ -11,19 +11,24 @@ export const jobRouter = createRouter()
 		}),
 		async resolve({ input }) {
 			const jobWhere = Prisma.validator<Prisma.JobWhereInput>()({
-				JobSkill: {
-					some: {
-						skill_name: {
-							in: input.keywords
+					JobSkill: {
+						some: {
+							skill_name: {
+								in: input.keywords
+							}
 						}
 					}
-				}
 			});
 			return await prisma.job.findMany({
 					where: jobWhere,
 					take: input.number ? input.number : 20,
 					include: {
 						Company: true,
+						JobSkill: {
+							select: {
+								skill_name: true
+							}
+						}
 					}
 				}
 			);
