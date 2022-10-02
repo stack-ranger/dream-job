@@ -16,7 +16,10 @@ type Job = {
 export interface JobInterface {
     id: string;
     role: string;
-    company_name: string;
+    Company: {
+        company_name: string;
+        logo_url: string;
+    }
 }
 
 export type JobContextType = {

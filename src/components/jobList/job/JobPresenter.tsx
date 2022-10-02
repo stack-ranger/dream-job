@@ -1,25 +1,13 @@
 import JobView from "./JobView";
-import {useState} from "react";
-import {InputChangeEventHandler} from "~/types/events";
+import {JobInterface} from "~/types/job";
 
-const imgLoader = ({ src }: {src: string}) => {
-    const cleanName = src.replace(/ /g, '-');
-    return `https://findwork-dev-images.s3.amazonaws.com/${cleanName}`;
+const getRandomColor = (company_name: string) => {
+    const randColors = ["bg-green-400", "bg-red-400", "bg-blue-400", "bg-orange-400, bg-yellow-400", "bg-violet-400", "bg-rose-400"];
+    return randColors[company_name.charCodeAt(0) % randColors.length];
 }
 
-const getRandomColor = () => {
-    const randColors = ["bg-green-400", "bg-red-400", "bg-blue-400", "bg-orange-400"];
-    return randColors[Math.floor(Math.random() * randColors.length)];
-}
-
-
-const JobPresenter = ({job}: {job: {role: string, company_name: string}}) => {
-    const [placeholder, setPlaceholder] = useState(false);
-
-    const imgError = (e: InputChangeEventHandler) => {
-        setPlaceholder(true);
-        e.preventDefault();
-    }
-    return (<JobView role={job.role} company_name={job.company_name} placeholder={placeholder} imgLoader={imgLoader} getRandomColor={getRandomColor} imgError={imgError}></JobView>);
+const JobPresenter = ({job}: { job: JobInterface }) => {
+    return (<JobView role={job.role} company_name={job.Company.company_name} getRandomColor={getRandomColor}
+                     logo_url={job.Company.logo_url}></JobView>);
 }
 export default JobPresenter;

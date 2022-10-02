@@ -1,11 +1,10 @@
 import JobPresenter from "./job/JobPresenter";
 import JobSkeleton from "~/components/jobList/job/JobSkeleton";
-
+import {JobInterface} from "~/types/job";
 
 const JobListView = ({jobs, loading}: {
-    jobs: { role: string, company_name: string }[], loading: boolean;
+    jobs: JobInterface[], loading: boolean;
 }) => {
-    console.log("loading", loading);
     return (
         <div className="flex pb-9">
             <div
