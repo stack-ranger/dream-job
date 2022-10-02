@@ -133,7 +133,7 @@ const writeJobToDb = async function (job: JobWithKeywords) {
     // create all the job_skill entries for the job
     for (const skill of skills) {
         try {
-            await prisma.jobskill.create({data: {job_id: job.id, skill_name: skill}});
+            await prisma.jobSkill.create({data: {job_id: job.id, skill_name: skill}});
         } catch (e) {
         }
     }
