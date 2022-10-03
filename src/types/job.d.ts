@@ -16,14 +16,25 @@ type Job = {
 export interface JobInterface {
     id: string;
     role: string;
-    company_name: string;
+    Company: {
+        company_name: string;
+        logo_url: string;
+    },
+    JobSkill: {
+        skill_name: string;
+    }[],
 }
 
 export type JobContextType = {
     jobs: JobInterface[];
     setJobs: (jobs: JobInterface[]) => void;
+    loading: boolean;
+    setLoading: (loading: boolean) => void;
+    skills: string[];
+    setSkills: (skills: string[]) => void;
 };
 
 interface JobWithKeywords extends Job {
-    keywords: string[]
+    company_num_employees?: null
+    keywords?: string[]
 }

@@ -74,19 +74,19 @@ model Search {
 }
 
 model Job {
-  id                    String      @id
-  role                  String
-  company_name          String
-  company_num_employees Int?
-  employment_type       String?
-  location              String?
-  remote                Boolean?
-  logo                  String?
-  url                   String?
-  text                  String?
-  date_posted           DateTime?   @db.Timestamp(6)
-  source                String?
-  job_skill             JobSkill[]
+  id              String     @id
+  role            String
+  company_name    String
+  employment_type String?
+  location        String?
+  remote          Boolean?
+  logo            String?
+  url             String?
+  text            String?
+  date_posted     DateTime?  @db.Timestamp(6)
+  source          String?
+  Company         Company    @relation(fields: [company_name], references: [company_name], onDelete: NoAction, onUpdate: NoAction)
+  JobSkill        JobSkill[]
 }
 
 model JobSkill {
@@ -94,11 +94,17 @@ model JobSkill {
   skill_name String
   job        Job    @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_job")
   skill      Skill  @relation(fields: [skill_name], references: [name], onDelete: NoAction, onUpdate: NoAction, map: "fk_skill")
-
   @@id([job_id, skill_name])
 }
 
 model Skill {
   name      String      @id
   job_skill JobSkill[]
+}
+
+model Company {
+  company_name          String @id
+  company_num_employees Int?
+  logo_url              String @default("")
+  Job                   Job[]
 }

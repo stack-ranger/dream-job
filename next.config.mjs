@@ -20,5 +20,8 @@ export default defineNextConfig({
     locales: ["en"],
     defaultLocale: "en",
   },
-  output: 'standalone'
+  output: 'standalone',
+  images: {
+    domains: ['findwork-dev-images.s3.amazonaws.com'],
+  },
 });
