@@ -12,7 +12,7 @@ import JobProvider from "~/context/jobContext";
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({skillList}: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const { data: session, status } = useSession()
-
+  
   if (status === 'loading') {
     return <main className="flex flex-col items-center pt-4">Loading...</main>
   }
@@ -25,15 +25,16 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({skillLi
   //     console.log(data);
   //   },
   // });
+  
 
   return (
       <div className="flex-col">
-              <JobProvider>
+
                   <div className="pt-12 flex justify-center">
                       <SkillSearchPresenter skillList={skillList}/>
                   </div>
                   <JobListPresenter/>
-              </JobProvider>
+
       </div>
   )
 }

@@ -1,10 +1,10 @@
 import React, {useContext} from "react";
 import JobListView from "./jobListView";
-import {JobContext} from "~/context/jobContext";
 import {JobContextType} from "~/types/job";
+import useJobStore from '~/stores/jobStore';
 
 const JobListPresenter = () => {
-    const { jobs, loading, skills } = useContext(JobContext) as JobContextType;
+    const { jobs, skills, loading } = useJobStore();
     return (<JobListView jobs={jobs} loading={loading} skills={skills}/>);
 }
 
