@@ -3,18 +3,15 @@ import SkillSearchPresenter from "../components/skillSearch/skillSearchPresenter
 import {InferGetStaticPropsType} from "next";
 import {PrismaClient} from "@prisma/client";
 import JobListPresenter from "~/components/jobList/jobListPresenter";
-import JobProvider from "~/context/jobContext";
 
 const Jobs = ({skillList}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     return (
         <div className="flex-col">
-                <JobProvider>
                     <div className="pt-12 flex justify-center">
                         <SkillSearchPresenter skillList={skillList}/>
                     </div>
                     <JobListPresenter/>
-                </JobProvider>
         </div>
     );
 }

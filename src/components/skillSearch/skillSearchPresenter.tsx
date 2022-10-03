@@ -2,8 +2,8 @@ import {useContext, useEffect, useState} from "react";
 import SkillSearchView from "./skillSearchView";
 import {InputChangeEventHandler} from "~/types/events";
 import {trpc} from "~/utils/trpc";
-import {JobContext} from "~/context/jobContext";
 import {JobContextType} from "~/types/job";
+import useJobStore from "~/stores/jobStore";
 
 const findMatches = (input: string, skillList: string[]) => {
     return skillList.filter(skill => {
@@ -18,7 +18,7 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
 
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [search, setSearch] = useState<string>('');
-    const { setJobs, setLoading, skills, setSkills } = useContext(JobContext) as JobContextType;
+    const { setJobs, setLoading, skills, setSkills } = useJobStore();
 
     const { refetch } = trpc.useQuery(["jobs.all", { keywords: skills, number: 10 }], {enabled : false});
     const onSearch = async(e: InputChangeEventHandler) => {
