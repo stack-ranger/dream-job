@@ -9,8 +9,10 @@ type Props = {
 
 const JobProvider: ({children}: Props) => JSX.Element = ({ children }: Props) => {
     const [jobs, setJobs] = useState<JobInterface[]>([]);
+    const [skills, setSkills] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
-    return <JobContext.Provider value={{ jobs, setJobs }}>
+    return <JobContext.Provider value={{ jobs, setJobs, loading, setLoading, skills, setSkills }}>
     {children}
     </JobContext.Provider>;
 };
