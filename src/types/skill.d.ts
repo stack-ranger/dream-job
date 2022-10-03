@@ -8,7 +8,3 @@ export interface SkillInterface {
     count: number;
 }
 
-export type SkillContextType = {
-    skills: SkillCount[];
-    setSkills: (skills: SkillCount[]) => void;
-};
