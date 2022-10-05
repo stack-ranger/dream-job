@@ -1,7 +1,7 @@
 import create from 'zustand'
 import { AppRouter } from "~/server/router";
 //import IStore from '~/types/store'
-import { JobContextType, JobInterface } from '~/types/job';
+import { JobInterface } from '~/types/job';
 import { trpc, trpcClient } from '~/utils/trpc'
 
 

@@ -2,7 +2,6 @@ import {useContext, useEffect, useState} from "react";
 import SkillSearchView from "./skillSearchView";
 import {InputChangeEventHandler} from "~/types/events";
 import {trpc} from "~/utils/trpc";
-import {JobContextType} from "~/types/job";
 import useJobStore from "~/stores/jobStore";
 import { useRouter } from "next/router"
 
