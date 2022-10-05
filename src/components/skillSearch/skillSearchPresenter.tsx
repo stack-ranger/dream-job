@@ -4,6 +4,7 @@ import {InputChangeEventHandler} from "~/types/events";
 import {trpc} from "~/utils/trpc";
 import {JobContextType} from "~/types/job";
 import useJobStore from "~/stores/jobStore";
+import { useRouter } from "next/router"
 
 const findMatches = (input: string, skillList: string[]) => {
     return skillList.filter(skill => {
@@ -18,16 +19,12 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
 
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [search, setSearch] = useState<string>('');
-    const { setJobs, setLoading, skills, setSkills } = useJobStore();
+    const { skills, setSkills } = useJobStore();
+    const router = useRouter();
 
-    const { refetch } = trpc.useQuery(["jobs.all", { keywords: skills, number: 10 }], {enabled : false});
     const onSearch = async(e: InputChangeEventHandler) => {
         e.preventDefault();
-        setJobs([]);
-        setLoading(true);
-        const jobQuery = await refetch();
-        setJobs(jobQuery.data ? jobQuery.data : []);
-        setLoading(false);
+        router.push({ pathname: "/", query: { skills: skills } })
     }
 
     useEffect(() => {
