@@ -18,12 +18,12 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
 
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [search, setSearch] = useState<string>('');
-    const { skills, setSkills } = useJobStore();
+    const { skills, setSkills, fetchJobs } = useJobStore();
     const router = useRouter();
 
     const onSearch = async(e: InputChangeEventHandler) => {
         e.preventDefault();
-        router.push({ pathname: "/", query: { skills: skills } })
+        fetchJobs(skills);
     }
 
     useEffect(() => {

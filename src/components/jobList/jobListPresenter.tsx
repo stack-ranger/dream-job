@@ -7,19 +7,16 @@ import { useRouter } from "next/router"
 import {trpc} from "~/utils/trpc";
 
 const JobListPresenter = () => {
-    const { jobs, loading, fetchJobs, setSkills } = useJobStore();
+    const { jobs, loading, skills, setSkills } = useJobStore();
     const router = useRouter()
-    const [querySkills, setQuerySkills] = useState<string[]>([])
     
     useEffect(() => {
       const tmp = router?.query?.skills
       const skills: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
-      fetchJobs(skills)
       setSkills(skills)
-      setQuerySkills(skills)
     }, [router.query.skills])
 
-    return (<JobListView jobs={jobs} loading={loading} skills={querySkills}/>);
+    return (<JobListView jobs={jobs} loading={loading} skills={skills}/>);
 }
 
 
