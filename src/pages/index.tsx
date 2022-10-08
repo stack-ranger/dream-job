@@ -1,8 +1,5 @@
 import type { NextPage } from 'next'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import Head from 'next/head'
-import { trpc } from '../utils/trpc'
-import React from 'react'
+import { useSession } from 'next-auth/react'
 import SkillSearchPresenter from '../components/skillSearch/skillSearchPresenter'
 import { InferGetStaticPropsType } from 'next'
 import { PrismaClient } from '@prisma/client'
@@ -11,21 +8,11 @@ import JobListPresenter from '~/components/jobList/jobListPresenter'
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   skillList,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  // const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
-  const { data: session, status } = useSession()
+  const { status } = useSession()
 
   if (status === 'loading') {
     return <main className="flex flex-col items-center pt-4">Loading...</main>
   }
-
-  // const jobs = trpc.useQuery(["jobs.selected", { keywords: ["react", "typescript", "docker", "tailwind"] }]);
-  // console.log(jobs);
-
-  // const skills = trpc.useQuery(["skills.all", { role: "Frontend Developer", number: 20 }], {
-  //   async onSuccess(data) {
-  //     console.log(data);
-  //   },
-  // });
 
   return (
     <div className="flex-col">

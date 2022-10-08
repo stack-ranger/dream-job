@@ -1,5 +1,5 @@
 import create from 'zustand'
-import { SkillCount, SkillStoreInterface } from '~/types/skill'
+import { SkillStoreInterface } from '~/types/skill'
 import { trpcClient } from '~/utils/trpc'
 
 const useSkillCountStore = create<SkillStoreInterface>((set) => ({
