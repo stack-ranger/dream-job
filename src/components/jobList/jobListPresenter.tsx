@@ -5,12 +5,10 @@ import { useRouter } from 'next/router'
 import { debounce } from 'lodash'
 
 const JobListPresenter = () => {
-  const { jobs, loading, fetchJobs } = useJobStore()
+  const { jobs, loading, fetchJobs, jobsPerQuery, increaseOffset } = useJobStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
   const router = useRouter()
 
-  // save the number of jobs already queried
-  const [offset, setOffset] = useState(jobs.length)
   // save the max position of the scroll
   const [position, setPosition] = useState(0)
 
@@ -26,14 +24,14 @@ const JobListPresenter = () => {
     if (scrollHeight - scrollTop <= clientHeight) {
       if (tmpPosition > position) {
         setPosition(scrollTop + clientHeight)
-        await fetchJobs(offset)
-        setOffset(offset + 20)
+        await fetchJobs()
+        increaseOffset()
       }
     }
   }
   window.onscroll = debounce(handleScroll, 10)
 
-  return <JobListView jobs={jobs} loading={loading} skills={currentSkillSearch} />
+  return <JobListView jobs={jobs} loading={loading} skills={currentSkillSearch} jobsPerQuery={jobsPerQuery} />
 }
 
 export default JobListPresenter

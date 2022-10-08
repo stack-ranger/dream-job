@@ -4,6 +4,7 @@ import { trpcClient } from '~/utils/trpc'
 
 const useJobStore = create<JobStoreInterface>((set, get) => ({
   jobsPerQuery: 10,
+  offset: 0,
   jobs: [],
   skills: [],
   loading: false,
@@ -26,6 +27,16 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
     )
     set({ jobs: [...store.jobs, ...res] })
     set({ loading: false })
+  },
+  resetJobs: () => {
+    set({ jobs: [] })
+  },
+  increaseOffset: () => {
+    const store = get()
+    set({ offset: store.offset + store.jobsPerQuery })
+  },
+  resetOffset: () => {
+    set({ offset: 0 })
   },
 }))
 

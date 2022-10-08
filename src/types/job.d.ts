@@ -38,9 +38,13 @@ export interface JobInterface {
  */
 export interface JobStoreInterface {
   jobsPerQuery: number
+  offset: number
   jobs: JobInterface[]
   skills: string[]
   loading: boolean
   setSkills: (newSkills: string[]) => void
   fetchJobs: (skip?: number) => void
+  resetJobs: () => void
+  increaseOffset: () => void
+  resetOffset: () => void
 }
