@@ -13,13 +13,15 @@ type Job = {
   source: string
 }
 
+type Company = {
+  company_name: string
+  logo_url: string
+}
+
 export interface JobInterface {
   id: string
   role: string
-  Company: {
-    company_name: string
-    logo_url: string
-  }
+  Company: Company
   JobSkill: {
     skill_name: string
   }[]
