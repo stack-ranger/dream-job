@@ -1,10 +1,10 @@
 import React from 'react'
-import { trpc } from '../utils/trpc'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { trpc } from '~/utils/trpc'
+import { useSession } from 'next-auth/react'
 
 export default function History() {
   const { data: searches, isLoading } = trpc.useQuery(['searches.getAll'])
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
 
   if (session && isLoading) return <div>Fetching history...</div>
   if (searches?.length === 0)

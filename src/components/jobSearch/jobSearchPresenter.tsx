@@ -29,7 +29,7 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
     } else {
       setSuggestions([])
     }
-  }, [search])
+  }, [search, jobList])
 
   return <JobSearchView search={search} setSearch={setSearch} suggestions={suggestions} onSearch={onSearch} />
 }

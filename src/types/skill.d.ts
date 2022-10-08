@@ -7,6 +7,14 @@ export type SkillCount = {
 }
 
 /**
+ * Type returned from the raw query in the skill router
+ */
+export type SkillCountRaw = {
+  name: string
+  skill_count: number
+}
+
+/**
  * Type representing the zustand skill store
  */
 export interface SkillStoreInterface {

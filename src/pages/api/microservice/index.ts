@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client'
+import { Request, Response } from 'express'
 import { RawJob } from '~/types/job'
 
 // requires API_KEY to be set
@@ -23,7 +24,7 @@ const fetchJobs = async function () {
     const resp = await fetch(`https://findwork.dev/api/jobs/?page=${pageCounter}&order_by=date`, {
       headers: { Authorization: `Token ${API_KEY}` },
     })
-    const data: any = await resp.json()
+    const data = await resp.json()
 
     // check if we reached the last page
     if (data.detail && data.detail === 'Invalid page.') {
@@ -131,7 +132,7 @@ const writeJobToDb = async function (job: RawJob) {
   return true
 }
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: Request, res: Response) {
   // check if request is authorized
   if (!req.headers.authorization || req.headers.authorization !== AUTHORIZATION_HEADER) {
     res.status(401).json({ message: 'Unauthorized' })
