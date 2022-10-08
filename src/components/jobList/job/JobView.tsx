@@ -26,13 +26,7 @@ const JobView = ({
               {company_name.charAt(0)}
             </div>
           ) : (
-            <Image
-              className="rounded-full"
-              src={'https://logo.clearbit.com/windmill.com'}
-              alt={company_name}
-              width={80}
-              height={80}
-            />
+            <Image className="rounded-full" src={logo_url} alt={company_name} width={80} height={80} />
           )}
         </div>
         <h5 className="mb-1 text-xl font-medium text-gray-900">{role}</h5>
