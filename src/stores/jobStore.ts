@@ -16,25 +16,21 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
   },
   /**
    * Fetch jobs from the API
-   * @param skip number of jobs to skip, used for endless scrolling
    */
-  fetchJobs: async (skip = 0) => {
+  fetchJobs: async () => {
     set({ loading: true })
     const store = get()
     const res = await trpcClient.query(
       'jobs.all',
-      { keywords: get().skills, number: store.jobsPerQuery, skip: skip },
+      { keywords: get().skills, number: store.jobsPerQuery, skip: store.offset },
       { context: { enabled: false } }
     )
     set({ jobs: [...store.jobs, ...res] })
+    set({ offset: store.offset + res.length })
     set({ loading: false })
   },
   resetJobs: () => {
     set({ jobs: [] })
-  },
-  increaseOffset: () => {
-    const store = get()
-    set({ offset: store.offset + store.jobsPerQuery })
   },
   resetOffset: () => {
     set({ offset: 0 })

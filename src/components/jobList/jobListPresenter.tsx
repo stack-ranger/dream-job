@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { debounce } from 'lodash'
 
 const JobListPresenter = () => {
-  const { jobs, loading, fetchJobs, jobsPerQuery, increaseOffset, scrollPos, setScrollPos } = useJobStore()
+  const { jobs, loading, fetchJobs, jobsPerQuery, scrollPos, setScrollPos } = useJobStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
   const router = useRouter()
 
@@ -22,7 +22,6 @@ const JobListPresenter = () => {
       if (tmpPosition > scrollPos) {
         setScrollPos(scrollTop + clientHeight)
         await fetchJobs()
-        increaseOffset()
       }
     }
   }

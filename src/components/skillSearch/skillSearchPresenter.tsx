@@ -35,7 +35,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     setScrollPos(0)
     resetOffset()
     resetJobs()
-    fetchJobs()
+    await fetchJobs()
     await router.push({ pathname: '/', query: { skills: skills } }, undefined, { shallow: true })
   }
 
