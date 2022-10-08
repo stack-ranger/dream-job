@@ -33,7 +33,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
     fetchJobs(skills)
-    router.push({ pathname: '/', query: { skills: skills } }, undefined, { shallow: true })
+    router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
   }
 
   useEffect(() => {

@@ -10,6 +10,7 @@ interface JobStoreInterface {
   loading: boolean
   setSkills: (newSkills: string[]) => void
   fetchJobs: (skills: string[]) => void
+  resetJobStore: () => void
 }
 
 const useJobStore = create<JobStoreInterface>((set) => ({
@@ -27,6 +28,9 @@ const useJobStore = create<JobStoreInterface>((set) => ({
     set({ jobs: res ?? [] })
     set({ loading: false })
   },
+  resetJobStore: async () =>{
+    set({ jobs: [], skills: []})
+  }
 }))
 
 export default useJobStore
