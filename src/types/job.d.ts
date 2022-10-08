@@ -37,9 +37,10 @@ export interface JobInterface {
  * Type representing the zustand job store
  */
 export interface JobStoreInterface {
+  jobsPerQuery: number
   jobs: JobInterface[]
   skills: string[]
   loading: boolean
   setSkills: (newSkills: string[]) => void
-  fetchJobs: (skills: string[]) => void
+  fetchJobs: (skip?: number) => void
 }

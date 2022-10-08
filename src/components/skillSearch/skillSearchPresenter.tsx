@@ -26,13 +26,13 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     setSkills(skills)
     // if link is used to fetch jobs, trigger initial fetch
     if (skills.length > 0) {
-      fetchJobs(skills)
+      fetchJobs()
     }
   }, [])
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
-    fetchJobs(skills)
+    fetchJobs()
     await router.push({ pathname: '/', query: { skills: skills } }, undefined, { shallow: true })
   }
 
