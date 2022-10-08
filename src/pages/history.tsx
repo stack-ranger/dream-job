@@ -7,8 +7,8 @@ export default function History() {
   const { data: session, status } = useSession()
 
   if (session && isLoading) return <div>Fetching history...</div>
-  if (searches?.length === 0) return <div className='hover:cursor-pointer'>History is empty, make your first research</div>
-
+  if (searches?.length === 0)
+    return <div className="hover:cursor-pointer">History is empty, make your first research</div>
 
   return (
     <main className="flex flex-col items-center justify-center">
@@ -19,9 +19,7 @@ export default function History() {
             <Searches />
           </div>
         ) : (
-          <span>
-            Login to see history
-          </span>
+          <span>Login to see history</span>
         )}
       </div>
     </main>
@@ -32,7 +30,8 @@ const Searches = () => {
   const { data: searches, isLoading } = trpc.useQuery(['searches.getAll'])
 
   if (isLoading) return <div>Fetching history...</div>
-  if (searches?.length === 0) return <div className='hover:cursor-pointer'>History is empty, make your first research</div>
+  if (searches?.length === 0)
+    return <div className="hover:cursor-pointer">History is empty, make your first research</div>
   return (
     <div className="flex flex-col gap-4">
       {searches?.map((src, index) => {

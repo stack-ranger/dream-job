@@ -1,12 +1,12 @@
-import React from "react";
-import RegistrationView from "./RegistrationView";
+import React from 'react'
+import RegistrationView from './RegistrationView'
 
 const Registration = () => {
-    return (
-        <>
-        <RegistrationView />
-        </>
-    )
+  return (
+    <>
+      <RegistrationView />
+    </>
+  )
 }
 
 export default Registration

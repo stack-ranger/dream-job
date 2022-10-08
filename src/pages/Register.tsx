@@ -1,10 +1,8 @@
-import React from "react";
-import RegistrationPresenter from "../components/registration/RegistrationPresenter";
+import React from 'react'
+import RegistrationPresenter from '../components/registration/RegistrationPresenter'
 
 const Register = () => {
-    return(
-        <RegistrationPresenter />
-    )
+  return <RegistrationPresenter />
 }
 
 export default Register

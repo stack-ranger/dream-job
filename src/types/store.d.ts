@@ -1,5 +1,4 @@
 export interface IStore {
-    counter: number,
-    increaseCounter: () => void;
+  counter: number
+  increaseCounter: () => void
 }
-

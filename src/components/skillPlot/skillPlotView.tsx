@@ -1,12 +1,12 @@
-import * as d3 from "d3";
-import {SkillCount} from "~/types/skill";
+import * as d3 from 'd3'
+import { SkillCount } from '~/types/skill'
 
 interface SkillPlotViewProps {
-    skills: SkillCount[];
-    xScale: d3.ScaleLinear<number, number>; // length of the bars, scales automatically
-    yScale: d3.ScaleBand<string>; // the labels, scales automatically
-    width: number;
-    height: number;
+  skills: SkillCount[]
+  xScale: d3.ScaleLinear<number, number> // length of the bars, scales automatically
+  yScale: d3.ScaleBand<string> // the labels, scales automatically
+  width: number
+  height: number
 }
 
 /**
@@ -18,36 +18,37 @@ interface SkillPlotViewProps {
  * @param skills - skills to plot
  * @constructor
  */
-export const SkillPlotView = ({xScale, yScale, width, height, skills}: SkillPlotViewProps) => {
-    return (
-        <div>
-            <svg width={width} height={height}>
-                <g width={width} height={height}>
-                    {skills.map((skill, i) => {
-                        const yOffset = yScale(skill.name) || 0;
-                        return (
-                            <g key={i}>
-                                <rect className={"fill-blue-300 hover:fill-blue-400"}
-                                      x={xScale(0)}
-                                      y={yOffset}
-                                      width={xScale(skill.count)}
-                                      height={yScale.bandwidth()}
-                                />
-                                <text
-                                    className={"text-lg text-start font-medium"}
-                                    x={xScale(2)}
-                                    y={yScale.bandwidth() / 2 + yOffset}
-                                    alignmentBaseline="central"
-                                >
-                                    {skill.name}
-                                </text>
-                            </g>
-                        );
-                    })}
-                </g>
-            </svg>
-        </div>
-    );
-};
+export const SkillPlotView = ({ xScale, yScale, width, height, skills }: SkillPlotViewProps) => {
+  return (
+    <div>
+      <svg width={width} height={height}>
+        <g width={width} height={height}>
+          {skills.map((skill, i) => {
+            const yOffset = yScale(skill.name) || 0
+            return (
+              <g key={i}>
+                <rect
+                  className={'fill-blue-300 hover:fill-blue-400'}
+                  x={xScale(0)}
+                  y={yOffset}
+                  width={xScale(skill.count)}
+                  height={yScale.bandwidth()}
+                />
+                <text
+                  className={'text-lg text-start font-medium'}
+                  x={xScale(2)}
+                  y={yScale.bandwidth() / 2 + yOffset}
+                  alignmentBaseline="central"
+                >
+                  {skill.name}
+                </text>
+              </g>
+            )
+          })}
+        </g>
+      </svg>
+    </div>
+  )
+}
 
-export default SkillPlotView;
+export default SkillPlotView

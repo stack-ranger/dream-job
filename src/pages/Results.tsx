@@ -1,10 +1,8 @@
-import React from "react";
-import ResultsPresenter from "../components/results/ResultsPresenter";
+import React from 'react'
+import ResultsPresenter from '../components/results/ResultsPresenter'
 
 const Results = () => {
-    return(
-        <ResultsPresenter />
-    )
+  return <ResultsPresenter />
 }
 
 export default Results

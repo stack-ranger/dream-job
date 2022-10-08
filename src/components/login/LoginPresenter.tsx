@@ -1,12 +1,12 @@
-import React from "react";
-import LoginView from "./LoginView";
+import React from 'react'
+import LoginView from './LoginView'
 
 const Login = () => {
-    return (
-        <>
-        <LoginView />
-        </>
-    )
+  return (
+    <>
+      <LoginView />
+    </>
+  )
 }
 
 export default Login
