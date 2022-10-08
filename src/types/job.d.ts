@@ -1,18 +1,26 @@
-type Job = {
+/**
+ * This type should be only used for fetching jobs from the findwork.dev API
+ */
+type RawJob = {
   id: string
   role: string
   company_name: string
-  company_num_employees: null
-  employment_type: null
-  location: null
-  remote: boolean
-  logo: string
+  company_num_employees?: null
+  employment_type?: null
+  location?: null
+  remote?: boolean
+  logo?: string
   url: string
   text: string
   date_posted: Date
-  source: string
+  source?: string
+  keywords?: string[]
 }
 
+/**
+ * This type is representing a job in the database.
+ * Add additional fields here if needed for e.g. detail view.
+ */
 export interface JobInterface {
   id: string
   role: string
@@ -25,7 +33,13 @@ export interface JobInterface {
   }[]
 }
 
-interface JobWithKeywords extends Job {
-  company_num_employees?: null
-  keywords?: string[]
+/**
+ * Type representing the zustand job store
+ */
+export interface JobStoreInterface {
+  jobs: JobInterface[]
+  skills: string[]
+  loading: boolean
+  setSkills: (newSkills: string[]) => void
+  fetchJobs: (skills: string[]) => void
 }

@@ -1,10 +1,6 @@
 import create from 'zustand'
-import { SkillInterface } from '~/types/skill'
+import { SkillCount, SkillStoreInterface } from '~/types/skill'
 
-interface SkillStoreInterface {
-  skillsCount: SkillInterface[]
-  setSkillsCount: (newSkills: SkillInterface[]) => void
-}
 
 const useSkillCountstore = create<SkillStoreInterface>((set) => ({
   skillsCount: [],

@@ -1,5 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client'
-import { JobWithKeywords } from '~/types/job'
+import { RawJob } from '~/types/job'
 
 // requires API_KEY to be set
 const API_KEY = process.env.API_KEY
@@ -32,7 +32,7 @@ const fetchJobs = async function () {
     }
     pageCounter++
 
-    let job: JobWithKeywords
+    let job: RawJob
     for (job of data.results) {
       const success = await writeJobToDb(job)
       if (!success) {
@@ -100,7 +100,7 @@ const createCompany = async ({
  * Write job to database with id as primary key
  * @param job to write into the database
  */
-const writeJobToDb = async function (job: JobWithKeywords) {
+const writeJobToDb = async function (job: RawJob) {
   const skills = job.keywords || []
   try {
     delete job.keywords

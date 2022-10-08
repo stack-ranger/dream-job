@@ -1,16 +1,6 @@
 import create from 'zustand'
-import { AppRouter } from '~/server/router'
-//import IStore from '~/types/store'
-import { JobInterface } from '~/types/job'
-import { trpc, trpcClient } from '~/utils/trpc'
-
-interface JobStoreInterface {
-  jobs: JobInterface[]
-  skills: string[]
-  loading: boolean
-  setSkills: (newSkills: string[]) => void
-  fetchJobs: (skills: string[]) => void
-}
+import { JobStoreInterface } from '~/types/job'
+import { trpcClient } from '~/utils/trpc'
 
 const useJobStore = create<JobStoreInterface>((set) => ({
   jobs: [],

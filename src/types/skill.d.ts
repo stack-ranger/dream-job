@@ -1,9 +1,15 @@
+/**
+ * Type representing the skill with the count of jobs it occurs in
+ */
 export type SkillCount = {
   name: string
   count: number
 }
 
-export interface SkillInterface {
-  name: string
-  count: number
+/**
+ * Type representing the zustand skill store
+ */
+export interface SkillStoreInterface {
+  skillsCount: SkillCount[]
+  setSkillsCount: (newSkills: SkillCount[]) => void
 }
