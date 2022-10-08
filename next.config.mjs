@@ -22,6 +22,6 @@ export default defineNextConfig({
   },
   output: 'standalone',
   images: {
-    domains: ['findwork-dev-images.s3.amazonaws.com'],
+    domains: ['findwork-dev-images.s3.amazonaws.com', 'logo.clearbit.com'],
   },
 });
