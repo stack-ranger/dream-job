@@ -7,7 +7,6 @@ import SkillSearchPresenter from "../components/skillSearch/skillSearchPresenter
 import {InferGetStaticPropsType} from "next";
 import {PrismaClient} from "@prisma/client";
 import JobListPresenter from "~/components/jobList/jobListPresenter";
-import JobProvider from "~/context/jobContext";
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({skillList}: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);

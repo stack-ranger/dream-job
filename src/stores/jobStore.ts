@@ -1,28 +1,22 @@
 import create from 'zustand'
+import { AppRouter } from "~/server/router";
 //import IStore from '~/types/store'
-import { JobContextType, JobInterface } from '~/types/job';
+import { JobInterface } from '~/types/job';
+import { trpc, trpcClient } from '~/utils/trpc'
 
 
 interface JobStoreInterface {
     jobs: JobInterface[];
     skills: string[];
     loading: boolean;
-    setJobs: (newJobs: JobInterface[]) => void;  
     setSkills: (newSkills: string[]) => void;
-    setLoading: (newLoading: boolean) => void;
+    fetchJobs: (skills: string[]) => void;
 }
 
 const useJobStore = create<JobStoreInterface>((set) => ({
     jobs: [],
     skills: [],
     loading: false,
-    setJobs: (newJobs) => {
-        set(() => ({
-            jobs: [
-                ...newJobs, 
-            ],
-        }));
-    },
     setSkills: (newSkills) => {
         set(() => ({
             skills: [
@@ -30,11 +24,12 @@ const useJobStore = create<JobStoreInterface>((set) => ({
             ],
         }));
     },
-    setLoading: (newLoading) => {
-        set(() => ({
-            loading: newLoading,
-        }));
-    },
+    fetchJobs: async (skills: string[]) => {
+      set({loading: true})
+      const res = await trpcClient.query("jobs.all", { keywords: skills, number: 10 }, {context: {enabled : false}})
+      set({jobs: res ?? []})
+      set({loading: false})
+    }
 }))
 
 export default useJobStore

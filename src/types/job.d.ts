@@ -25,15 +25,6 @@ export interface JobInterface {
     }[],
 }
 
-export type JobContextType = {
-    jobs: JobInterface[];
-    setJobs: (jobs: JobInterface[]) => void;
-    loading: boolean;
-    setLoading: (loading: boolean) => void;
-    skills: string[];
-    setSkills: (skills: string[]) => void;
-};
-
 interface JobWithKeywords extends Job {
     company_num_employees?: null
     keywords?: string[]
