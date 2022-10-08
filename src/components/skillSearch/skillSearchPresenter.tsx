@@ -1,7 +1,7 @@
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import SkillSearchView from "./skillSearchView";
-import {InputChangeEventHandler} from "~/types/events";
-import {trpc} from "~/utils/trpc";
+import { InputChangeEventHandler } from "~/types/events";
+import { trpc } from "~/utils/trpc";
 import useJobStore from "~/stores/jobStore";
 import { useRouter } from "next/router"
 
@@ -12,18 +12,30 @@ const findMatches = (input: string, skillList: string[]) => {
     });
 }
 
-const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
+const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
     const maxSkills = 5;
 
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [search, setSearch] = useState<string>('');
-    const { skills, setSkills } = useJobStore();
+    const { skills, setSkills, fetchJobs } = useJobStore();
     const router = useRouter();
 
-    const onSearch = async(e: InputChangeEventHandler) => {
+
+    useEffect(() => {
+        const tmp = router?.query?.skills
+        const skills: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
+        setSkills(skills)
+        // if link is used to fetch jobs, trigger initial fetch
+        if (skills.length > 0) {
+            fetchJobs(skills);
+        }
+    }, [])
+
+    const onSearch = async (e: InputChangeEventHandler) => {
         e.preventDefault();
-        router.push({ pathname: "/", query: { skills: skills } })
+        fetchJobs(skills);
+        router.push({ pathname: "/", query: { skills: skills }}, undefined, { shallow: true })
     }
 
     useEffect(() => {
@@ -76,8 +88,8 @@ const SkillSearchPresenter = ({skillList}: { skillList: string[] }) => {
     };
 
     return (<SkillSearchView skills={skills} search={search} suggestions={suggestions} appendSkill={appendSkill}
-                             removeSkill={removeSkill} onKeyPress={onKeyPress} onSearchChange={onSearchChange}
-                             onSearch={onSearch}
+        removeSkill={removeSkill} onKeyPress={onKeyPress} onSearchChange={onSearchChange}
+        onSearch={onSearch}
     />);
 }
 
