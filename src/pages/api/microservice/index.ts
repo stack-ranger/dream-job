@@ -66,9 +66,20 @@ const checkUrl = async (company_name: string) => {
 
   // try again with a different pattern on clearbit logo api
   cleanName = company_name.replace(/ /g, '').toLowerCase()
-  url = `https://logo.clearbit.com/${cleanName}${cleanName.includes('.') ? '' : '.com'}`
+  url = `https://logo.clearbit.com/${cleanName}`
   response = await fetch(url)
-  return response.status === 200 ? url : ''
+  if (response.status === 200) return url
+
+  // potential file extensions
+  const extensions = ['io', 'org', 'co', 'online']
+  if (!company_name.includes('.')) {
+    for (const extension of extensions) {
+      const url = `https://logo.clearbit.com/${cleanName}.${extension}`
+      const response = await fetch(url)
+      if (response.status === 200) return url
+    }
+  }
+  return ''
 }
 
 /**
