@@ -19,10 +19,9 @@ export const skillRouter = createRouter().query('all', {
 								ORDER BY skill_count desc 
 								LIMIT ${input.number || 20};`
     const skillCounter: any = await prisma.$queryRaw(queryString)
-    // TODO - fix this type
     return skillCounter.map((skillCount: { name: string; skill_count: bigint }) => {
       return {
-        ...skillCount,
+        name: skillCount.name,
         count: Number(skillCount.skill_count),
       }
     })

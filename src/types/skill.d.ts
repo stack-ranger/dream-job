@@ -10,6 +10,7 @@ export type SkillCount = {
  * Type representing the zustand skill store
  */
 export interface SkillStoreInterface {
+  loading: boolean
   skillsCount: SkillCount[]
-  setSkillsCount: (newSkills: SkillCount[]) => void
+  fetchSkillsCount: (role: string) => void
 }

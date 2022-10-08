@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { InputChangeEventHandler } from '~/types/events'
-import { trpc } from '~/utils/trpc'
 import JobSearchView from '~/components/jobSearch/jobSearchView'
-import useSkillCountstore from '~/stores/skillStore'
+import useSkillCountStore from '~/stores/skillStore'
 
 const findMatches = (input: string, jobList: string[]) => {
   return jobList.filter((skill) => {
@@ -15,15 +14,11 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
   const [search, setSearch] = useState<string>('')
   const [suggestions, setSuggestions] = useState<string[]>([])
 
-  const { setSkillsCount } = useSkillCountstore()
+  const { fetchSkillsCount } = useSkillCountStore()
 
-  const { refetch } = trpc.useQuery(['skills.all', { role: search, number: 10 }], { enabled: false })
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
-    const skillQuery = await refetch()
-    if (skillQuery.data) {
-      setSkillsCount(skillQuery.data)
-    }
+    await fetchSkillsCount(search)
   }
 
   useEffect(() => {
