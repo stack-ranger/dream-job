@@ -1,12 +1,12 @@
-import React from "react";
-import ProfileView from "./ProfileView";
+import React from 'react'
+import ProfileView from './ProfileView'
 
 const Profile = () => {
-    return (
-        <>
-        <ProfileView />
-        </>
-    )
+  return (
+    <>
+      <ProfileView />
+    </>
+  )
 }
 
 export default Profile

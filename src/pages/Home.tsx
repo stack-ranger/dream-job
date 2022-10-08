@@ -1,10 +1,8 @@
-import React from "react";
-import HomePresenter from "../components/home/HomePresenter";
+import React from 'react'
+import HomePresenter from '../components/home/HomePresenter'
 
 const Home = () => {
-    return(
-        <HomePresenter />
-    )
+  return <HomePresenter />
 }
 
 export default Home

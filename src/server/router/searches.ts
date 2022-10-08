@@ -1,13 +1,12 @@
-
-import { z } from "zod";
-import { createProtectedRouter } from "./context";
+import { z } from 'zod'
+import { createProtectedRouter } from './context'
 
 export const searchesRouter = createProtectedRouter()
-  .mutation("postMessage", {
+  .mutation('postMessage', {
     input: z.object({
       userId: z.string(),
       query: z.string(),
-      result: z.array(z.string())
+      result: z.array(z.string()),
     }),
     async resolve({ ctx, input }) {
       try {
@@ -15,16 +14,16 @@ export const searchesRouter = createProtectedRouter()
           data: {
             userId: input.userId,
             query: input.query,
-            result: input.result
+            result: input.result,
           },
-        });
+        })
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
   })
-  .query("getAll", {
-    async resolve({ctx}) {
+  .query('getAll', {
+    async resolve({ ctx }) {
       try {
         return await ctx.prisma.search.findMany({
           select: {
@@ -32,16 +31,16 @@ export const searchesRouter = createProtectedRouter()
             result: true,
           },
           where: {
-            userId:{
-              equals: ctx.session.user.id
-            }
+            userId: {
+              equals: ctx.session.user.id,
+            },
           },
           orderBy: {
-            createdAt: "desc",
-          }
+            createdAt: 'desc',
+          },
         })
       } catch (error) {
-        console.log("error", error)
+        console.log('error', error)
       }
-    }
+    },
   })

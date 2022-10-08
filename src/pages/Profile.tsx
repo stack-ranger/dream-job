@@ -1,10 +1,8 @@
-import React from "react";
-import ProfilePresenter from "../components/profile/ProfilePresenter";
+import React from 'react'
+import ProfilePresenter from '../components/profile/ProfilePresenter'
 
 const Profile = () => {
-    return(
-        <ProfilePresenter />
-    )
+  return <ProfilePresenter />
 }
 
 export default Profile

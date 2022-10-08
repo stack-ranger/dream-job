@@ -1,12 +1,12 @@
-import React from "react";
-import ResultsView from "./ResultsView";
+import React from 'react'
+import ResultsView from './ResultsView'
 
 const Results = () => {
-    return (
-        <>
-        <ResultsView />
-        </>
-    )
+  return (
+    <>
+      <ResultsView />
+    </>
+  )
 }
 
 export default Results

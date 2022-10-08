@@ -1,12 +1,12 @@
-import React from "react";
-import HomeView from "./HomeView";
+import React from 'react'
+import HomeView from './HomeView'
 
 const Home = () => {
-    return(
-        <>
-        <HomeView />
-        </>
-    )
+  return (
+    <>
+      <HomeView />
+    </>
+  )
 }
 
 export default Home
