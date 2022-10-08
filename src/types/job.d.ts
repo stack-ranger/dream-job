@@ -44,7 +44,6 @@ export interface JobStoreInterface {
   setSkills: (newSkills: string[]) => void
   fetchJobs: (skip?: number) => void
   resetJobs: () => void
-  increaseOffset: () => void
   resetOffset: () => void
   setScrollPos: (pos: number) => void
 }
