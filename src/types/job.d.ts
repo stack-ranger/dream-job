@@ -17,17 +17,15 @@ type RawJob = {
   keywords?: string[]
 }
 
-/**
- * This type is representing a job in the database.
- * Add additional fields here if needed for e.g. detail view.
- */
+type Company = {
+  company_name: string
+  logo_url: string
+}
+
 export interface JobInterface {
   id: string
   role: string
-  Company: {
-    company_name: string
-    logo_url: string
-  }
+  Company: Company
   JobSkill: {
     skill_name: string
   }[]
