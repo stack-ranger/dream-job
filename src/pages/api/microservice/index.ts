@@ -59,9 +59,15 @@ const fetchJobs = async function () {
  * @param company_name
  */
 const checkUrl = async (company_name: string) => {
-  const cleanName = company_name.replace(/ /g, '-')
-  const url = `https://findwork-dev-images.s3.amazonaws.com/${cleanName}`
-  const response = await fetch(url)
+  let cleanName = company_name.replace(/ /g, '-')
+  let url = `https://findwork-dev-images.s3.amazonaws.com/${cleanName}`
+  let response = await fetch(url)
+  if (response.status === 200) return url
+
+  // try again with a different pattern on clearbit logo api
+  cleanName = company_name.replace(/ /g, '').toLowerCase()
+  url = `https://logo.clearbit.com/${cleanName}${cleanName.includes('.') ? '' : '.com'}`
+  response = await fetch(url)
   return response.status === 200 ? url : ''
 }
 
