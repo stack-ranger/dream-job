@@ -5,6 +5,7 @@ import { trpcClient } from '~/utils/trpc'
 const useJobStore = create<JobStoreInterface>((set, get) => ({
   jobsPerQuery: 10,
   offset: 0,
+  scrollPos: 0,
   jobs: [],
   skills: [],
   loading: false,
@@ -37,6 +38,9 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
   },
   resetOffset: () => {
     set({ offset: 0 })
+  },
+  setScrollPos: (pos: number) => {
+    set({ scrollPos: pos })
   },
 }))
 

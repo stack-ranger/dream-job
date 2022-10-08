@@ -16,7 +16,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
-  const { skills, setSkills, fetchJobs, resetJobs, resetOffset } = useJobStore()
+  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos } = useJobStore()
   const router = useRouter()
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -32,6 +32,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
+    setScrollPos(0)
     resetOffset()
     resetJobs()
     fetchJobs()

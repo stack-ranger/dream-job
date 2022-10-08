@@ -39,6 +39,7 @@ export interface JobInterface {
 export interface JobStoreInterface {
   jobsPerQuery: number
   offset: number
+  scrollPos: number
   jobs: JobInterface[]
   skills: string[]
   loading: boolean
@@ -47,4 +48,5 @@ export interface JobStoreInterface {
   resetJobs: () => void
   increaseOffset: () => void
   resetOffset: () => void
+  setScrollPos: (pos: number) => void
 }
