@@ -14,13 +14,13 @@ const getRandomColor = (company_name: string) => {
 }
 
 const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkills: string[] }) => {
-  const matchedSkills = job.JobSkill.map((skill) => skill.skill_name).filter((skill) => selectedSkills.includes(skill))
+  const matchedSkills = job.skills.filter((skill: string) => selectedSkills.includes(skill))
   return (
     <JobView
       role={job.role}
-      company_name={job.Company.company_name}
+      company_name={job.company_name}
       getRandomColor={getRandomColor}
-      logo_url={job.Company.logo_url}
+      logo_url={job.logo_url}
       matchedSkills={matchedSkills}
     ></JobView>
   )

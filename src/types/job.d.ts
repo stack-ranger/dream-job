@@ -29,6 +29,9 @@ export interface JobInterface {
   JobSkill: {
     skill_name: string
   }[]
+  skills: string[]
+  company_name: string
+  logo_url: string
 }
 
 /**
