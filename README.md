@@ -36,3 +36,7 @@ yarn start # start production server
 yarn lint # run eslint
 ```
 
+### Utils
+
+npx prisma studio
+
