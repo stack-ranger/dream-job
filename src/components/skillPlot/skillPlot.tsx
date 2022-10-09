@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import * as d3 from 'd3'
 import SkillPlotView from './skillPlotView'
-import useSkillCountstore from '~/stores/skillStore'
+import useSkillCountStore from '~/stores/skillStore'
 
 /**
  * D3 skill plot
@@ -10,7 +10,7 @@ import useSkillCountstore from '~/stores/skillStore'
  * @param width - width of the plot
  */
 const SkillPlot = ({ height, width }: { height: number; width: number }) => {
-  const { skillsCount } = useSkillCountstore()
+  const { skillsCount } = useSkillCountStore()
 
   // useMemo to avoid re-rendering the plot
   const yScale = useMemo(() => {

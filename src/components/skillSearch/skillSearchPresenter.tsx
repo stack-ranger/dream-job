@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import SkillSearchView from './skillSearchView'
 import { InputChangeEventHandler } from '~/types/events'
-import { trpc } from '~/utils/trpc'
 import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
 
@@ -20,6 +19,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   const { skills, setSkills, fetchJobs } = useJobStore()
   const router = useRouter()
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const tmp = router?.query?.skills
     const skills: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
@@ -33,7 +33,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
     fetchJobs(skills)
-    router.push({ pathname: '/', query: { skills: skills } }, undefined, { shallow: true })
+    await router.push({ pathname: '/', query: { skills: skills } }, undefined, { shallow: true })
   }
 
   useEffect(() => {

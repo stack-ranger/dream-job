@@ -1,18 +1,16 @@
 import create from 'zustand'
-import { SkillInterface } from '~/types/skill'
+import { SkillStoreInterface } from '~/types/skill'
+import { trpcClient } from '~/utils/trpc'
 
-interface SkillStoreInterface {
-  skillsCount: SkillInterface[]
-  setSkillsCount: (newSkills: SkillInterface[]) => void
-}
-
-const useSkillCountstore = create<SkillStoreInterface>((set) => ({
+const useSkillCountStore = create<SkillStoreInterface>((set) => ({
   skillsCount: [],
-  setSkillsCount: (newSkills) => {
-    set(() => ({
-      skillsCount: [...newSkills],
-    }))
+  loading: false,
+  fetchSkillsCount: async (role: string) => {
+    set({ loading: true })
+    const res = await trpcClient.query('skills.all', { role: role, number: 10 })
+    set({ skillsCount: res ?? [] })
+    set({ loading: false })
   },
 }))
 
-export default useSkillCountstore
+export default useSkillCountStore
