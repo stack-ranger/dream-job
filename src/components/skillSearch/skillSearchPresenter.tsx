@@ -30,14 +30,13 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     if (skills.length > 0) {
       fetchJobs()
     }
-  }, [])
+  }, [router?.query?.skills])
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
     setScrollPos(0)
     resetOffset()
     resetJobs()
-    await fetchJobs()
     await router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
     registerSearch(`?search=job${skills.map((s) => `&skills=${s}`).join("")}`)
   }

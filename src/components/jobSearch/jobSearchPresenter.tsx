@@ -23,15 +23,14 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
   useEffect(() => {
     const tmp = router?.query?.role
     const roleParam = (Array.isArray(tmp) ? undefined : tmp)
-
     if (roleParam) {
+      setSearch(roleParam)
       fetchSkillsCount(roleParam)
     }
-  }, [])
+  }, [router?.query?.role])
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
-    await fetchSkillsCount(search)
     router.push({ pathname: '/', query: { role: search, search: "skill" } }, undefined, { shallow: true })
     registerSearch(`?search=skill&role=${search}`)
   }
