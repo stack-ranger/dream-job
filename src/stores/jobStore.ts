@@ -1,19 +1,11 @@
 import create from 'zustand'
-import { AppRouter } from '~/server/router'
-//import IStore from '~/types/store'
-import { JobInterface } from '~/types/job'
-import { trpc, trpcClient } from '~/utils/trpc'
+import { JobStoreInterface } from '~/types/job'
+import { trpcClient } from '~/utils/trpc'
 
-interface JobStoreInterface {
-  jobs: JobInterface[]
-  skills: string[]
-  loading: boolean
-  setSkills: (newSkills: string[]) => void
-  fetchJobs: (skills: string[]) => void
-  resetJobStore: () => void
-}
-
-const useJobStore = create<JobStoreInterface>((set) => ({
+const useJobStore = create<JobStoreInterface>((set, get) => ({
+  jobsPerQuery: 10,
+  offset: 0,
+  scrollPos: 0,
   jobs: [],
   skills: [],
   loading: false,
@@ -22,13 +14,31 @@ const useJobStore = create<JobStoreInterface>((set) => ({
       skills: [...newSkills],
     }))
   },
-  fetchJobs: async (skills: string[]) => {
+  /**
+   * Fetch jobs from the API
+   */
+  fetchJobs: async () => {
     set({ loading: true })
-    const res = await trpcClient.query('jobs.all', { keywords: skills, number: 10 }, { context: { enabled: false } })
-    set({ jobs: res ?? [] })
+    const store = get()
+    const res = await trpcClient.query(
+      'jobs.all',
+      { keywords: get().skills, number: store.jobsPerQuery, skip: store.offset },
+      { context: { enabled: false } }
+    )
+    set({ jobs: [...store.jobs, ...res] })
+    set({ offset: store.offset + res.length })
     set({ loading: false })
   },
-  resetJobStore: async () =>{
+  resetJobs: () => {
+    set({ jobs: [] })
+  },
+  resetOffset: () => {
+    set({ offset: 0 })
+  },
+  setScrollPos: (pos: number) => {
+    set({ scrollPos: pos })
+  },
+  resetJobStore: () =>{
     set({ jobs: [], skills: []})
   }
 }))

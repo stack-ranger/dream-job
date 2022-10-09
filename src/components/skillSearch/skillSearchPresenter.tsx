@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import SkillSearchView from './skillSearchView'
 import { InputChangeEventHandler } from '~/types/events'
-import { trpc } from '~/utils/trpc'
 import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
 
@@ -17,23 +16,27 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
-  const { skills, setSkills, fetchJobs } = useJobStore()
+  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos } = useJobStore()
   const router = useRouter()
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const tmp = router?.query?.skills
     const skills: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
     setSkills(skills)
     // if link is used to fetch jobs, trigger initial fetch
     if (skills.length > 0) {
-      fetchJobs(skills)
+      fetchJobs()
     }
   }, [])
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
-    fetchJobs(skills)
-    router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
+    setScrollPos(0)
+    resetOffset()
+    resetJobs()
+    await fetchJobs()
+    await router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
   }
 
   useEffect(() => {

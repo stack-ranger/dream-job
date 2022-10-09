@@ -7,6 +7,7 @@ export const jobRouter = createRouter().query('all', {
   input: z.object({
     keywords: z.array(z.string()),
     number: z.number().optional(),
+    skip: z.number().optional(),
   }),
   async resolve({ input }) {
     const jobWhere = Prisma.validator<Prisma.JobWhereInput>()({
@@ -20,6 +21,7 @@ export const jobRouter = createRouter().query('all', {
     })
     return await prisma.job.findMany({
       where: jobWhere,
+      skip: input.skip ? input.skip : 0,
       take: input.number ? input.number : 20,
       include: {
         Company: true,

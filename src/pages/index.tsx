@@ -1,8 +1,5 @@
 import type { NextPage } from 'next'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import Head from 'next/head'
-import { trpc } from '../utils/trpc'
-import React, { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import SkillSearchPresenter from '../components/skillSearch/skillSearchPresenter'
 import { InferGetStaticPropsType } from 'next'
 import { PrismaClient } from '@prisma/client'
@@ -12,6 +9,7 @@ import JobSearchPresenter from '~/components/jobSearch/jobSearchPresenter'
 import SkillPlot from '~/components/skillPlot/skillPlot'
 import { useRouter } from 'next/router'
 import useJobStore from '~/stores/jobStore'
+import { useEffect, useState } from 'react'
 
 interface SelectButtonProps {
   $isSelected: boolean
@@ -61,10 +59,8 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   jobTitles,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
-  
-  
   const { resetJobStore } = useJobStore()
-  const { data: session, status } = useSession()
+  const { status } = useSession()
 
   // why ['job', 'skill'].includes(searchParam) ? searchParam : 'job' is not working?
   const [searchSelected, setSearchSelected] = useState<'job' | 'skill'>('job')
