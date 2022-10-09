@@ -3,6 +3,7 @@ import { InputChangeEventHandler } from '~/types/events'
 import JobSearchView from '~/components/jobSearch/jobSearchView'
 import useSkillCountStore from '~/stores/skillStore'
 import { useRouter } from 'next/router'
+import useHistoryStore from '~/stores/historyStore'
 
 const findMatches = (input: string, jobList: string[]) => {
   return jobList.filter((skill) => {
@@ -15,6 +16,7 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
   const router = useRouter()
   const [search, setSearch] = useState<string>('')
   const [suggestions, setSuggestions] = useState<string[]>([])
+  const { registerSearch } = useHistoryStore()
 
   const { fetchSkillsCount } = useSkillCountStore()
 
@@ -31,6 +33,7 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
     e.preventDefault()
     await fetchSkillsCount(search)
     router.push({ pathname: '/', query: { role: search, search: "skill" } }, undefined, { shallow: true })
+    registerSearch(`?search=skill&role=${search}`)
   }
 
   useEffect(() => {

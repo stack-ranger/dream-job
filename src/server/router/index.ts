@@ -9,7 +9,7 @@ import { jobProtectedRouter } from './jobsProtected'
 export const appRouter = createRouter()
   .transformer(superjson)
   .merge('jobs.', jobRouter)
-  .merge('jobsProtected', jobProtectedRouter)
+  .merge('jobsProtected.', jobProtectedRouter)
   .merge('skills.', skillRouter)
   .merge('searches.', searchesRouter)
 
