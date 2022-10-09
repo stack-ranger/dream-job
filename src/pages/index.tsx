@@ -4,56 +4,15 @@ import SkillSearchPresenter from '../components/skillSearch/skillSearchPresenter
 import { InferGetStaticPropsType } from 'next'
 import { PrismaClient } from '@prisma/client'
 import JobListPresenter from '~/components/jobList/jobListPresenter'
-import tw from 'tailwind-styled-components'
 import JobSearchPresenter from '~/components/jobSearch/jobSearchPresenter'
 import SkillPlot from '~/components/skillPlot/skillPlot'
 import { useRouter } from 'next/router'
 import useJobStore from '~/stores/jobStore'
 import { useEffect, useState } from 'react'
 import useSkillCountStore from '~/stores/skillStore'
+import { SelectButton } from '~/components/common/selectButton'
 
-interface SelectButtonProps {
-  $isSelected: boolean
-  $position: 'left' | 'right'
-}
 
-const SelectButton = tw.button<SelectButtonProps>`
-  py-2 
-  px-4 
-  text-sm 
-  font-medium 
-  text-gray-900 
-  bg-transparent 
-  border
-  border-gray-900 
-  dark:border-white 
-  dark:text-white
-
-  ${(p) =>
-    p.$position === 'left' &&
-    `
-    rounded-l-lg
-  `}
-  ${(p) =>
-    p.$position === 'right' &&
-    `
-    rounded-r-lg
-  `}
-
-  ${(p) =>
-    p.$isSelected
-      ? `
-    z-10 
-    ring-2 
-    ring-gray-500 
-    bg-gray-900 
-    dark:bg-gray-700
-    text-white    
-  `
-      : `
-    hover:border-2 
-  `}
-`
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   skillList,
