@@ -10,6 +10,7 @@ import SkillPlot from '~/components/skillPlot/skillPlot'
 import { useRouter } from 'next/router'
 import useJobStore from '~/stores/jobStore'
 import { useEffect, useState } from 'react'
+import useSkillCountStore from '~/stores/skillStore'
 
 interface SelectButtonProps {
   $isSelected: boolean
@@ -60,6 +61,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
   const { resetJobStore } = useJobStore()
+  const { resetSkillCountStore } = useSkillCountStore()
   const { status } = useSession()
 
   // why ['job', 'skill'].includes(searchParam) ? searchParam : 'job' is not working?
@@ -103,6 +105,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             onClick={() => {
               setSearchSelected('skill')
               resetParams()
+              resetSkillCountStore()
             }}
           >
             Search Skills

@@ -21,4 +21,5 @@ export interface SkillStoreInterface {
   loading: boolean
   skillsCount: SkillCount[]
   fetchSkillsCount: (role: string) => void
+  resetSkillCountStore: () => void
 }

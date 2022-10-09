@@ -11,6 +11,9 @@ const useSkillCountStore = create<SkillStoreInterface>((set) => ({
     set({ skillsCount: res ?? [] })
     set({ loading: false })
   },
+  resetSkillCountStore: () => {
+    set({skillsCount: []})
+  }
 }))
 
 export default useSkillCountStore
