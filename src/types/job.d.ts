@@ -46,4 +46,5 @@ export interface JobStoreInterface {
   resetJobs: () => void
   resetOffset: () => void
   setScrollPos: (pos: number) => void
+  resetJobStore: () => void
 }

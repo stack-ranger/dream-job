@@ -36,7 +36,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     resetOffset()
     resetJobs()
     await fetchJobs()
-    await router.push({ pathname: '/', query: { skills: skills } }, undefined, { shallow: true })
+    await router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
   }
 
   useEffect(() => {

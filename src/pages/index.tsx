@@ -1,31 +1,33 @@
 import type { NextPage } from 'next'
-import { useSession } from 'next-auth/react'
-import SkillSearchPresenter from '../components/skillSearch/skillSearchPresenter'
 import { InferGetStaticPropsType } from 'next'
 import { PrismaClient } from '@prisma/client'
-import JobListPresenter from '~/components/jobList/jobListPresenter'
+import HomePagePresenter from '~/components/homePage/homePagePresenter'
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   skillList,
+  jobTitles,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { status } = useSession()
-
-  if (status === 'loading') {
-    return <main className="flex flex-col items-center pt-4">Loading...</main>
-  }
-
   return (
-    <div className="flex-col">
-      <div className="pt-12 flex justify-center">
-        <SkillSearchPresenter skillList={skillList} />
-      </div>
-      <JobListPresenter />
-    </div>
+    <HomePagePresenter jobTitles={jobTitles} skillList={skillList} />
   )
 }
 
 // generate skill list during build time (can be only done in pages)
 export async function getStaticProps() {
+  // TODO Expand list of fetch common titles from database
+  const commonJobTitles = [
+    'Web Developer',
+    'Software Engineer',
+    'Software Developer',
+    'Frontend Developer',
+    'Network Engineer',
+    'Java Developer',
+    'Web Developer',
+    'Junior Developer',
+    'Full Stack Developer',
+    'Software Architect',
+    'Cloud Engineer',
+  ]
   const prisma = new PrismaClient()
   const skills = await prisma.skill.findMany({
     select: {
@@ -36,6 +38,7 @@ export async function getStaticProps() {
   return {
     props: {
       skillList: skillList,
+      jobTitles: commonJobTitles,
     },
   }
 }

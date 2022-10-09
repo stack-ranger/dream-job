@@ -38,6 +38,9 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
   setScrollPos: (pos: number) => {
     set({ scrollPos: pos })
   },
+  resetJobStore: () =>{
+    set({ jobs: [], skills: []})
+  }
 }))
 
 export default useJobStore
