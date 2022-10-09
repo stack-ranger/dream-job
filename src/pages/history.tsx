@@ -3,7 +3,7 @@ import { trpc } from '~/utils/trpc'
 import { useSession } from 'next-auth/react'
 
 export default function History() {
-  const { data: searches, isLoading } = trpc.useQuery(['searches.getAll'])
+  const { data: searches, isLoading } = trpc.useQuery(['searches.all'])
   const { data: session } = useSession()
 
   if (session && isLoading) return <div>Fetching history...</div>
@@ -27,7 +27,7 @@ export default function History() {
 }
 
 const Searches = () => {
-  const { data: searches, isLoading } = trpc.useQuery(['searches.getAll'])
+  const { data: searches, isLoading } = trpc.useQuery(['searches.all'])
 
   if (isLoading) return <div>Fetching history...</div>
   if (searches?.length === 0)
@@ -38,7 +38,6 @@ const Searches = () => {
         return (
           <div key={index}>
             <p>{src.query}</p>
-            <span>- {src.result} -</span>
           </div>
         )
       })}
