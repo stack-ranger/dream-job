@@ -25,7 +25,9 @@ const JobListPresenter = () => {
       }
     }
   }
-  window.onscroll = debounce(handleScroll, 10)
+
+  if(window)
+    window.onscroll = debounce(handleScroll, 10)
 
   return <JobListView jobs={jobs} loading={loading} skills={currentSkillSearch} jobsPerQuery={jobsPerQuery} />
 }
