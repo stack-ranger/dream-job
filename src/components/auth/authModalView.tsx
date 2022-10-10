@@ -55,7 +55,7 @@ const AuthModalView = ({
             <TextInput id="password" type="password" placeholder="************" required={true} />
           </div>
           <div className="w-full">
-            <Button>Log in to your account</Button>
+            <Button>{isReg ? 'Sign up' : 'Sign in'}</Button>
           </div>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
           {isReg ? 'Already Registered? ' : 'Not Registered? '}
