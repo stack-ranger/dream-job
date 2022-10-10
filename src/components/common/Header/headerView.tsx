@@ -1,5 +1,5 @@
 import { Navbar } from 'flowbite-react'
-import LoginModal from '~/components/loginModal/loginModalPresenter'
+import LoginModal from '~/components/auth/authModalPresenter'
 import { Session } from 'next-auth'
 
 const HeaderView = ({

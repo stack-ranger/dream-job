@@ -1,8 +1,15 @@
 import React from 'react'
-import RegistrationPresenter from '../components/registration/RegistrationPresenter'
+import RegistrationModalView from '../components/registration/registrationModalView'
 
 const Register = () => {
-  return <RegistrationPresenter />
+  return ( 
+  <>
+  <div>
+    hej
+  </div>
+    <RegistrationModalView />
+  </>
+  )
 }
 
 export default Register
