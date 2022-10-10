@@ -22,16 +22,20 @@ type Company = {
   logo_url: string
 }
 
+/**
+ * Type representing the job how it is used in the frontend
+ */
 export interface JobInterface {
   id: string
   role: string
   Company: Company
-  JobSkill: {
-    skill_name: string
-  }[]
   skills: string[]
   company_name: string
   logo_url: string
+  text: string
+  date_posted: Date
+  source: string
+  location: string
 }
 
 /**
