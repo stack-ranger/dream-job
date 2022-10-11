@@ -3,9 +3,11 @@ import JobListView from './jobListView'
 import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
 import { debounce } from 'lodash'
+import { useSession } from 'next-auth/react'
 
 const JobListPresenter = () => {
-  const { jobs, loading, fetchJobs, jobsPerQuery, scrollPos, setScrollPos } = useJobStore()
+  const { status } = useSession()
+  const { jobs, loading, fetchJobs, jobsPerQuery, scrollPos, setScrollPos, getAllSaved, resetSavedJobs } = useJobStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
   const router = useRouter()
 
@@ -21,7 +23,7 @@ const JobListPresenter = () => {
     if (scrollHeight - scrollTop <= clientHeight) {
       if (tmpPosition > scrollPos) {
         setScrollPos(scrollTop + clientHeight)
-        await fetchJobs()
+        await fetchJobs(status === "authenticated")
       }
     }
   }

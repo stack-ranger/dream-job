@@ -4,6 +4,7 @@ import { InputChangeEventHandler } from '~/types/events'
 import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
 import useHistoryStore from '~/stores/historyStore'
+import { useSession } from 'next-auth/react'
 
 const findMatches = (input: string, skillList: string[]) => {
   return skillList.filter((skill) => {
@@ -14,6 +15,7 @@ const findMatches = (input: string, skillList: string[]) => {
 
 const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   const maxSkills = 5
+  const { status } = useSession()
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
@@ -28,7 +30,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     setSkills(skills)
     // if link is used to fetch jobs, trigger initial fetch
     if (skills.length > 0) {
-      fetchJobs()
+      fetchJobs(status === "authenticated")
     }
   }, [router?.query?.skills])
 

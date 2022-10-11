@@ -27,7 +27,7 @@ export const jobProtectedRouter = createProtectedRouter()
     async resolve({ ctx, input }) {
       try {
         const queryString = Prisma.sql`
-          DELETE FROM "public"."SavedJob" WHERE userId == ${ctx.session.user.id} AND jobId == ${input.jobId}
+          DELETE FROM "public"."SavedJob" WHERE "userId" = ${ctx.session.user.id} AND "jobId" = ${input.jobId};
         `
         await ctx.prisma.$queryRaw(queryString)
       } catch (error) {

@@ -12,8 +12,7 @@ const JobView = ({
   isSaved,
   saveJob,
   deleteJob,
-  isSaveJobLoading,
-  isDeleteJobLoading,
+  isJobButtonLoading,
 }: {
   role: string
   company_name: string
@@ -22,8 +21,7 @@ const JobView = ({
   matchedSkills: string[]
   isLogged: boolean
   isSaved: boolean
-  isSaveJobLoading: boolean
-  isDeleteJobLoading: boolean
+  isJobButtonLoading: boolean
   saveJob: (id: string) => void
   deleteJob: (id: string) => void
 }) => {
@@ -32,12 +30,13 @@ const JobView = ({
       <div className="flex flex-col items-center pb-3 relative">
         <SaveButton
           type="button"
-          disabled={isSaveJobLoading}
+          disabled={isJobButtonLoading}
+          $isLoading={isJobButtonLoading}
           $isSaved={isSaved}
           onClick={isLogged ? (isSaved ? deleteJob : saveJob) : () => toast.warn("Login to save a job")}
           data-tooltip-target="tooltip-dark"
         >
-          {isSaveJobLoading || isDeleteJobLoading ? (
+          {isJobButtonLoading ? (
             <>
               <svg
                 aria-hidden="true"
@@ -96,6 +95,7 @@ const JobView = ({
 
 interface SaveButtonProps {
   $isSaved: boolean
+  $isLoading: boolean
 }
 
 const SaveButton = tw.button<SaveButtonProps>`
@@ -111,7 +111,7 @@ const SaveButton = tw.button<SaveButtonProps>`
   m-2
 
   ${(p) =>
-    p.$isSaved
+    p.$isSaved && !p.$isLoading
       ? `
     text-white 
     bg-green-700 

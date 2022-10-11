@@ -1,5 +1,8 @@
 import JobView from './JobView'
 import { JobInterface } from '~/types/job'
+import useJobStore from '~/stores/jobStore'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
 const getRandomColor = (company_name: string) => {
   const randColors = [
@@ -14,7 +17,23 @@ const getRandomColor = (company_name: string) => {
 }
 
 const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkills: string[] }) => {
+  const { status } = useSession()
+  const [isThisJobButtonLoading, setIsThisJobButtonLoading] = useState(false)
+  const { deleteJob, isJobButtonLoading, saveJob } = useJobStore()
   const matchedSkills = job.skills.filter((skill: string) => selectedSkills.includes(skill))
+
+  const saveJobLoading = async () =>{
+    setIsThisJobButtonLoading(true)
+    await saveJob(job.id)
+    setIsThisJobButtonLoading(false)
+  }
+
+  const deleteJobLoading = async () =>{
+    setIsThisJobButtonLoading(true)
+    await deleteJob(job.id)
+    setIsThisJobButtonLoading(false)
+  }
+
   return (
     <JobView
       role={job.role}
@@ -22,6 +41,11 @@ const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkil
       getRandomColor={getRandomColor}
       logo_url={job.logo_url}
       matchedSkills={matchedSkills}
+      deleteJob={deleteJobLoading}
+      isLogged={status === "authenticated"}
+      isJobButtonLoading={isJobButtonLoading || isThisJobButtonLoading}
+      isSaved={job?.saved ?? false}
+      saveJob={saveJobLoading}
     ></JobView>
   )
 }
