@@ -22,7 +22,7 @@ const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
   isHistoryLoading: false,
   isJobsLoading: false,
   fetchSearches: async () => {
-    let res = await trpcClient.query(
+    const res = await trpcClient.query(
       'searches.all'
     )
     const processed = res?.map(i => ({
