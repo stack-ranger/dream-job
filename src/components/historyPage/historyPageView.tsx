@@ -84,7 +84,7 @@ const SearchesTable = ({searches}: {searches: Search[]}) => {
       </Table.Head>
       <Table.Body className="divide-y">
         {Children.toArray(searches.map((s: Search, index) => (
-         <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={index}>
           <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
             {s.type}
           </Table.Cell>
@@ -102,7 +102,7 @@ const SearchesTable = ({searches}: {searches: Search[]}) => {
               View
             </a>
           </Table.Cell>
-          </Table.Row>)
+        </Table.Row>)
         ))}
 
       </Table.Body>
