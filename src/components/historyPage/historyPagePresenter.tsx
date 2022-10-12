@@ -3,16 +3,18 @@ import { trpc } from '~/utils/trpc'
 import { useSession } from 'next-auth/react'
 import HistoryPageView from './historyPageView'
 import useHistoryStore from '~/stores/historyStore'
+import useJobStore from '~/stores/jobStore'
 
 export default function HistoryPagePresenter() {
-  const { savedJobs, searches, isHistoryLoading, isJobsLoading, reset, fetchSearches, fetchSavedJobs } =
+  const { searches, isHistoryLoading, isJobsLoading, reset, fetchSearches } =
     useHistoryStore()
+  const {jobs, getAllSaved, loading} = useJobStore() 
   const { data: session, status } = useSession()
 
   useEffect(() => {
     if (status === 'authenticated') {
       fetchSearches()
-      fetchSavedJobs()
+      getAllSaved(true)
     } else {
       reset
     }
@@ -24,7 +26,8 @@ export default function HistoryPagePresenter() {
       isHistoryLoading={isHistoryLoading}
       isJobsLoading={isJobsLoading}
       searches={searches ?? []}
-      savedJobs={savedJobs ?? []}
+      savedJobs={jobs ?? []}
+      loading={loading}
     />
   )
 }

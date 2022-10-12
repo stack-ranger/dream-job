@@ -45,7 +45,11 @@ export const jobProtectedRouter = createProtectedRouter()
             },
           },
           include: {
-            job: true
+            job: {
+              include: {
+                Company: true
+              }
+            }
           },
           orderBy: {
             createdAt: 'desc',

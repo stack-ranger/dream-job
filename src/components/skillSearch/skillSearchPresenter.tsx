@@ -34,6 +34,10 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     }
   }, [router?.query?.skills])
 
+  useEffect(() => {
+    fetchJobs(status === "authenticated")
+  }, [status])
+
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
     setScrollPos(0)

@@ -72,11 +72,12 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
     set({jobs: upJobs})
   },
   getAllSaved: async (replace: boolean) => {
-    set({isJobButtonLoading: true})
+    set({isJobButtonLoading: true, loading: true})
     const res = await trpcClient.query('jobsProtected.all')
+        
     if(replace){
       //replace job list with a new one (history page)
-      set({ jobs: [...res?.map((i) => ({...i.job, saved: true}))] ?? [] })
+      set({ jobs: [...(res?.map((i) => ({...i.job, saved: true, skills: [], company_name: i.job.Company.company_name, logo_url: i.job.Company.logo_url})) ?? [])] ?? [] })
     }else{
       // add saved to current jobs list
       const jobs = get().jobs
@@ -92,7 +93,7 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
         jobs: upJobs
       }))
     }
-    set({isJobButtonLoading: false})
+    set({isJobButtonLoading: false, loading: false})
   },
   saveJob: async (id) => {
     await trpcClient.mutation('jobsProtected.save', {jobId:id})
