@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { toast } from 'react-toastify';
-import tw from 'tailwind-styled-components'
+import { SaveButton } from '~/components/common/saveButton'
 
 const JobView = ({
   role,
@@ -29,12 +29,12 @@ const JobView = ({
     <div className="w-full max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100">
       <div className="flex flex-col items-center pb-3 relative">
         <SaveButton
-          type="button"
+          // @ts-ignore
           disabled={isJobButtonLoading}
           $isLoading={isJobButtonLoading}
           $isSaved={isSaved}
+          // @ts-ignore
           onClick={isLogged ? (isSaved ? deleteJob : saveJob) : () => toast.warn("Login to save a job")}
-          data-tooltip-target="tooltip-dark"
         >
           {isJobButtonLoading ? (
             <>
@@ -93,42 +93,5 @@ const JobView = ({
   )
 }
 
-interface SaveButtonProps {
-  $isSaved: boolean
-  $isLoading: boolean
-}
-
-const SaveButton = tw.button<SaveButtonProps>`
-  group
-  py-2 
-  px-3 
-  text-xs 
-  font-medium 
-  text-center
-  absolute
-  top-0
-  right-0
-  m-2
-
-  ${(p) =>
-    p.$isSaved && !p.$isLoading
-      ? `
-    text-white 
-    bg-green-700 
-    rounded-lg 
-    hover:bg-red-700
-    dark:bg-red-600
-    dark:hover:bg-red-700
-    hover:after:content-['Remove']
-  `
-      : `
-    text-white 
-    bg-blue-700 
-    rounded-lg 
-    hover:bg-blue-800 
-    dark:bg-blue-600 
-    dark:hover:bg-blue-700  
-  `}
-`
 
 export default JobView
