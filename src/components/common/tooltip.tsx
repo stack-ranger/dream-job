@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
 export const Tooltip = ({ 
-  message, children, enabled 
+  message, children, 
 } : {
-  message: string, children: ReactNode, enabled: boolean
+  message: string, children: ReactNode
 }) => {
   return (
     <div className="relative flex flex-col items-center group">

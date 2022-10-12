@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { trpc } from '~/utils/trpc'
+import React, { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import HistoryPageView from './historyPageView'
 import useHistoryStore from '~/stores/historyStore'
@@ -18,7 +17,7 @@ export default function HistoryPagePresenter() {
     } else {
       reset
     }
-  }, [status])
+  }, [status, fetchSearches, getAllSaved])
 
   return (
     <HistoryPageView
