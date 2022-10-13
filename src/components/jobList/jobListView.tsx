@@ -11,11 +11,11 @@ const JobListView = ({
   jobs: JobInterface[]
   loading: boolean
   skills: string[]
-  jobsPerQuery: number
+  jobsPerQuery: number  
 }) => {
   return (
     <div className="flex pb-9">
-      <div className="p-4 grid grid-cols-1 sm:grid-cols-1 sm:p-4 md:grid-cols-2 md:p-6 lg:grid-cols-3 lg:p-8 xl:grid-cols-3 xl:p-10 gap-8 m-auto max-w-6xl">
+      <div className="w-full p-4 grid grid-cols-1 sm:grid-cols-1 sm:p-4 md:grid-cols-2 md:p-6 lg:grid-cols-3 lg:p-8 xl:grid-cols-3 xl:p-10 gap-8 m-auto max-w-6xl">
         {loading && jobs.length === 0 && [...Array(jobsPerQuery).keys()].map((i) => <JobSkeleton key={i} />)}
         {jobs.length > 0 && jobs.map((job, i) => <JobPresenter key={i} job={job} selectedSkills={skills} />)}
         {loading && jobs.length > 0 && [...Array(jobsPerQuery).keys()].map((i) => <JobSkeleton key={i} />)}

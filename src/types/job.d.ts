@@ -32,6 +32,7 @@ export interface JobInterface {
   skills: string[]
   company_name: string
   logo_url: string
+  saved?: boolean
 }
 
 /**
@@ -41,13 +42,19 @@ export interface JobStoreInterface {
   jobsPerQuery: number
   offset: number
   scrollPos: number
-  jobs: JobInterface[]
+  jobs: JobInterface[] | Job[]
   skills: string[]
   loading: boolean
+  isJobButtonLoading: boolean
+  savedJobs: any[]
   setSkills: (newSkills: string[]) => void
-  fetchJobs: (skip?: number) => void
+  fetchJobs: (loggedIn: boolean) => void
   resetJobs: () => void
   resetOffset: () => void
   setScrollPos: (pos: number) => void
   resetJobStore: () => void
+  getAllSaved: (replace: boolean) => void
+  saveJob: (id: string) => void
+  deleteJob: (id: string) => void
+  resetSavedJobs: () => void
 }

@@ -3,6 +3,8 @@ import SkillSearchView from './skillSearchView'
 import { InputChangeEventHandler } from '~/types/events'
 import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
+import useHistoryStore from '~/stores/historyStore'
+import { useSession } from 'next-auth/react'
 
 const findMatches = (input: string, skillList: string[]) => {
   return skillList.filter((skill) => {
@@ -13,10 +15,12 @@ const findMatches = (input: string, skillList: string[]) => {
 
 const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   const maxSkills = 5
+  const { status } = useSession()
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
-  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos } = useJobStore()
+  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos,getAllSaved } = useJobStore()
+  const { registerSearch } = useHistoryStore()
   const router = useRouter()
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -26,17 +30,23 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     setSkills(skills)
     // if link is used to fetch jobs, trigger initial fetch
     if (skills.length > 0) {
-      fetchJobs()
+      fetchJobs(status === "authenticated")
     }
-  }, [])
+  }, [router?.query?.skills])
+
+  useEffect(() => {
+    if(status === "authenticated")
+      getAllSaved(false)
+  }, [status])
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
     setScrollPos(0)
     resetOffset()
+    //TODO: reset only if router.push created a different url params
     resetJobs()
-    await fetchJobs()
     await router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
+    registerSearch(status === "authenticated", `?search=job${skills.map((s) => `&skills=${s}`).join("")}`)
   }
 
   useEffect(() => {

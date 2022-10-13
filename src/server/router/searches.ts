@@ -2,19 +2,16 @@ import { z } from 'zod'
 import { createProtectedRouter } from './context'
 
 export const searchesRouter = createProtectedRouter()
-  .mutation('postMessage', {
+  .mutation('save', {
     input: z.object({
-      userId: z.string(),
       query: z.string(),
-      result: z.array(z.string()),
     }),
     async resolve({ ctx, input }) {
       try {
         await ctx.prisma.search.create({
           data: {
-            userId: input.userId,
+            userId: ctx.session.user.id,
             query: input.query,
-            result: input.result,
           },
         })
       } catch (error) {
@@ -22,13 +19,13 @@ export const searchesRouter = createProtectedRouter()
       }
     },
   })
-  .query('getAll', {
+  .query('all', {
     async resolve({ ctx }) {
       try {
         return await ctx.prisma.search.findMany({
           select: {
+            createdAt: true,
             query: true,
-            result: true,
           },
           where: {
             userId: {

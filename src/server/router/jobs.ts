@@ -13,38 +13,39 @@ const requiredMatchesMap = new Map<number, number>([
   [5, 3],
 ])
 
-export const jobRouter = createRouter().query('all', {
-  input: z.object({
-    keywords: z.array(z.string()), // array of keywords
-    number: z.number().optional(), // number of jobs to fetch
-    skip: z.number().optional(), // offset for pagination
-    matches: z.number().optional(), // number of matches required to be included in the result
-  }),
-  async resolve({ input }) {
-    // if no matches are specified, we use the default mapping
-    const requiredSkillsMatches =
-      input.matches || requiredMatchesMap.get(input.keywords.length) || input.keywords.length
+export const jobRouter = createRouter()
+  .query('all', {
+    input: z.object({
+      keywords: z.array(z.string()), // array of keywords
+      number: z.number().optional(), // number of jobs to fetch
+      skip: z.number().optional(), // offset for pagination
+      matches: z.number().optional(), // number of matches required to be included in the result
+    }),
+    async resolve({ input }) {
+      // if no matches are specified, we use the default mapping
+      const requiredSkillsMatches =
+        input.matches || requiredMatchesMap.get(input.keywords.length) || input.keywords.length
 
-    // we have to use a raw query here since prisma does not support so complex queries
-    const queryString = Prisma.sql`
-                                SELECT * FROM 
-                                    (SELECT * 
-                                     FROM "public"."Job" j, "public"."Company" c
-                                     WHERE j.id IN (
-                                        SELECT job_id
-                                        FROM "public"."JobSkill" js
-                                        WHERE position(js.skill_name in ${input.keywords.join(' ')})>0
-                                        GROUP BY job_id
-                                        HAVING COUNT(*) = ${requiredSkillsMatches}
-                                  ) AND j.company_name = c.company_name) as table1
-                                JOIN 
-                                    (SELECT js.job_id, array_agg("skill_name") as skills
-                                     FROM "public"."JobSkill" js
-                                     GROUP BY job_id) as table2
-                               ON table1.id = table2.job_id
-                               OFFSET ${input.skip || 0}
-                               LIMIT ${input.number || 20};`
-    const jobs: JobInterface[] = await prisma.$queryRaw(queryString)
-    return jobs
-  },
-})
+      // we have to use a raw query here since prisma does not support so complex queries
+      const queryString = Prisma.sql`
+                                  SELECT * FROM 
+                                      (SELECT * 
+                                      FROM "public"."Job" j, "public"."Company" c
+                                      WHERE j.id IN (
+                                          SELECT job_id
+                                          FROM "public"."JobSkill" js
+                                          WHERE position(js.skill_name in ${input.keywords.join(' ')})>0
+                                          GROUP BY job_id
+                                          HAVING COUNT(*) = ${requiredSkillsMatches}
+                                    ) AND j.company_name = c.company_name) as table1
+                                  JOIN 
+                                      (SELECT js.job_id, array_agg("skill_name") as skills
+                                      FROM "public"."JobSkill" js
+                                      GROUP BY job_id) as table2
+                                ON table1.id = table2.job_id
+                                OFFSET ${input.skip || 0}
+                                LIMIT ${input.number || 20};`
+      const jobs: JobInterface[] = await prisma.$queryRaw(queryString)
+      return jobs
+    },
+  })
