@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 
 const JobListPresenter = () => {
   const { status } = useSession()
-  const { jobs, loading, fetchJobs, jobsPerQuery, scrollPos, setScrollPos, getAllSaved, resetSavedJobs } = useJobStore()
+  const { jobs, loading, fetchJobs, jobsPerQuery, scrollPos, setScrollPos } = useJobStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
   const router = useRouter()
 

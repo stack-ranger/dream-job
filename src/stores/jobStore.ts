@@ -72,7 +72,8 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
     set({jobs: upJobs})
   },
   getAllSaved: async (replace: boolean) => {
-    set({isJobButtonLoading: true, loading: true})
+    //don't show loading skeletons if only updating the save attribute (homepage) 
+    set({isJobButtonLoading: true, loading: replace})
     const res = await trpcClient.query('jobsProtected.all')
         
     if(replace){

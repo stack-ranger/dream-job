@@ -19,7 +19,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
-  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos } = useJobStore()
+  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos,getAllSaved } = useJobStore()
   const { registerSearch } = useHistoryStore()
   const router = useRouter()
 
@@ -35,7 +35,8 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   }, [router?.query?.skills])
 
   useEffect(() => {
-    fetchJobs(status === "authenticated")
+    if(status === "authenticated")
+      getAllSaved(false)
   }, [status])
 
   const onSearch = async (e: InputChangeEventHandler) => {
