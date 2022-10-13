@@ -3,6 +3,9 @@ import { prisma } from "../db/client"
 import { Prisma } from '@prisma/client';
 import { createRouter } from "./context"
 import { z } from "zod";
+import * as trpc from "@trpc/server";
+import { hash } from "argon2";
+
 
 /*
 type User = {
@@ -17,21 +20,44 @@ type User = {
 export const registrationRouter = createRouter()
     .mutation('createUser', { //specifying the input types of the end point
         input: z.object({ 
-            id: z.string(),
             email: z.string().min(5).max(20),
             password: z.string().min(6).max(20),
          }),
-        resolve: async function ({input}) {
+        resolve: async function ({input, ctx}) {
+            const {email, password} = input;
+
+            // Check if user exists.
+            // Here we can check the google table as well.
+            const exists = await prisma.credentialUser.findFirst({
+                where: { email },
+              });
+          
+              if (exists) {
+                throw new trpc.TRPCError({
+                  code: "CONFLICT",
+                  message: "User already exists.",
+                });
+              }
+            
+            const hashedPassword = await hash(password);
+
+
             try {
-                await prisma.akselTest.create({
+                const result = await prisma.credentialUser.create({
                     data: {
-                        ID: input.id,
-                        Email: input.email,
-                        Password: input.password,
+                        email: email,
+                        emailVerified: 'test',
+                        hashedPassword: hashedPassword,
                     }
                 });
+                return {
+                    status: 201,
+                    message: "Account created successfully",
+                    result: result.email,
+                  };
             } catch (error) {
                 console.log(error)
             }
+          
         },
     })

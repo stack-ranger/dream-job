@@ -7,7 +7,6 @@ const Register = () => {
   <div>
     hej
   </div>
-    <RegistrationModalView />
   </>
   )
 }

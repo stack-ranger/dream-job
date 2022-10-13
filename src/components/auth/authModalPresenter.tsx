@@ -37,12 +37,22 @@ const AuthModalPresenter = ({
         setUser({
           email: email,
           password: password,
-        })
-        await registerUser.mutateAsync({
-          id: email,
-          email: email,
-          password: password,
+        })                      // D HÄR DET INTE FUNKAR  
+        const response = await registerUser.mutateAsync({
+          email: user.email,
+          password: user.password,
         });
+         // we can do stuff with this response, e.g. load a toast alert or something
+        if (response?.status === 201) {
+          console.log("kom hit")
+          signIn('credentials', {
+            email: user.email,
+            password: user.password,
+            redirect: false,
+            callbackUrl: `${window.location.origin}/protected`
+          });
+        }
+        
       }else {
         setError(true)
       }

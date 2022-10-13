@@ -6,16 +6,30 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { env } from '~/env/server.mjs'
 import { prisma } from '~/server/db/client'
+import { verify } from 'argon2';
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, user }) {
+    session({ session, user, token }) {
+      console.log(session, user, token)
       if (session.user) {
         session.user.id = user.id
       }
+      else if(token){
+        session.id = token.id
+      }
       return session
     },
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      
+      return token;
+    },
+
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
@@ -29,27 +43,58 @@ export const authOptions: NextAuthOptions = {
       credentials: {},
       
       // fires off when we sends sign in request to backend API
-      authorize(credentials, req){
+      authorize: async(credentials, req) => {
         console.log(req)
-        const {id, email, password} = credentials as {
-          id: string;
+
+        // User input
+        const {email, password} = credentials as {
           email: string;
           password: string;
         };
+
+        // Find User in DB
+        const user = await prisma.credentialUser.findFirst({
+          where: { email: email },
+        });
+        
+        if (!user) {
+          return null;
+        }
+
+        const isValidPassword = await verify(user.hashedPassword || '', password);
+
+        if (!isValidPassword) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+        };
+
+        /*
         // perform login logic here
         // find out user from DB here
         if(email !== 'aksel@live.se' || password !== '1234'){
           throw new Error('Invalid Credentials')
         }
 
-        return {id: '1234', name:'Aksel Uhr', email:'aksel@live.se'}
+        return {id: '1234', name:'Aksel Uhr', email:'aksel@live.se'} */
       }, 
     }),
 ],
+
+
 //specify where we can use our sign in function.
-// can also specify error page and signout page.
+// can also specify error page and signout page
+
+jwt: {
+  secret: "super-secret",
+  maxAge: 15 * 24 * 30 * 60, // 15 days
+},
 pages: {
   signIn: '/auth/signin', 
+  newUser: '/auth/sign-up',
   error: ''
 }
 

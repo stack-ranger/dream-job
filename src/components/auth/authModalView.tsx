@@ -1,5 +1,4 @@
 import { Modal, Label, TextInput, Button } from 'flowbite-react'
-import Link from 'next/link'
 import { getStaticProps } from '~/pages'
 import React, { SetStateAction, Dispatch } from 'react'
 
@@ -65,7 +64,6 @@ const AuthModalView = (props: IAuthStates) => {
           </div>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             {props.isReg ? 'Already Registered? ' : 'Not Registered? '}
-            <Link href="/Register">
               <a
                 href="#"
                 className="text-blue-700 hover:underline dark:text-blue-500"
@@ -75,7 +73,6 @@ const AuthModalView = (props: IAuthStates) => {
               >
                 {props.isReg ? 'Sign in here.' : 'Sign up here.'}
               </a>
-            </Link>
           </div>
         </div>
       </Modal.Body>
