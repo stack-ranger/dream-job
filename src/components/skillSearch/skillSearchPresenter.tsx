@@ -45,7 +45,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     //TODO: reset only if router.push created a different url params
     resetJobs()
     await router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
-    registerSearch(`?search=job${skills.map((s) => `&skills=${s}`).join("")}`)
+    registerSearch(status === "authenticated", `?search=job${skills.map((s) => `&skills=${s}`).join("")}`)
   }
 
   useEffect(() => {

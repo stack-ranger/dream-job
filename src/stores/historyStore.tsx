@@ -14,7 +14,7 @@ interface HistoryStoreInterface {
   isJobsLoading: false,
   fetchSearches: () => void
   reset: () => void
-  registerSearch: (query: string) => void
+  registerSearch: (loggedIn: boolean, query: string) => void
 }
 
 const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
@@ -34,10 +34,11 @@ const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
     set({searches: processed ?? []})
   },
   reset: () =>{ set({}) },
-  registerSearch: (query: string) => {
-    const res = trpcClient.mutation(
-      'searches.save', {query: query}
-    )
+  registerSearch: (loggedIn: boolean, query: string) => {
+    if(loggedIn)
+      trpcClient.mutation(
+        'searches.save', {query: query}
+      )
   }
 }))
 
