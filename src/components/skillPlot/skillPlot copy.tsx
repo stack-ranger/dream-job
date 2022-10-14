@@ -2,7 +2,6 @@ import { useEffect, useMemo } from 'react'
 import * as d3 from 'd3'
 import SkillPlotView from './skillPlotView'
 import useSkillCountStore from '~/stores/skillStore'
-import SkillPlotViewCopy from './skillPlotView copy'
 
 /**
  * D3 skill plot
@@ -10,9 +9,9 @@ import SkillPlotViewCopy from './skillPlotView copy'
  * @param height - height of the plot
  * @param width - width of the plot
  */
-const SkillPlot = ({ height, width }: { height: number; width: number;}) => {
+const SkillPlot = ({ height, width }: { height: number; width: number }) => {
   const { skillsCount } = useSkillCountStore()
-  
+
   useEffect(() => {
     console.log(skillsCount)
   },[])
@@ -34,7 +33,7 @@ const SkillPlot = ({ height, width }: { height: number; width: number;}) => {
       .range([0, height])
   }, [height, skillsCount])
 
-  return <SkillPlotViewCopy xScale={xScale} yScale={yScale} skills={skillsCount} width={width} height={height} />
+  return <SkillPlotView xScale={xScale} yScale={yScale} skills={skillsCount} width={width} height={height} />
 }
 
 export default SkillPlot

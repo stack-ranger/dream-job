@@ -20,13 +20,14 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
   const [suggestions, setSuggestions] = useState<string[]>([])
   const { registerSearch } = useHistoryStore()
 
-  const { fetchSkillsCount } = useSkillCountStore()
+  const { fetchSkillsCount, setStoreJobSearch } = useSkillCountStore()
 
   useEffect(() => {
     const tmp = router?.query?.role
     const roleParam = (Array.isArray(tmp) ? undefined : tmp)
     if (roleParam) {
       setSearch(roleParam)
+      setStoreJobSearch(roleParam)
       fetchSkillsCount(roleParam)
     }
   }, [router?.query?.role])

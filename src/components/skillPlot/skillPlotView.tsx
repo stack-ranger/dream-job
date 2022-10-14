@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { useEffect } from 'react'
 import { SkillCount } from '~/types/skill'
 
 interface SkillPlotViewProps {
@@ -18,10 +19,10 @@ interface SkillPlotViewProps {
  * @param skills - skills to plot
  * @constructor
  */
-export const SkillPlotView = ({ xScale, yScale, width, height, skills }: SkillPlotViewProps) => {
+export const SkillPlotViewCopy = ({ xScale, yScale, width, height, skills }: SkillPlotViewProps) => {
   return (
-    <div>
-      <svg width={width} height={height}>
+    <div id='chart' className="py-12 px-28 shadow-xl">
+      <svg id='chart' width={width + 25} height={height}>
         <g width={width} height={height}>
           {skills.map((skill, i) => {
             const yOffset = yScale(skill.name) || 0
@@ -33,14 +34,26 @@ export const SkillPlotView = ({ xScale, yScale, width, height, skills }: SkillPl
                   y={yOffset}
                   width={xScale(skill.count)}
                   height={yScale.bandwidth()}
-                />
+                >
+                </rect>
+
                 <text
-                  className={'text-lg text-start font-medium'}
-                  x={xScale(2)}
+                  className={'text-lg text-black text-start font-medium flex justify-between'}
+                  x={xScale(0.2)}
                   y={yScale.bandwidth() / 2 + yOffset}
                   alignmentBaseline="central"
                 >
                   {skill.name}
+                </text>
+                <text
+                  className={'text-lg text-black text-start font-medium flex justify-between'}
+                  x={xScale(Math.max(skill.count))}
+                  y={yScale.bandwidth() / 2 + yOffset}
+                  alignmentBaseline="central"
+                  textAnchor='ends'
+                  fill='black'
+                >
+                  {skill.count}
                 </text>
               </g>
             )
@@ -51,4 +64,4 @@ export const SkillPlotView = ({ xScale, yScale, width, height, skills }: SkillPl
   )
 }
 
-export default SkillPlotView
+export default SkillPlotViewCopy

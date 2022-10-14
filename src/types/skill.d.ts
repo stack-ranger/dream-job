@@ -20,6 +20,9 @@ export type SkillCountRaw = {
 export interface SkillStoreInterface {
   loading: boolean
   skillsCount: SkillCount[]
+  jobSearch: string
   fetchSkillsCount: (role: string) => void
   resetSkillCountStore: () => void
+  setStoreJobSearch: (role: string) =>  void,
+
 }
