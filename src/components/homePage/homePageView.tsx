@@ -52,7 +52,7 @@ export default function HomePageView({searchSelected, jobSearchClick, skillSearc
             <JobSearchPresenter jobList={jobTitles} />
           </div>
           <div className="pt-12 flex justify-center">
-            <SkillPlot height={500} width={500} />
+            <SkillPlot />
           </div>
         </div>
       )}
