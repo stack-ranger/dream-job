@@ -11,6 +11,8 @@ import { verify } from 'argon2';
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
+    // invoked whenever session is checked
+    // returns info about userID or tokenID
     session({ session, user, token }) {
       console.log(session, user, token)
       if (session.user) {
@@ -21,6 +23,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
+    // invoked when a token is created or updated
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
@@ -94,7 +97,7 @@ jwt: {
 },
 pages: {
   signIn: '/auth/signin', 
-  newUser: '/auth/sign-up',
+  newUser: '/auth/protected',
   error: ''
 }
 

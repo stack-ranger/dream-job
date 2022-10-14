@@ -2,6 +2,7 @@ import { signIn } from 'next-auth/react'
 import AuthModalView from './authModalView'
 import React, { useEffect, useState } from 'react'
 import { trpc } from "~/utils/trpc";
+import { useRouter } from 'next/router';
 
 
 const AuthModalPresenter = ({
@@ -25,6 +26,7 @@ const AuthModalPresenter = ({
   })
 
   const registerUser = trpc.useMutation("registration.createUser");
+  const router = useRouter()
 
   const isRegistration = (showReg: boolean) => {
     setIsRegistration(showReg)
@@ -44,13 +46,19 @@ const AuthModalPresenter = ({
         });
          // we can do stuff with this response, e.g. load a toast alert or something
         if (response?.status === 201) {
+
+          /*
           console.log("kom hit")
           signIn('credentials', {
             email: user.email,
             password: user.password,
             redirect: false,
             callbackUrl: `${window.location.origin}/protected`
-          });
+          }); */
+          
+
+          router.push('/api/auth/protected')
+          setShowModal(false)
         }
         
       }else {

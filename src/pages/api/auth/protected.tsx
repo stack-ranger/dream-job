@@ -4,7 +4,7 @@ import Router from "next/router";
 const Protected = () => {
     console.log("KOM HIT")
     const session = useSession()
-    console.log(session.data)
+    console.log(session)
  /*
     useEffect(() => {
         if (session.status === "unauthenticated") {
