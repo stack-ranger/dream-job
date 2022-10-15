@@ -73,7 +73,7 @@ model Search {
 }
 
 model SavedJob {
-    userId    String      
+    userId    String
     jobId     String
     createdAt DateTime    @default(now())
     job       Job         @relation(fields: [jobId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -106,7 +106,9 @@ model JobSkill {
 }
 
 model Skill {
-  name      String      @id
+  name      String     @id
+  docs      String?
+  icon      String?
   job_skill JobSkill[]
 }
 
