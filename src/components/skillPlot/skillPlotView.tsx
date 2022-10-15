@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { SkillCount } from '~/types/skill'
 import Image from 'next/image'
 import Chart from 'chart.js/auto'
@@ -8,28 +8,19 @@ interface SkillPlotViewProps {
   skills: SkillCount[]
 }
 
-/**
- *  D3 skill plot view
- * @param skills - skills to plot
- * @constructor
- */
 export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
   const { jobSearch } = useSkillCountStore()
   useEffect(() => {
-    // chart config
 
+    let canvas: any = document.getElementById('chart')
+    canvas = canvas.getContext('2d')
 
-    var canvas: any = document.getElementById('chart')
-    var canvas = canvas.getContext('2d')
-
-    // Make API request from here
     const config: any = {
       type: 'bar',
       data: {
         labels: skills.map((skill) => skill.name),
         datasets: [
           {
-            // label: `RAMP. Total:  ${skills.`,
             data: skills.map((skill) => skill.count),
             backgroundColor: 'rgb(147 51 234)',
           },
@@ -75,7 +66,7 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
               font: {
                 size: 16,
               },
-              callback: function (tick: number, index: number, array: number[]) {
+              callback: function (tick: number, index: number) {
                 return index % 2 !== 0 ? tick : ''
               },
             },
@@ -88,15 +79,12 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
     }
     const chart = new Chart(canvas, config)
     return () => chart.destroy()
-  }, [skills])
+  }, [jobSearch])
   return (
-   
-    <div className={skills.length > 0 ? "flex justify-between" : 'hidden'}>
-
+    <div className={skills.length > 0 ? 'flex justify-between' : 'hidden'}>
       <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl mr-10 border border-rounded">
-         <canvas id="chart" className="h-72" />
-      </div> 
-
+        <canvas id="chart" className="h-72" />
+      </div>
       <div className="block h-96 overflow-auto">
         <ul>
           {skills.map((skill, i) => (
@@ -109,9 +97,12 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
                   </div>
                 )}
               </li>
-              <p className='text-sm mt-2'>Link to Documentation:</p>
-              <a href={skill.docs} className={skill?.docs ? "text-xs text-blue-700 hover:text-blue-800" : "text-black text-xs"}>
-                {skill?.docs ? skill.docs : 'No Link Found'}
+              <p className="text-sm mt-2">Link to Documentation:</p>
+              <a
+                href={skill.docs}
+                className={skill?.docs ? 'text-xs text-blue-700 hover:text-blue-800' : 'text-black text-xs'}
+              >
+                {skill?.docs ? skill.docs : 'No Link Found.'}
               </a>
             </div>
           ))}
