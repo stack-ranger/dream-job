@@ -12,7 +12,7 @@ export const skillRouter = createRouter().query('all', {
   async resolve({ input }) {
     const roleCleaned = '%' + input.role.replace(' ', '%') + '%'
     // we have to use a raw query here since prisma does not support joining on the same table twice with full text search
-    const queryString = Prisma.sql`SELECT s.name, COUNT(j.id) as skill_count
+    const queryString = Prisma.sql`SELECT s.name, COUNT(j.id) as skill_count, s.docs, s.icon
 								FROM "public"."Skill" s
 								JOIN "public"."JobSkill" js ON js.skill_name = s.name
 								JOIN "public"."Job" j ON j.id  = js.job_id
@@ -25,6 +25,8 @@ export const skillRouter = createRouter().query('all', {
       return {
         name: skillCount.name,
         count: Number(skillCount.skill_count),
+        icon: skillCount.icon,
+        docs: skillCount.docs,
       }
     })
   },

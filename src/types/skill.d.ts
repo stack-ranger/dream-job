@@ -4,6 +4,8 @@
 export type SkillCount = {
   name: string
   count: number
+  icon: string
+  docs: string
 }
 
 /**
@@ -12,6 +14,8 @@ export type SkillCount = {
 export type SkillCountRaw = {
   name: string
   skill_count: number
+  icon: string
+  docs: string
 }
 
 /**
@@ -23,6 +27,5 @@ export interface SkillStoreInterface {
   jobSearch: string
   fetchSkillsCount: (role: string) => void
   resetSkillCountStore: () => void
-  setStoreJobSearch: (role: string) =>  void,
-
+  setStoreJobSearch: (role: string) => void
 }
