@@ -8,14 +8,17 @@ import superjson from 'superjson'
 import type { AppRouter } from '~/server/router'
 import '../styles/globals.css'
 import LayoutView from '~/components/common/layoutView'
+import { ThemeProvider } from 'next-themes'
 
 const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
-    <SessionProvider session={session}>
-      <LayoutView>
-        <Component {...pageProps} />
-      </LayoutView>
-    </SessionProvider>
+    <ThemeProvider>
+      <SessionProvider session={session}>
+        <LayoutView>
+          <Component {...pageProps} />
+        </LayoutView>
+      </SessionProvider>
+    </ThemeProvider>
   )
 }
 
