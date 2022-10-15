@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SkillCount } from '~/types/skill'
 import Image from 'next/image'
 import Chart from 'chart.js/auto'
@@ -15,9 +15,10 @@ interface SkillPlotViewProps {
  */
 export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
   const { jobSearch } = useSkillCountStore()
-
   useEffect(() => {
     // chart config
+
+
     var canvas: any = document.getElementById('chart')
     var canvas = canvas.getContext('2d')
 
@@ -42,6 +43,8 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
             text: `Results for ${jobSearch}`,
             display: true,
             fontColor: 'black',
+            fontFamily: 'Arial',
+
             font: {
               size: 16,
             },
@@ -87,16 +90,18 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
     return () => chart.destroy()
   }, [skills])
   return (
-    <div className="flex justify-between">
-      <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl mr-10 border border-rounded">
-        <canvas id="chart" className="h-72" />
-      </div>
+   
+    <div className={skills.length > 0 ? "flex justify-between" : 'hidden'}>
 
-      <div className="block h-72 overflow-auto">
+      <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl mr-10 border border-rounded">
+         <canvas id="chart" className="h-72" />
+      </div> 
+
+      <div className="block h-96 overflow-auto">
         <ul>
           {skills.map((skill, i) => (
-            <div key={i} className="px-6 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform">
-              <li className="" key={i}>
+            <div key={i} className="px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform">
+              <li className="flex justify-between items-center" key={i}>
                 <div className="capitalize">{skill.name}</div>
                 {skill.icon.length > 0 && (
                   <div className="h-12 w-12 relative">
@@ -104,8 +109,9 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
                   </div>
                 )}
               </li>
-              <a href={skill.docs} className="text-xs">
-                {skill.docs}
+              <p className='text-sm mt-2'>Link to Documentation:</p>
+              <a href={skill.docs} className={skill?.docs ? "text-xs text-blue-700 hover:text-blue-800" : "text-black text-xs"}>
+                {skill?.docs ? skill.docs : 'No Link Found'}
               </a>
             </div>
           ))}
