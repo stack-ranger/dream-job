@@ -88,7 +88,7 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
       <div className="block h-96 overflow-auto">
         <ul>
           {skills.map((skill, i) => (
-            <div key={i} className="px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform">
+            <div key={i} className="px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform w-72">
               <li className="flex justify-between items-center" key={i}>
                 <div className="capitalize">{skill.name}</div>
                 {skill.icon.length > 0 && (
@@ -100,7 +100,7 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
               <p className="text-sm mt-2">Link to Documentation:</p>
               <a
                 href={skill.docs}
-                className={skill?.docs ? 'text-xs text-blue-700 hover:text-blue-800' : 'text-black text-xs'}
+                className={skill?.docs ? 'text-xs text-blue-700 hover:text-blue-800 overflow-auto' : 'text-black text-xs'}
               >
                 {skill?.docs ? skill.docs : 'No Link Found.'}
               </a>
