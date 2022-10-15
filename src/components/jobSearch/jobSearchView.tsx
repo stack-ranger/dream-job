@@ -27,7 +27,7 @@ const JobSearchView = ({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={'Search for role'}
-                className="overflow-auto border-0 outline-none px-2"
+                className="overflow-auto border-0 outline-none px-2 bg-gray-50"
               />
             </div>
           </div>
