@@ -79,7 +79,7 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
     }
     const chart = new Chart(canvas, config)
     return () => chart.destroy()
-  }, [jobSearch])
+  }, [skills])
   return (
     <div className={skills.length > 0 ? 'flex justify-between' : 'hidden'}>
       <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl mr-10 border border-rounded">
