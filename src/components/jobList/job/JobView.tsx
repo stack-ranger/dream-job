@@ -35,7 +35,7 @@ const JobView = ({
         )}
       </div>
       <h5 className="mb-1 text-xl font-medium text-gray-900">{role}</h5>
-      <span className="text-sm text-gray-500">{company_name}</span>
+      <h6 className="text-sm text-gray-500">{company_name}</h6>
       <div className="pt-5">
         {matchedSkills.map((skill, i) => (
           <span
