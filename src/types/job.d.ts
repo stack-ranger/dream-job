@@ -36,6 +36,7 @@ export interface JobInterface {
   date_posted: Date
   source: string
   location: string
+  url: string
 }
 
 /**

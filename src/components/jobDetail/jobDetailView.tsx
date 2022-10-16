@@ -1,7 +1,7 @@
 import { JobInterface } from '~/types/job'
 import getRandomColor from '~/utils/randColor'
 
-import { HomeIcon, BookmarkIcon } from '@heroicons/react/24/outline'
+import { HomeIcon, BookmarkIcon, BriefcaseIcon } from '@heroicons/react/24/outline'
 import { BookmarkIcon as BookmarkSolid } from '@heroicons/react/20/solid'
 
 import Image from 'next/image'
@@ -17,22 +17,37 @@ const JobDetailView = ({
   matchingSkills: string[]
   isBookmarked: boolean
 }) => {
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading)
+    return (
+      <div className="spinner-grow inline-block w-12 h-12 bg-current rounded-full opacity-0" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    )
   if (!job) return <div>Error Job not found</div>
   return (
-    <div className="flex justify-center gap-8 m-auto max-w-4xl p-4 sm:p-4 md:p-6 lg:p-8 xl:p-10">
+    <div className="flex justify-center gap-8 m-auto max-w-5xl p-5 sm:p-4 md:p-6 lg:p-8 xl:p-10">
       <div className="relative">
-        <div className="absolute top-0 right-0 hover:scale-110">
-          {isBookmarked ? <BookmarkSolid className="h-6 w-6" /> : <BookmarkIcon className="h-6 w-6" />}
+        <div className="absolute right-0 flex flex-col">
+          <button className="flex items-center justify-between bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105">
+            <p className="pr-2">{isBookmarked ? 'Remove' : 'Save'}</p>
+            {isBookmarked ? <BookmarkSolid className="h-5 w-5" /> : <BookmarkIcon className="h-5 w-5" />}
+          </button>
+          <a
+            href={job.url}
+            className="flex items-center justify-between bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105"
+          >
+            <p className="pr-2">Apply</p>
+            <BriefcaseIcon className="h-5 w-5" />
+          </a>
         </div>
         <div className="flex justify-center">
           <div>
-            <div className="text-center my-3">
+            <div className="text-center flex justify-center my-3">
               {job.logo_url == '' ? (
                 <div
                   className={`${getRandomColor(
                     job.company_name
-                  )} flex items-center justify-center w-24 h-24 text-3xl font-bold text-white rounded-full`}
+                  )}  flex items-center justify-center w-28 h-28 text-3xl font-bold text-white rounded-full`}
                 >
                   {job.company_name.charAt(0)}
                 </div>
@@ -40,9 +55,9 @@ const JobDetailView = ({
                 <Image className="rounded-full" src={job.logo_url} alt={job.company_name} width={120} height={120} />
               )}
             </div>
-            <p className="text-center bg-gray-50 p-1 rounded-lg">{job.role}</p>
+            <p className="text-center">{job.role}</p>
             <div className="flex items-center justify-center pt-2 text-md font-medium">
-              <HomeIcon className="h-5 w-5 gray-800 mr-2" aria-hidden="true" />
+              <HomeIcon className="h-5 w-5 gray-700 mr-2" aria-hidden="true" />
               {job.company_name}
             </div>
             {job.location && <div className="p-2 text-center text-sm">{job.location && job.location}</div>}
