@@ -1,5 +1,7 @@
 import JobView from './JobView'
 import { JobInterface } from '~/types/job'
+import { useRouter } from 'next/router'
+import { InputChangeEventHandler } from '~/types/events'
 
 const getRandomColor = (company_name: string) => {
   const randColors = [
@@ -14,7 +16,14 @@ const getRandomColor = (company_name: string) => {
 }
 
 const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkills: string[] }) => {
+  const router = useRouter()
   const matchedSkills = job.skills.filter((skill: string) => selectedSkills.includes(skill))
+
+  const handleClick = (e: InputChangeEventHandler) => {
+    e.preventDefault()
+    router.push(`/detail/${job.id}`)
+  }
+
   return (
     <JobView
       role={job.role}
@@ -22,6 +31,7 @@ const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkil
       getRandomColor={getRandomColor}
       logo_url={job.logo_url}
       matchedSkills={matchedSkills}
+      onClick={handleClick}
     ></JobView>
   )
 }
