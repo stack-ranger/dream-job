@@ -68,9 +68,16 @@ model Search {
     id        String      @id @default(cuid())
     userId    String
     createdAt DateTime    @default(now())
-    query     String?
-    result    String[]    @db.VarChar(255)
-    user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    query     String
+    user      User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model SavedJob {
+    userId    String
+    jobId     String
+    createdAt DateTime    @default(now())
+    job       Job         @relation(fields: [jobId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    @@id([userId, jobId])
 }
 
 model Job {
@@ -87,6 +94,7 @@ model Job {
   source          String?
   Company         Company    @relation(fields: [company_name], references: [company_name], onDelete: NoAction, onUpdate: NoAction)
   JobSkill        JobSkill[]
+  SavedJob        SavedJob[]
 }
 
 model JobSkill {
@@ -98,7 +106,9 @@ model JobSkill {
 }
 
 model Skill {
-  name      String      @id
+  name      String     @id
+  docs      String?
+  icon      String?
   job_skill JobSkill[]
 }
 

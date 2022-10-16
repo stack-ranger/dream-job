@@ -11,11 +11,13 @@ const JobDetailView = ({
   isLoading,
   matchingSkills,
   isBookmarked,
+  bookmarkJob,
 }: {
   job: JobInterface | null
   isLoading: boolean
   matchingSkills: string[]
   isBookmarked: boolean
+  bookmarkJob: () => void
 }) => {
   if (isLoading)
     return (
@@ -28,7 +30,10 @@ const JobDetailView = ({
     <div className="flex justify-center gap-8 m-auto max-w-5xl p-5 sm:p-4 md:p-6 lg:p-8 xl:p-10">
       <div className="relative">
         <div className="absolute right-0 flex flex-col">
-          <button className="flex items-center justify-between bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105">
+          <button
+            className="flex items-center justify-between bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105"
+            onClick={bookmarkJob}
+          >
             <p className="pr-2">{isBookmarked ? 'Remove' : 'Save'}</p>
             {isBookmarked ? <BookmarkSolid className="h-5 w-5" /> : <BookmarkIcon className="h-5 w-5" />}
           </button>

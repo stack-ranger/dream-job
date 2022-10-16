@@ -28,23 +28,23 @@ export const jobRouter = createRouter()
 
       // we have to use a raw query here since prisma does not support so complex queries
       const queryString = Prisma.sql`
-                                SELECT * FROM 
-                                    (SELECT * 
-                                     FROM "public"."Job" j, "public"."Company" c
-                                     WHERE j.id IN (
-                                        SELECT job_id
-                                        FROM "public"."JobSkill" js
-                                        WHERE position(js.skill_name in ${input.keywords.join(' ')})>0
-                                        GROUP BY job_id
-                                        HAVING COUNT(*) = ${requiredSkillsMatches}
-                                  ) AND j.company_name = c.company_name) as table1
-                                JOIN 
-                                    (SELECT js.job_id, array_agg("skill_name") as skills
-                                     FROM "public"."JobSkill" js
-                                     GROUP BY job_id) as table2
-                               ON table1.id = table2.job_id
-                               OFFSET ${input.skip || 0}
-                               LIMIT ${input.number || 20};`
+                                  SELECT * FROM 
+                                      (SELECT * 
+                                      FROM "public"."Job" j, "public"."Company" c
+                                      WHERE j.id IN (
+                                          SELECT job_id
+                                          FROM "public"."JobSkill" js
+                                          WHERE position(js.skill_name in ${input.keywords.join(' ')})>0
+                                          GROUP BY job_id
+                                          HAVING COUNT(*) = ${requiredSkillsMatches}
+                                    ) AND j.company_name = c.company_name) as table1
+                                  JOIN 
+                                      (SELECT js.job_id, array_agg("skill_name") as skills
+                                      FROM "public"."JobSkill" js
+                                      GROUP BY job_id) as table2
+                                ON table1.id = table2.job_id
+                                OFFSET ${input.skip || 0}
+                                LIMIT ${input.number || 20};`
       const jobs: JobInterface[] = await prisma.$queryRaw(queryString)
       return jobs
     },
@@ -77,6 +77,7 @@ export const jobRouter = createRouter()
         date_posted: job.date_posted ? job.date_posted : new Date(),
         source: job.source || '',
         location: job.location || '',
+        url: job.url || '',
       }
       return jobInterface
     },

@@ -20,6 +20,6 @@
       "~/*": ["src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs", "src/components/ExampleForm.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs", "src/components/ExampleForm.jsx", "src/components/skillPlot/skillPlotView copy.jsx"],
   "exclude": ["node_modules"]
 }

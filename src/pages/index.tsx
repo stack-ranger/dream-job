@@ -14,8 +14,11 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
 // generate skill list during build time (can be only done in pages)
 export async function getStaticProps() {
+
+  
   // TODO Expand list of fetch common titles from database
-  const commonJobTitles = [
+  /*
+  const commonJobTitles = [  //replace with findMany. call to DB
     'Web Developer',
     'Software Engineer',
     'Software Developer',
@@ -27,8 +30,24 @@ export async function getStaticProps() {
     'Full Stack Developer',
     'Software Architect',
     'Cloud Engineer',
-  ]
+  ] */
   const prisma = new PrismaClient()
+  const commonJobs = await prisma.job.groupBy({
+    by: ['role'],
+    _count: {
+      role: true,
+    },
+    orderBy: {
+      _count: {
+        role: 'desc',
+      },
+    },
+    take: 100,
+  })
+  const commonJobTitles = commonJobs.map((job) => job.role)
+  const cleanedJobTitles = commonJobTitles.map((jobTitle) => jobTitle.replace(/\(.*?\)/g, ''))
+
+  
   const skills = await prisma.skill.findMany({
     select: {
       name: true,
@@ -38,7 +57,7 @@ export async function getStaticProps() {
   return {
     props: {
       skillList: skillList,
-      jobTitles: commonJobTitles,
+      jobTitles: cleanedJobTitles,
     },
   }
 }
