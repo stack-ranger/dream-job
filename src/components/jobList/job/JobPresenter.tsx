@@ -10,6 +10,7 @@ const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkil
 
   const handleClick = (e: InputChangeEventHandler) => {
     e.preventDefault()
+    sessionStorage.setItem('scrollPosition', String(window.pageYOffset))
     router.push(`/detail/${job.id}`)
   }
 
