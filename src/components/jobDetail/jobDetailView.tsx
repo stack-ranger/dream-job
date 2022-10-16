@@ -31,7 +31,7 @@ const JobDetailView = ({
       <div className="relative">
         <div className="absolute right-0 flex flex-col">
           <button
-            className="flex items-center justify-between bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105"
+            className="flex items-center bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105"
             onClick={bookmarkJob}
           >
             <p className="pr-2">{isBookmarked ? 'Remove' : 'Save'}</p>

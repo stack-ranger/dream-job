@@ -12,7 +12,15 @@ const JobDetailPresenter = ({ jobId }: { jobId: string }) => {
   const { isLoading } = trpc.useQuery(['jobs.byId', { id: jobId }], { enabled: !job, onSuccess: setJob })
 
   const matchedSkills = job ? job.skills.filter((skill: string) => skills.includes(skill)) : []
-  const bookmarkJob = job?.saved ? async () => deleteJob(job.id) : async () => saveJob(job.id)
+  const bookmarkJob = job?.saved
+    ? async () => {
+        deleteJob(job.id)
+        setJob({ ...job, saved: false })
+      }
+    : async () => {
+        saveJob(job.id)
+        setJob({ ...job, saved: true })
+      }
 
   return (
     <JobDetailView
