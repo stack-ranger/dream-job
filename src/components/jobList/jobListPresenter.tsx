@@ -28,14 +28,12 @@ const JobListPresenter = () => {
 
   // restore scroll position after clicking on a job
   useEffect(() => {
-    if (jobs.length >= 0) {
-      const scrollPosition = sessionStorage.getItem('scrollPosition')
-      if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition, 10))
-        sessionStorage.removeItem('scrollPosition')
-      }
+    const scrollPosition = sessionStorage.getItem('scrollPosition')
+    if (scrollPosition) {
+      window.scrollTo(0, parseInt(scrollPosition, 10))
+      sessionStorage.removeItem('scrollPosition')
     }
-  }, [jobs.length])
+  }, [])
 
   if (typeof window !== 'undefined') window.onscroll = debounce(handleScroll, 10)
 

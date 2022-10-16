@@ -52,7 +52,15 @@ const JobDetailView = ({
                   {job.company_name.charAt(0)}
                 </div>
               ) : (
-                <Image className="rounded-full" src={job.logo_url} alt={job.company_name} width={120} height={120} />
+                <Image
+                  className="rounded-full"
+                  src={job.logo_url}
+                  alt={job.company_name}
+                  width={120}
+                  height={120}
+                  placeholder={'blur'}
+                  blurDataURL={'/loading.svg'}
+                />
               )}
             </div>
             <p className="text-center">{job.role}</p>

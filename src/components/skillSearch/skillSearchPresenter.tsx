@@ -16,7 +16,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
-  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos } = useJobStore()
+  const { skills, setSkills, jobs, fetchJobs, resetJobs, resetOffset, setScrollPos } = useJobStore()
   const router = useRouter()
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -24,8 +24,8 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     const tmp = router?.query?.skills
     const skills: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
     setSkills(skills)
-    // if link is used to fetch jobs, trigger initial fetch
-    if (skills.length > 0) {
+    // if link is used to fetch jobs, trigger initial fetch, don't reset jobs
+    if (skills.length > 0 && jobs.length === 0) {
       fetchJobs()
     }
   }, [])
@@ -36,7 +36,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     resetOffset()
     resetJobs()
     await fetchJobs()
-    await router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
+    await router.push({ pathname: '/', query: { skills: skills, search: 'job' } }, undefined, { shallow: true })
   }
 
   useEffect(() => {
