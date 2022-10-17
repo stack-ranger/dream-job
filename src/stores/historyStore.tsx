@@ -10,8 +10,7 @@ export interface Search {
 
 interface HistoryStoreInterface {
   searches: Search[],
-  isHistoryLoading: false,
-  isJobsLoading: false,
+  isHistoryLoading: boolean,
   fetchSearches: () => void
   reset: () => void
   registerSearch: (loggedIn: boolean, query: string) => void
@@ -20,8 +19,8 @@ interface HistoryStoreInterface {
 const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
   searches: [],
   isHistoryLoading: false,
-  isJobsLoading: false,
   fetchSearches: async () => {
+    set({isHistoryLoading: true})
     const res = await trpcClient.query(
       'searches.all'
     )
@@ -32,6 +31,7 @@ const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
       link: i.query
     }))
     set({searches: processed ?? []})
+    set({isHistoryLoading: false})
   },
   reset: () =>{ set({}) },
   registerSearch: (loggedIn: boolean, query: string) => {
