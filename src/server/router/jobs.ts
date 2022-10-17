@@ -49,3 +49,36 @@ export const jobRouter = createRouter()
       return jobs
     },
   })
+  .query('byId', {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input }) {
+      const job = await prisma.job.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          Company: true,
+          JobSkill: {
+            select: {
+              skill_name: true,
+            },
+          },
+        },
+      })
+      if (!job) return null
+      // slight reformatting of the data required since we have object mismatch
+      const jobInterface: JobInterface = {
+        ...job,
+        skills: job.JobSkill.map((jobSkill) => jobSkill.skill_name),
+        logo_url: job.Company.logo_url,
+        text: job.text || '',
+        date_posted: job.date_posted ? job.date_posted : new Date(),
+        source: job.source || '',
+        location: job.location || '',
+        url: job.url || '',
+      }
+      return jobInterface
+    },
+  })

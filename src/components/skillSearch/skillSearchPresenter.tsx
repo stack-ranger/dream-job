@@ -19,7 +19,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
-  const { skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos,getAllSaved } = useJobStore()
+  const { jobs, skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos, getAllSaved } = useJobStore()
   const { registerSearch } = useHistoryStore()
   const router = useRouter()
 
@@ -28,15 +28,14 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     const tmp = router?.query?.skills
     const skills: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
     setSkills(skills)
-    // if link is used to fetch jobs, trigger initial fetch
-    if (skills.length > 0) {
-      fetchJobs(status === "authenticated")
+    // if link is used to fetch jobs, trigger initial fetch, don't reset jobs
+    if (skills.length > 0 && jobs.length === 0) {
+      fetchJobs(status === 'authenticated')
     }
   }, [router?.query?.skills])
 
   useEffect(() => {
-    if(status === "authenticated")
-      getAllSaved(false)
+    if (status === 'authenticated') getAllSaved(false)
   }, [status])
 
   const onSearch = async (e: InputChangeEventHandler) => {
@@ -45,8 +44,8 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     resetOffset()
     //TODO: reset only if router.push created a different url params
     resetJobs()
-    await router.push({ pathname: '/', query: { skills: skills, search: "job" } }, undefined, { shallow: true })
-    registerSearch(status === "authenticated", `?search=job${skills.map((s) => `&skills=${s}`).join("")}`)
+    await router.push({ pathname: '/', query: { skills: skills, search: 'job' } }, undefined, { shallow: true })
+    registerSearch(status === 'authenticated', `?search=job${skills.map((s) => `&skills=${s}`).join('')}`)
   }
 
   useEffect(() => {
