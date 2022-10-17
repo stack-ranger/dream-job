@@ -6,10 +6,12 @@ import useJobStore from '~/stores/jobStore'
 import { useSession } from 'next-auth/react'
 import JobView from '~/components/jobList/job/JobView'
 import { toast } from 'react-toastify'
+import { useState } from 'react'
 
 const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkills: string[] }) => {
   const { status } = useSession()
-  const { deleteJob, saveJob } = useJobStore()
+  const { deleteJob, saveJob, isJobButtonLoading } = useJobStore()
+  const [isThisJobButtonLoading, setIsThisJobButtonLoading] = useState(false)
 
   const router = useRouter()
   const matchedSkills = job.skills.filter((skill: string) => selectedSkills.includes(skill))
@@ -20,14 +22,16 @@ const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkil
     router.push(`/detail/${job.id}`)
   }
 
-  const onClickSave = (e: InputChangeEventHandler) => {
+  const onClickSave = async (e: InputChangeEventHandler) => {
     e.stopPropagation()
     if (status === 'authenticated') {
+      setIsThisJobButtonLoading(true)
       if (job?.saved) {
-        deleteJob(job.id)
+        await deleteJob(job.id)
       } else {
-        saveJob(job.id)
+        await saveJob(job.id)
       }
+      setIsThisJobButtonLoading(false)
     } else {
       toast.warn('Login to save a job')
     }
@@ -43,6 +47,7 @@ const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkil
       onClick={handleClick}
       isSaved={job?.saved ?? false}
       onClickSave={onClickSave}
+      isJobButtonLoading={isJobButtonLoading || isThisJobButtonLoading}
     ></JobView>
   )
 }
