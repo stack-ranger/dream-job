@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import JobListView from './jobListView'
 import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
@@ -6,6 +6,8 @@ import { debounce } from 'lodash'
 import { useSession } from 'next-auth/react'
 
 const JobListPresenter = () => {
+  const scrollX = global?.window && window.scrollX;
+  const scrollY = global?.window && window.scrollY;
   const { status } = useSession()
   const { jobs, loading, fetchJobs, jobsPerQuery, scrollPos, setScrollPos } = useJobStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
@@ -38,6 +40,10 @@ const JobListPresenter = () => {
   }, [])
 
   if (typeof window !== 'undefined') window.onscroll = debounce(handleScroll, 10)
+
+  useLayoutEffect(() => {
+    window.scrollTo(scrollX, scrollY);
+  });
 
   return <JobListView jobs={jobs} loading={loading} skills={currentSkillSearch} jobsPerQuery={jobsPerQuery} />
 }
