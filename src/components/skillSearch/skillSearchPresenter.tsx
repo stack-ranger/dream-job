@@ -50,6 +50,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   }
 
   useEffect(() => {
+    console.log(skills)
     const trimmedSearch = search.trim()
     if (skillList && trimmedSearch.length) {
       const matches = findMatches(trimmedSearch || '', skillList)

@@ -27,11 +27,11 @@ const SkillSearchView = ({
         <div className="relative w-full">
           <div>
             <div>
-              <div className="flex w-96 overflow-auto border rounded-md bg-gray-50 p-2">
+              <div className="flex w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
                 {skills.map((tag, index) => (
-                  <div key={index} className="flex items-center bg-gray-300 rounded-md px-1 mx-1">
+                  <div key={index} className="flex items-center bg-gray-300 rounded-md text-sm px-2.5 mx-1 dark:bg-gray-500">
                     {tag}
-                    <button className="px-1" onClick={() => removeSkill(index)}>
+                    <button className="pl-2 text-md" onClick={() => removeSkill(index)}>
                       x
                     </button>
                   </div>
@@ -46,7 +46,7 @@ const SkillSearchView = ({
                   placeholder={skills.length <= 4 ? 'Add a skill' : ''}
                   onKeyDown={onKeyPress}
                   onChange={onSearchChange}
-                  className="overflow-auto border-0 outline-none px-2"
+                  className="overflow-auto border-0 outline-none px-2 bg-gray-50 dark:bg-transparent"
                 />
               </div>
             </div>
@@ -61,13 +61,13 @@ const SkillSearchView = ({
           <span className="sr-only">Search</span>
         </button>
       </form>
-      <div>
-        <ul>
+      <div className='rounded-md -mt-1'>
+        <ul className='absolute z-50 w-96'>
           {search.trim() &&
             suggestions.length > 0 &&
             suggestions.map((suggestion, i) => (
               <li
-                className="bg-gray-50 bg-opacity-25 hover:bg-gray-300 text-gray-900 text-sm rounded-lg p-2.5 my-1"
+                className="cursor-pointer border-l border-r last:border-b odd:bg-gray-100 even:bg-gray-50 bg-opacity-25 hover:bg-gray-300 text-gray-900 text-sm p-2.5 dark:odd:bg-gray-800 dark:even:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
                 key={i}
                 onClick={() => appendSkill(suggestion)}
               >

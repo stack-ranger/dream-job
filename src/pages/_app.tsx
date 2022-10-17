@@ -12,7 +12,7 @@ import { ThemeProvider } from 'next-themes'
 
 const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
-    <ThemeProvider>
+    <ThemeProvider attribute='class'>
       <SessionProvider session={session}>
         <LayoutView>
           <Component {...pageProps} />

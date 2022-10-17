@@ -26,8 +26,8 @@ const JobView = ({
   deleteJob: (id: string) => void
 }) => {
   return (
-    <div className="w-full max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100">
-      <div className="flex flex-col items-center pb-3 relative">
+    <div className="w-full max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100 dark:bg-gray-800 dark:border-gray-500">
+      <div className="flex flex-col items-center pb-3 relative dark:bg-gray-800 dark:border-gray-500 rounded-lg">
         <SaveButton
           // @ts-ignore
           disabled={isJobButtonLoading}
