@@ -5,10 +5,10 @@ import useHistoryStore from '~/stores/historyStore'
 import useJobStore from '~/stores/jobStore'
 
 export default function HistoryPagePresenter() {
-  const { searches, isHistoryLoading, isJobsLoading, reset, fetchSearches } =
+  const { searches, isHistoryLoading, reset, fetchSearches } =
     useHistoryStore()
   const {jobs, getAllSaved, loading} = useJobStore() 
-  const { data: session, status } = useSession()
+  const { status } = useSession()
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -21,12 +21,12 @@ export default function HistoryPagePresenter() {
 
   return (
     <HistoryPageView
-      session={session}
+      isPageLoading={status === "loading"}
+      isLoggedIn={status === "authenticated"}
       isHistoryLoading={isHistoryLoading}
-      isJobsLoading={isJobsLoading}
+      isJobsLoading={loading}
       searches={searches ?? []}
       savedJobs={jobs ?? []}
-      loading={loading}
     />
   )
 }
