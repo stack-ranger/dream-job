@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { InputChangeEventHandler } from '~/types/events'
-import { toast } from 'react-toastify'
 import { SaveButton } from '~/components/common/saveButton'
 
 const JobView = ({
@@ -12,6 +11,7 @@ const JobView = ({
   isSaved,
   onClick,
   onClickSave,
+  isJobButtonLoading,
 }: {
   role: string
   company_name: string
@@ -21,22 +21,17 @@ const JobView = ({
   isSaved: boolean
   onClick: (e: InputChangeEventHandler) => void
   onClickSave: (e: InputChangeEventHandler) => void
+  isJobButtonLoading: boolean
 }) => {
   return (
     <div
-      className="w-full max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100"
+      className="cursor-pointer w-full max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100"
       onClick={onClick}
     >
       <div className={`flex flex-col items-center pb-3 relative`}>
-        <SaveButton
-          // @ts-ignore
-          disabled={false}
-          $isLoading={false}
-          $isSaved={isSaved}
-          onClick={onClickSave}
-        >
-          {isSaved ? <span className="group-hover:hidden">Saved</span> : <>Save</>}
-        </SaveButton>
+        <div className="absolute top-0 right-0 m-2">
+          <SaveButton isSaved={isSaved} isLoading={isJobButtonLoading} onClickSave={onClickSave} />
+        </div>
         <div className="my-3">
           {logo_url == '' ? (
             <div

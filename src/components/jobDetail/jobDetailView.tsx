@@ -1,10 +1,11 @@
 import { JobInterface } from '~/types/job'
 import getRandomColor from '~/utils/randColor'
 
-import { HomeIcon, BookmarkIcon, BriefcaseIcon } from '@heroicons/react/24/outline'
-import { BookmarkIcon as BookmarkSolid } from '@heroicons/react/20/solid'
+import { HomeIcon, BriefcaseIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
 import Image from 'next/image'
+import SaveButton from '../common/saveButton'
+import { InputChangeEventHandler } from '../../types/events'
 
 const JobDetailView = ({
   job,
@@ -12,12 +13,16 @@ const JobDetailView = ({
   matchingSkills,
   isBookmarked,
   bookmarkJob,
+  isJobButtonLoading,
+  onClickBack,
 }: {
   job: JobInterface | null
   isLoading: boolean
   matchingSkills: string[]
   isBookmarked: boolean
   bookmarkJob: () => void
+  isJobButtonLoading: boolean
+  onClickBack: (e: InputChangeEventHandler) => void
 }) => {
   if (isLoading)
     return (
@@ -29,21 +34,17 @@ const JobDetailView = ({
   return (
     <div className="flex justify-center gap-8 m-auto max-w-5xl p-5 sm:p-4 md:p-6 lg:p-8 xl:p-10">
       <div className="relative">
-        <div className="absolute right-0 flex flex-col">
+        <div className="absolute left-0 rounded-lg text-white bg-blue-700 hover:bg-blue-800 py-2 px-3">
+          <ArrowUturnLeftIcon className="h-5 w-5" onClick={onClickBack} />
+        </div>
+        <div className="absolute right-0">
+          <SaveButton isSaved={isBookmarked} isLoading={isJobButtonLoading} onClickSave={bookmarkJob} />
           <button
-            className="flex items-center bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105"
-            onClick={bookmarkJob}
+            onClick={() => window.open(job.url, '_blank')}
+            className={`py-2 px-3 text-xs font-medium text-center rounded-lg text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 hover:after:content-["Apply"] flex items-center`}
           >
-            <p className="pr-2">{isBookmarked ? 'Remove' : 'Save'}</p>
-            {isBookmarked ? <BookmarkSolid className="h-5 w-5" /> : <BookmarkIcon className="h-5 w-5" />}
-          </button>
-          <a
-            href={job.url}
-            className="flex items-center justify-between bg-gray-200 p-2 mt-2 text-sm rounded-xl hover:scale-105"
-          >
-            <p className="pr-2">Apply</p>
             <BriefcaseIcon className="h-5 w-5" />
-          </a>
+          </button>
         </div>
         <div className="flex justify-center">
           <div>

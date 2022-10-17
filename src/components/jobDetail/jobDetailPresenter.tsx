@@ -5,10 +5,15 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 import { JobInterface } from '~/types/job'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { InputChangeEventHandler } from '../../types/events'
 
 const JobDetailPresenter = ({ jobId }: { jobId: string }) => {
   const { status } = useSession()
-  const { jobs, skills, deleteJob, saveJob } = useJobStore()
+  const router = useRouter()
+  const { jobs, skills, deleteJob, saveJob, isJobButtonLoading } = useJobStore()
+  const [isThisJobButtonLoading, setIsThisJobButtonLoading] = useState(false)
+
   // look for the job in the store
   const [job, setJob] = useState(jobs.find((job) => job.id === jobId) as JobInterface)
   // if not found, fetch it from the server
@@ -16,18 +21,25 @@ const JobDetailPresenter = ({ jobId }: { jobId: string }) => {
 
   const matchedSkills = job ? job.skills.filter((skill: string) => skills.includes(skill)) : []
 
-  const bookmarkJob = () => {
+  const bookmarkJob = async () => {
     if (status === 'authenticated') {
+      setIsThisJobButtonLoading(true)
       if (job?.saved) {
-        deleteJob(job.id)
+        await deleteJob(job.id)
         setJob({ ...job, saved: false })
       } else {
-        saveJob(job.id)
+        await saveJob(job.id)
         setJob({ ...job, saved: true })
       }
+      setIsThisJobButtonLoading(false)
     } else {
       toast.warn('Login to save a job')
     }
+  }
+
+  const onClickBack = (e: InputChangeEventHandler) => {
+    e.preventDefault()
+    router.back()
   }
 
   return (
@@ -37,6 +49,8 @@ const JobDetailPresenter = ({ jobId }: { jobId: string }) => {
       matchingSkills={matchedSkills}
       isBookmarked={job?.saved ?? false}
       bookmarkJob={bookmarkJob}
+      isJobButtonLoading={isJobButtonLoading || isThisJobButtonLoading}
+      onClickBack={onClickBack}
     />
   )
 }
