@@ -6,11 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 const LayoutView = ({ children }: { children: ReactNode }) => {
   return (
     <>
-    <body className='dark:bg-gray-900 flex flex-col h-full'>
+    <div className='dark:bg-gray-900 h-screen'>
+    <div className='dark:bg-gray-900 flex flex-col h-min-screen'>
     <Header />
       <main className='mt-6'>{children}</main>
       <ToastContainer/>
-      </body>
+      </div>
+      </div>
     </>
   )
 }
