@@ -46,7 +46,6 @@ export interface JobInterface {
 export interface JobStoreInterface {
   jobsPerQuery: number
   offset: number
-  scrollPos: number
   jobs: JobInterface[] | Job[]
   skills: string[]
   loading: boolean
@@ -56,7 +55,6 @@ export interface JobStoreInterface {
   fetchJobs: (loggedIn: boolean) => void
   resetJobs: () => void
   resetOffset: () => void
-  setScrollPos: (pos: number) => void
   resetJobStore: () => void
   getAllSaved: (replace: boolean) => void
   saveJob: (id: string) => void
