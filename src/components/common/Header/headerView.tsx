@@ -3,7 +3,7 @@ import LoginModal from '~/components/loginModal/loginModalPresenter'
 import { Session } from 'next-auth'
 import { useTheme } from 'next-themes'
 import { useState, useEffect } from 'react'
-import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
+import { MoonIcon, SunIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 const HeaderView = ({
@@ -31,11 +31,15 @@ const HeaderView = ({
     <div className="sticky top-0 z-50 dark:bg-gray-900 bg-white">
       {typeof window !== 'undefined' && (
         <>
-          <nav className="border-gray-200 border-b px-2 sm:px-4">
+          <nav className="border-gray-200 border-b-2 px-2 sm:px-4">
             <div className="container flex flex-wrap justify-between items-center mx-auto">
               <a href="" className="flex items-center">
-                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">DreamJob</span>
-                <span className="pl-2 text-md">{'> ' + currentPage}</span>
+                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                  Stack Ranger
+                </span>
+                <span className="pl-2 text-md flex items-center">
+                  <ChevronRightIcon className="w-5 h-5" /> {currentPage}
+                </span>
               </a>
               <button
                 data-collapse-toggle="navbar-default"
@@ -45,13 +49,7 @@ const HeaderView = ({
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
-                <svg
-                  className="w-6 h-6"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"

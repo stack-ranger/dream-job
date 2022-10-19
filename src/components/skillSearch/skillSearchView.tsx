@@ -29,7 +29,10 @@ const SkillSearchView = ({
             <div>
               <div className="flex w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
                 {skills.map((tag, index) => (
-                  <div key={index} className="flex items-center bg-gray-300 rounded-md text-sm px-2.5 mx-1 dark:bg-gray-500">
+                  <div
+                    key={index}
+                    className="flex items-center bg-gray-300 rounded-md text-sm px-2.5 mx-1 dark:bg-gray-500"
+                  >
                     {tag}
                     <button className="pl-2 text-md" onClick={() => removeSkill(index)}>
                       x
@@ -61,8 +64,8 @@ const SkillSearchView = ({
           <span className="sr-only">Search</span>
         </button>
       </form>
-      <div className='rounded-md -mt-1'>
-        <ul className='absolute z-50 w-96'>
+      <div className="rounded-md -mt-1">
+        <ul className="absolute z-50 w-96">
           {search.trim() &&
             suggestions.length > 0 &&
             suggestions.map((suggestion, i) => (
