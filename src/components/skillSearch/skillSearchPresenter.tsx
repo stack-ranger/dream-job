@@ -5,6 +5,7 @@ import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
 import useHistoryStore from '~/stores/historyStore'
 import { useSession } from 'next-auth/react'
+import useScrollStore from '~/stores/scrollStore'
 
 const findMatches = (input: string, skillList: string[]) => {
   return skillList.filter((skill) => {
@@ -19,7 +20,8 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
-  const { jobs, skills, setSkills, fetchJobs, resetJobs, resetOffset, setScrollPos, getAllSaved } = useJobStore()
+  const { jobs, skills, setSkills, fetchJobs, resetJobs, resetOffset, getAllSaved } = useJobStore()
+  const { setScrollPos } = useScrollStore()
   const { registerSearch } = useHistoryStore()
   const router = useRouter()
 
