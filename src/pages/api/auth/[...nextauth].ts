@@ -10,6 +10,7 @@ import { verify } from 'argon2';
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
+  
   callbacks: {
     // invoked whenever session is checked
     // returns info about userID or tokenID
@@ -18,12 +19,13 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = user.id
       }
-      else if(token){
+      if(token){
         session.id = token.id
       }
       return session
     },
     // invoked when a token is created or updated
+    // invoked before session callback
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
@@ -31,8 +33,12 @@ export const authOptions: NextAuthOptions = {
       }
       
       return token;
-    },
+    }, 
 
+
+  },
+  session: {
+    strategy: "jwt",
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
@@ -48,13 +54,13 @@ export const authOptions: NextAuthOptions = {
       // fires off when we sends sign in request to backend API
       authorize: async(credentials, req) => {
         console.log(req)
-
+        
         // User input
         const {email, password} = credentials as {
           email: string;
           password: string;
         };
-
+        console.log("here I am")
         // Find User in DB
         const user = await prisma.credentialUser.findFirst({
           where: { email: email },
@@ -97,7 +103,7 @@ jwt: {
 },
 pages: {
   signIn: '/auth/signin', 
-  newUser: '/auth/protected',
+  //newUser: '/auth/protected',
   error: ''
 }
 

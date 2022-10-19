@@ -33,6 +33,7 @@ const AuthModalPresenter = ({
   }
 
   const setCredentianls = async () => {
+    console.log(isReg)
     if (isReg) {
       //Very basic check --> registration
       if(passwordRepeated === password) {
@@ -47,22 +48,21 @@ const AuthModalPresenter = ({
          // we can do stuff with this response, e.g. load a toast alert or something
         if (response?.status === 201) {
 
+          
+          console.log("Created User Successfully")
           /*
-          console.log("kom hit")
           signIn('credentials', {
             email: user.email,
             password: user.password,
             redirect: false,
             callbackUrl: `${window.location.origin}/protected`
-          }); */
-          
-
-          router.push('/api/auth/protected')
-          setShowModal(false)
+          }); 
+          */
+          setIsRegistration(false)
         }
         
       }else {
-        setError(true)
+        setError(true) //set error: user already exists try console.log(response)
       }
     }else {
       // If login
@@ -70,15 +70,26 @@ const AuthModalPresenter = ({
         email: email,
         password: password
       })
+      console.log("från login", user)
+      const response = await signIn('credentials', {
+        email: user.email,
+        password: user.password,
+        redirect: false,
+       /* callbackUrl: `${window.location.origin}/` */
+      }); 
+      console.log(response)
+      router.push('/protected')
     }
   }
   useEffect(() => {
+    console.log(isReg)
+
     if (user.email !== '' && user.email !== ''){
         console.log(user)
 
        // props.LoginUser(user)
     }
-  }, [user]);
+  }, [isReg]);
 
   const onSignIn = () => signIn('google')
   return (

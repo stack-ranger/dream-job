@@ -93,6 +93,8 @@ model JobSkill {
 
 model Skill {
   name      String     @id
+  docs      String?
+  icon      String?
   job_skill JobSkill[]
 }
 

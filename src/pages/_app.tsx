@@ -8,6 +8,7 @@ import superjson from 'superjson'
 import type { AppRouter } from '~/server/router'
 import '../styles/globals.css'
 import LayoutView from '~/components/common/layoutView'
+import { useEffect } from 'react'
 
 const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
