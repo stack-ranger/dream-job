@@ -3,11 +3,11 @@ import { getStaticProps } from '~/pages'
 import React, { SetStateAction, Dispatch } from 'react'
 
 interface IAuthStates {
-  /*
-    email: string,
-    password: string,
-    repeatedPassword: string
-    */
+  
+  email: string,
+  password: string,
+  repeatedPassword: string
+    
   setEmail: Dispatch<SetStateAction<string>>
   setPassword: Dispatch<SetStateAction<string>>
   setPasswordRepeated: Dispatch<SetStateAction<string>>
@@ -18,6 +18,7 @@ interface IAuthStates {
   showModal: boolean
   setShowModal: (show: boolean) => void
   onSignIn: () => void
+
 }
 
 const AuthModalView = (props: IAuthStates) => {
@@ -43,20 +44,20 @@ const AuthModalView = (props: IAuthStates) => {
             <div className="mb-2 block">
               <Label htmlFor="email" value="Your email" />
             </div>
-            <TextInput id="email" placeholder="name@company.com" onChange={(e) => props.setEmail(e.target.value)} required={true} />
+            <TextInput id="email" placeholder="name@company.com" value={props.email} onChange={(e) => props.setEmail(e.target.value)} required={true} />
           </div>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="password" value="Your password" />
             </div>
-            <TextInput id="password" type="password" placeholder="************" onChange={(e) => props.setPassword(e.target.value)} required={true} />
+            <TextInput id="password" type="password" placeholder="************" value={props.password} onChange={(e) => props.setPassword(e.target.value)} required={true} />
           </div>
           {props.isReg && (
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="repeatpassword" value="Repeat password" />
               </div>
-              <TextInput id="repeatpassword" type="password" placeholder="************" onChange={(e) => props.setPasswordRepeated(e.target.value)} required={true} />
+              <TextInput id="repeatpassword" type="password" placeholder="************" value={props.repeatedPassword} onChange={(e) => props.setPasswordRepeated(e.target.value)} required={true} />
             </div>
           )}
           <div className="w-full">

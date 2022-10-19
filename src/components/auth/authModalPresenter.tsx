@@ -38,7 +38,7 @@ const AuthModalPresenter = ({
         setUser({
           email: email,
           password: password,
-        })                      
+        })                      // D HÄR DET INTE FUNKAR  
         const response = await registerUser.mutateAsync({
           email: user.email,
           password: user.password,
@@ -48,8 +48,9 @@ const AuthModalPresenter = ({
   
           
           console.log("Created User Successfully")
-
-          // for signing in after successfull registration.
+       //   setEmail('')
+        //  setPassword('')
+          // for signing in after successfull registration! 
           /*
           signIn('credentials', {
             email: user.email,
@@ -92,12 +93,12 @@ const AuthModalPresenter = ({
       const response = await signUpUser()
     }else {
       const response = await signInUser()
+      setResp(response)
     }
   }
 
   useEffect(() => {
        setUser({email: email, password: password})
-    
   }, [email, password]);
 
   const onSignIn = () => signIn('google')
@@ -112,6 +113,9 @@ const AuthModalPresenter = ({
       setPassword={setPassword}
       setPasswordRepeated={setPasswordRepeated}
       onSubmit={onSubmit}
+      email={email}
+      password={password}
+      repeatedPassword={passwordRepeated}
     />
   )
 }

@@ -25,7 +25,8 @@ export const registrationRouter = createRouter()
          }),
         resolve: async function ({input, ctx}) {
             const {email, password} = input;
-
+            console.log(email)
+            console.log(password)
             // Check if user exists.
             // Here we can check the google table as well.
             const exists = await prisma.credentialUser.findFirst({
@@ -39,7 +40,7 @@ export const registrationRouter = createRouter()
                 });
               }
             
-           // const hashedPassword = await hash(password);
+            const hashedPassword = await hash(password);
 
 
             try {
@@ -47,7 +48,7 @@ export const registrationRouter = createRouter()
                     data: {
                         email: email,
                         emailVerified: 'test',
-                        hashedPassword: password,
+                        hashedPassword: hashedPassword,
                     }
                 });
                 return {
