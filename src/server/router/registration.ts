@@ -39,7 +39,7 @@ export const registrationRouter = createRouter()
                 });
               }
             
-            const hashedPassword = await hash(password);
+           // const hashedPassword = await hash(password);
 
 
             try {
@@ -47,7 +47,7 @@ export const registrationRouter = createRouter()
                     data: {
                         email: email,
                         emailVerified: 'test',
-                        hashedPassword: hashedPassword,
+                        hashedPassword: password,
                     }
                 });
                 return {

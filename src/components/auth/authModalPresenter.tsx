@@ -1,6 +1,6 @@
 import { signIn } from 'next-auth/react'
 import AuthModalView from './authModalView'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { trpc } from "~/utils/trpc";
 import { useRouter } from 'next/router';
 
@@ -17,6 +17,7 @@ const AuthModalPresenter = ({
   const [passwordRepeated, setPasswordRepeated] = useState('')
   const [error, setError] = useState(false)
   const [isReg, setIsRegistration] = useState(false)
+  const [resp, setResp] = useState<any>('')
   const [user, setUser] = useState<{
     email: string
     password: string
@@ -31,11 +32,8 @@ const AuthModalPresenter = ({
   const isRegistration = (showReg: boolean) => {
     setIsRegistration(showReg)
   }
-
-  const setCredentianls = async () => {
-    console.log(isReg)
-    if (isReg) {
-      //Very basic check --> registration
+  const signUpUser = async() => {
+    try{
       if(passwordRepeated === password) {
         setUser({
           email: email,
@@ -47,7 +45,7 @@ const AuthModalPresenter = ({
         });
          // we can do stuff with this response, e.g. load a toast alert or something
         if (response?.status === 201) {
-
+  
           
           console.log("Created User Successfully")
           /*
@@ -59,37 +57,53 @@ const AuthModalPresenter = ({
           }); 
           */
           setIsRegistration(false)
+          return response
         }
-        
-      }else {
-        setError(true) //set error: user already exists try console.log(response)
-      }
-    }else {
-      // If login
-      setUser({
+    }
+  } 
+    catch(err) {
+      console.log(err)
+      setError(true)
+      return err
+    }
+  }
+  const signInUser = async() => {
+    try{
+      console.log("kom hit")
+
+     setUser({
         email: email,
         password: password
       })
-      console.log("från login", user)
-      const response = await signIn('credentials', {
-        email: user.email,
-        password: user.password,
+      const response: any = await signIn('credentials', {
+        ...user,
         redirect: false,
-       /* callbackUrl: `${window.location.origin}/` */
       }); 
-      console.log(response)
-      router.push('/protected')
+      response.error ? console.log(response) : console.log(response)
+      setShowModal(false)
+    }
+    catch(err){
+      console.log(err)
+      setError(true)
+      return err
     }
   }
-  useEffect(() => {
-    console.log(isReg)
-
-    if (user.email !== '' && user.email !== ''){
-        console.log(user)
-
-       // props.LoginUser(user)
+  
+  const onSubmit = async () => {
+    //console.log(isReg)
+    if (isReg) {
+      const response = await signUpUser()
+      console.log(response)
+    }else {
+      const response = await signInUser()
+      setResp(response)
     }
-  }, [isReg]);
+  }
+
+  useEffect(() => {
+       setUser({email: email, password: password})
+    
+  }, [email, password]);
 
   const onSignIn = () => signIn('google')
   return (
@@ -102,7 +116,7 @@ const AuthModalPresenter = ({
       setEmail={setEmail}
       setPassword={setPassword}
       setPasswordRepeated={setPasswordRepeated}
-      setCredentials={setCredentianls}
+      onSubmit={onSubmit}
     />
   )
 }

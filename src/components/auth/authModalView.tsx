@@ -12,7 +12,7 @@ interface IAuthStates {
   setPassword: Dispatch<SetStateAction<string>>
   setPasswordRepeated: Dispatch<SetStateAction<string>>
   // isRegistration: () => void;
-  setCredentials: () => void
+  onSubmit: () => void
   isRegistration: (showReg: boolean) => void
   isReg: boolean
   showModal: boolean
@@ -23,7 +23,7 @@ interface IAuthStates {
 const AuthModalView = (props: IAuthStates) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    props.setCredentials();
+    props.onSubmit();
   };
   return (
     <Modal show={props.showModal} size="md" popup={true} onClose={() => props.setShowModal(false)}>
