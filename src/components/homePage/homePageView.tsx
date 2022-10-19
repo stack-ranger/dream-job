@@ -4,7 +4,7 @@ import JobListPresenter from '../jobList/jobListPresenter'
 import JobSearchPresenter from '../jobSearch/jobSearchPresenter'
 import SkillPlot from '../skillPlot/skillPlot'
 import SkillSearchPresenter from '../skillSearch/skillSearchPresenter'
-import IconAnimation from '~/components/homePage/iconAnimation/iconAnimation'
+import IconAnimationPresenter from '~/components/homePage/iconAnimation/iconAnimationPresenter'
 
 interface HomePageViewProps {
   searchSelected: 'job' | 'skill'
@@ -58,7 +58,7 @@ export default function HomePageView({
           </div>
         </div>
       )}
-      <IconAnimation />
+      <IconAnimationPresenter />
     </>
   )
 }

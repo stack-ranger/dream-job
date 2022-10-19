@@ -11,11 +11,11 @@ module.exports = {
             keyframes: {
                 icons: {
                     '0%': {transform: 'translate(0)'},
-                    '100%': {transform: 'translate(-1536px)'},
+                    '100%': {transform: 'translate(-1216px)'},
                 }
             },
             animation: {
-                icons: 'icons 30s linear infinite',
+                icons: 'icons 40s linear infinite',
             }
         },
     },
