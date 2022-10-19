@@ -20,13 +20,17 @@ const HeaderView = ({
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [currentPage, setCurrentPage] = useState('Home')
+
   useEffect(() => {
-    setTheme('light')
-    setMounted(true)
     // @ts-ignore
     import('flowbite')
+    setMounted(true)
   }, [])
   if (!mounted) return null
+  const switchTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+  }
   return (
     <div className="sticky top-0 z-50 dark:bg-gray-900 bg-white">
       {typeof window !== 'undefined' && (
