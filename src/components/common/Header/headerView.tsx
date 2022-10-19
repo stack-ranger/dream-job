@@ -21,6 +21,7 @@ const HeaderView = ({
   const [mounted, setMounted] = useState(false)
   const [currentPage, setCurrentPage] = useState("Home")
   useEffect(() => {
+    setTheme('light')
     setMounted(true)
     // @ts-ignore
     import("flowbite")
