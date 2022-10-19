@@ -33,7 +33,7 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
           title: {
             text: `Results for ${jobSearch}`,
             display: true,
-            fontColor: 'black',
+            color: 'black',
             fontFamily: 'Arial',
 
             font: {
@@ -81,14 +81,14 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
     return () => chart.destroy()
   }, [skills])
   return (
-    <div className={skills.length > 0 ? 'flex justify-between' : 'hidden'}>
-      <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl mr-10 border border-rounded">
+    <div className={skills.length > 0 ? 'block lg:flex lg:justify-between' : 'hidden'}>
+      <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl mr-10 border border-rounded dark:bg-gray-800 dark:border-gray-500">
         <canvas id="chart" className="h-72" />
       </div>
       <div className="block h-96 overflow-auto">
         <ul>
           {skills.map((skill, i) => (
-            <div key={i} className="px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform w-72">
+            <div key={i} className="px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform w-72 lg:w-128 dark:bg-gray-800 dark:border-gray-500">
               <li className="flex justify-between items-center" key={i}>
                 <div className="capitalize">{skill.name}</div>
                 {skill.icon.length > 0 && (
