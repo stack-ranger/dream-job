@@ -4,26 +4,28 @@ import JobListPresenter from '../jobList/jobListPresenter'
 import JobSearchPresenter from '../jobSearch/jobSearchPresenter'
 import SkillPlot from '../skillPlot/skillPlot'
 import SkillSearchPresenter from '../skillSearch/skillSearchPresenter'
+import IconAnimation from '~/components/homePage/iconAnimation/iconAnimation'
 
 interface HomePageViewProps {
-  searchSelected: "job" | "skill"
+  searchSelected: 'job' | 'skill'
   jobSearchClick: () => void
   skillSearchClick: () => void
   skillList: string[]
   jobTitles: string[]
 }
 
-export default function HomePageView({searchSelected, jobSearchClick, skillSearchClick, skillList, jobTitles}: HomePageViewProps) {
+export default function HomePageView({
+  searchSelected,
+  jobSearchClick,
+  skillSearchClick,
+  skillList,
+  jobTitles,
+}: HomePageViewProps) {
   return (
     <>
       <div className="flex flex-row justify-center">
         <div className="inline-flex rounded-md shadow-sm h-10" role="group">
-          <SelectButton
-            type="button"
-            $isSelected={searchSelected === 'job'}
-            $position="left"
-            onClick={jobSearchClick}
-          >
+          <SelectButton type="button" $isSelected={searchSelected === 'job'} $position="left" onClick={jobSearchClick}>
             Search Jobs
           </SelectButton>
           <SelectButton
@@ -56,6 +58,7 @@ export default function HomePageView({searchSelected, jobSearchClick, skillSearc
           </div>
         </div>
       )}
+      <IconAnimation />
     </>
   )
 }
