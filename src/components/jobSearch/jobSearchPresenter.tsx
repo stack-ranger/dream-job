@@ -3,6 +3,8 @@ import { InputChangeEventHandler } from '~/types/events'
 import JobSearchView from '~/components/jobSearch/jobSearchView'
 import useSkillCountStore from '~/stores/skillStore'
 import { useRouter } from 'next/router'
+import useHistoryStore from '~/stores/historyStore'
+import { useSession } from 'next-auth/react'
 
 const findMatches = (input: string, jobList: string[]) => {
   return jobList.filter((skill) => {
@@ -13,24 +15,27 @@ const findMatches = (input: string, jobList: string[]) => {
 
 const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
   const router = useRouter()
+  const {status} = useSession()
   const [search, setSearch] = useState<string>('')
   const [suggestions, setSuggestions] = useState<string[]>([])
+  const { registerSearch } = useHistoryStore()
 
-  const { fetchSkillsCount } = useSkillCountStore()
+  const { fetchSkillsCount, setStoreJobSearch } = useSkillCountStore()
 
   useEffect(() => {
     const tmp = router?.query?.role
     const roleParam = (Array.isArray(tmp) ? undefined : tmp)
-
     if (roleParam) {
+      setSearch(roleParam)
+      setStoreJobSearch(roleParam)
       fetchSkillsCount(roleParam)
     }
-  }, [])
+  }, [router?.query?.role])
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
-    await fetchSkillsCount(search)
     router.push({ pathname: '/', query: { role: search, search: "skill" } }, undefined, { shallow: true })
+    registerSearch(status === "authenticated", `?search=skill&role=${search}`)
   }
 
   useEffect(() => {
