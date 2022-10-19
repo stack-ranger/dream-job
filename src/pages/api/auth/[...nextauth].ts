@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
       }
       
-      return token;
+      return Promise.resolve(token);
     }, 
 
 
