@@ -38,7 +38,7 @@ const AuthModalPresenter = ({
         setUser({
           email: email,
           password: password,
-        })                      // D HÄR DET INTE FUNKAR  
+        })                      
         const response = await registerUser.mutateAsync({
           email: user.email,
           password: user.password,
@@ -48,6 +48,8 @@ const AuthModalPresenter = ({
   
           
           console.log("Created User Successfully")
+
+          // for signing in after successfull registration.
           /*
           signIn('credentials', {
             email: user.email,
@@ -62,15 +64,12 @@ const AuthModalPresenter = ({
     }
   } 
     catch(err) {
-      console.log(err)
       setError(true)
       return err
     }
   }
   const signInUser = async() => {
     try{
-      console.log("kom hit")
-
      setUser({
         email: email,
         password: password
@@ -83,20 +82,16 @@ const AuthModalPresenter = ({
       setShowModal(false)
     }
     catch(err){
-      console.log(err)
       setError(true)
       return err
     }
   }
   
   const onSubmit = async () => {
-    //console.log(isReg)
     if (isReg) {
       const response = await signUpUser()
-      console.log(response)
     }else {
       const response = await signInUser()
-      setResp(response)
     }
   }
 
