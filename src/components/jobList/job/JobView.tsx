@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { toast } from 'react-toastify';
+import { InputChangeEventHandler } from '~/types/events'
 import { SaveButton } from '~/components/common/saveButton'
 
 const JobView = ({
@@ -8,10 +8,9 @@ const JobView = ({
   logo_url,
   getRandomColor,
   matchedSkills,
-  isLogged,
   isSaved,
-  saveJob,
-  deleteJob,
+  onClick,
+  onClickSave,
   isJobButtonLoading,
 }: {
   role: string
@@ -19,22 +18,24 @@ const JobView = ({
   logo_url: string
   getRandomColor: (company_name: string) => string | undefined
   matchedSkills: string[]
-  isLogged: boolean
   isSaved: boolean
+  onClick: (e: InputChangeEventHandler) => void
+  onClickSave: (e: InputChangeEventHandler) => void
   isJobButtonLoading: boolean
-  saveJob: (id: string) => void
-  deleteJob: (id: string) => void
 }) => {
   return (
-    <div className="w-full max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100 dark:bg-gray-800 dark:border-gray-500">
-      <div className="flex flex-col items-center pb-3 relative dark:bg-gray-800 dark:border-gray-500 rounded-lg">
+    <div
+      className="w-full cursor-pointer max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100 dark:bg-gray-800 dark:border-gray-500"
+      onClick={onClick}
+    >
+      <div className={`flex flex-col items-center pb-3 relative dark:border-gray-500 rounded-lg`}>
         <SaveButton
           // @ts-ignore
           disabled={isJobButtonLoading}
           $isLoading={isJobButtonLoading}
           $isSaved={isSaved}
           // @ts-ignore
-          onClick={isLogged ? (isSaved ? deleteJob : saveJob) : () => toast.warn("Login to save a job")}
+          onClick={onClickSave}
         >
           {isJobButtonLoading ? (
             <>
@@ -44,7 +45,6 @@ const JobView = ({
                 className="inline mr-3 w-4 h-4 text-white animate-spin"
                 viewBox="0 0 100 101"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -62,7 +62,7 @@ const JobView = ({
           ) : (
             <>Save</>
           )}
-        </SaveButton>
+        </SaveButton>{' '}
         <div className="my-3">
           {logo_url == '' ? (
             <div
@@ -92,6 +92,5 @@ const JobView = ({
     </div>
   )
 }
-
 
 export default JobView
