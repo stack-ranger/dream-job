@@ -10,7 +10,7 @@ datasource db {
 
 model Example {
   id String @id @default(cuid())
-}
+} 
 
 model Account {
   id                String  @id @default(cuid())
@@ -113,10 +113,9 @@ model CredentialUser {
 }
 
 model SavedJob {
-  userId    String
-  jobId     String
-  createdAt DateTime @default(now())
-  Job       Job      @relation(fields: [jobId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@id([userId, jobId])
+    userId    String
+    jobId     String
+    createdAt DateTime    @default(now())
+    job       Job         @relation(fields: [jobId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    @@id([userId, jobId])
 }

@@ -21,6 +21,7 @@ export const searchesRouter = createProtectedRouter()
   })
   .query('all', {
     async resolve({ ctx }) {
+      console.log("session id", ctx.session.user.id)
       try {
         return await ctx.prisma.search.findMany({
           select: {
