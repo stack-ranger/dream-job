@@ -20,13 +20,17 @@ const HeaderView = ({
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [currentPage, setCurrentPage] = useState("Home")
+
   useEffect(() => {
-    setTheme('light')
-    setMounted(true)
     // @ts-ignore
     import("flowbite")
+    setMounted(true)
   }, [])
   if (!mounted) return null
+  const switchTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+  }
   return (
     <div>
     {(typeof window !== "undefined") &&
@@ -90,7 +94,7 @@ const HeaderView = ({
               )}
               <button
                 className="w-8 h-8 rounded-lg dark:bg-slate-800 flex items-center justify-center hover:ring-2 ring-blue-400 transition-all duration-300 focus:outline-none"
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                onClick={() => switchTheme()}
                 aria-label="Toggle Dark Mode"
               >
                 {theme === 'light' ? (
