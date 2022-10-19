@@ -2078,7 +2078,7 @@ flowbite-react@^0.1.11:
 
 flowbite@^1.5.3:
   version "1.5.3"
-  resolved "https://registry.npmjs.org/flowbite/-/flowbite-1.5.3.tgz"
+  resolved "https://registry.yarnpkg.com/flowbite/-/flowbite-1.5.3.tgz#99f0ba31b6d9a6fa8a1c25fb9aefa575a2a5efe6"
   integrity sha512-e2OHfndxTHtGMqcPqvqwg3gGLg57hmIDVgE/BazMDccgirQ0JEtirKnbZZ4WSOIEhNDgO9pJZuyC8rRlcMm6pQ==
   dependencies:
     "@popperjs/core" "^2.9.3"

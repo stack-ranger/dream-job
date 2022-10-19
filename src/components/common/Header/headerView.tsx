@@ -22,6 +22,7 @@ const HeaderView = ({
   const [currentPage, setCurrentPage] = useState("Home")
   useEffect(() => {
     setMounted(true)
+    // @ts-ignore
     import("flowbite")
   }, [])
   if (!mounted) return null
