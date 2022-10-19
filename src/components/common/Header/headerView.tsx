@@ -6,9 +6,6 @@ import { useState, useEffect } from 'react'
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
-if (typeof window !== "undefined") {
-  require('flowbite')
-}
 const HeaderView = ({
   session,
   signOut,
@@ -23,9 +20,14 @@ const HeaderView = ({
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [currentPage, setCurrentPage] = useState("Home")
-  useEffect(() => {setMounted(true)}, [])
+  useEffect(() => {
+    setMounted(true)
+    import("flowbite")
+  }, [])
   if (!mounted) return null
   return (
+    <div>
+    {(typeof window !== "undefined") &&
     <>
       <nav className="border-gray-200 border-b px-2 sm:px-4">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -100,7 +102,8 @@ const HeaderView = ({
         </div>
       </nav>
       <LoginModal showModal={showModal} setShowModal={setShowModal} />
-    </>
+      </>}
+    </div>
   )
 }
 export default HeaderView
