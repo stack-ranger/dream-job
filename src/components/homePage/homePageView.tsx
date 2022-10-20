@@ -69,7 +69,7 @@ export default function HomePageView({
           </div>
         </div>
       )}
-      <div className="pt-16">
+      <div className="pt-9">
         <IconAnimationPresenter activeSearch={searchSelected} />
       </div>
     </>
