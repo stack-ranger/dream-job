@@ -40,15 +40,21 @@ export const registrationRouter = createRouter()
                 });
               }
             
-            const hashedPassword = await hash(password);
+           // const hashedPassword = await hash(password);
 
 
             try {
-                const result = await prisma.credentialUser.create({
+                const result = await prisma.user.create({
                     data: {
+                        id: Math.floor(Math.random() * 1000000000).toString(),
+                        name: email,
                         email: email,
-                        emailVerified: 'test',
-                        hashedPassword: hashedPassword,
+                        emailVerified: null,
+                        image: '',
+                        accounts: undefined,
+                        searches: undefined,
+                        sessions: undefined,
+                        //hashedPassword: hashedPassword,
                     }
                 });
                 return {

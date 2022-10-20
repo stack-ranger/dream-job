@@ -2,11 +2,14 @@ import { z } from 'zod'
 import { createProtectedRouter } from './context'
 
 export const searchesRouter = createProtectedRouter()
+
   .mutation('save', {
     input: z.object({
       query: z.string(),
     }),
     async resolve({ ctx, input }) {
+      console.log("ctx HÄR ISTÄLLET", ctx.session.user.id)
+
       try {
         await ctx.prisma.search.create({
           data: {
@@ -21,7 +24,8 @@ export const searchesRouter = createProtectedRouter()
   })
   .query('all', {
     async resolve({ ctx }) {
-      console.log("session id", ctx.session.user.id)
+      console.log("ctx HÄR ISTÄLLET", ctx.session.user.id)
+
       try {
         return await ctx.prisma.search.findMany({
           select: {

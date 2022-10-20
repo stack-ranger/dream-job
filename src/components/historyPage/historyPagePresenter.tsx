@@ -8,21 +8,22 @@ export default function HistoryPagePresenter() {
   const { searches, isHistoryLoading, reset, fetchSearches } =
     useHistoryStore()
   const {jobs, getAllSaved, loading} = useJobStore() 
-  const { status } = useSession()
+  const session = useSession()
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    console.log(session)
+    if (session.status === 'authenticated') {
       fetchSearches()
       getAllSaved(true)
     } else {
       reset
     }
-  }, [status, fetchSearches, getAllSaved])
+  }, [session.status, fetchSearches, getAllSaved])
 
   return (
     <HistoryPageView
-      isPageLoading={status === "loading"}
-      isLoggedIn={status === "authenticated"}
+      isPageLoading={session.status === "loading"}
+      isLoggedIn={session.status === "authenticated"}
       isHistoryLoading={isHistoryLoading}
       isJobsLoading={loading}
       searches={searches ?? []}

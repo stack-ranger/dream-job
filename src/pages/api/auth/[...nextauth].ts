@@ -7,18 +7,24 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { env } from '~/env/server.mjs'
 import { prisma } from '~/server/db/client'
 import { verify } from 'argon2'
-
+interface IUser {
+  
+}
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   callbacks: {
     // invoked whenever session is checked
     // returns info about userID or tokenID
-    session({ session, token }) {
+    session({ session, token, user }) {
       // if jw. token, give session some of its info
       if (token) {
         session.id = token.id
-        session.email = token.email
+        session.sessionToken = token.id
+        session.userId = token.id
+       // session.user = token.user
+
       }
+
       return session
     },
 
@@ -28,6 +34,7 @@ export const authOptions: NextAuthOptions = {
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id
+        token.user = user
         token.email = user.email
       }
 
@@ -56,17 +63,24 @@ export const authOptions: NextAuthOptions = {
         //user input
         const input = JSON.parse(JSON.stringify(credentials))
         
-        const user = await prisma.credentialUser.findFirst({
+        const user = await prisma.user.findFirst({
           where: { email: input.email },
         })
         console.log(input)
-        console.log(user)
+        console.log("från trpx auth",user)
 
         if (!user) {
           return null
         }
-
+        return{
+          userId: user.id,
+          name: user.name,
+          email: user.email,
+          emailVerified: user.emailVerified,
+          image: user.image
+        }
         // Compare user object hashed password from db with inputPassword
+       /*
         const isValidPassword = await verify(user.hashedPassword || '', input.password)
 
         if (!isValidPassword) {
@@ -75,9 +89,9 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: user.id,
+          userId: user.userId,
           email: user.email,
-        }
+        } */
       },
     }),
   ],

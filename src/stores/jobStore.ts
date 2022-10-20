@@ -75,7 +75,7 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
     //don't show loading skeletons if only updating the save attribute (homepage) 
     set({isJobButtonLoading: true, loading: replace})
     const res = await trpcClient.query('jobsProtected.all')
-        
+    console.log(replace)
     if(replace){
       //replace job list with a new one (history page)
       set({ jobs: [...(res?.map((i) => ({...i.job, saved: true, skills: [], company_name: i.job.Company.company_name, logo_url: i.job.Company.logo_url})) ?? [])] ?? [] })
