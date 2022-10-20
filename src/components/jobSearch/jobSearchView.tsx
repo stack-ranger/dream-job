@@ -6,11 +6,13 @@ const JobSearchView = ({
   setSearch,
   suggestions,
   onSearch,
+  onKeyPress,
 }: {
   search: string
   setSearch: (search: string) => void
   suggestions: string[]
   onSearch: (e: InputChangeEventHandler) => void
+  onKeyPress: (e: InputChangeEventHandler) => void
 }) => {
   return (
     <div className="w-96">
@@ -26,6 +28,7 @@ const JobSearchView = ({
                 }
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={onKeyPress}
                 placeholder={'Search for role'}
                 className="overflow-auto border-0 outline-none px-2 bg-gray-50 dark:bg-transparent"
               />

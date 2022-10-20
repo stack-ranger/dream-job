@@ -47,6 +47,12 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
     registerSearch(status === 'authenticated', `?search=skill&role=${search}`)
   }
 
+  const onKeyPress = (e: InputChangeEventHandler) => {
+    if (e.key === 'Enter') {
+      onSearch(e)
+    }
+  }
+
   useEffect(() => {
     const trimmedSearch = search.trim()
     if (trimmedSearch.length) {
@@ -57,7 +63,15 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
     }
   }, [search, jobList])
 
-  return <JobSearchView search={search} setSearch={setSearch} suggestions={suggestions} onSearch={onSearch} />
+  return (
+    <JobSearchView
+      search={search}
+      setSearch={setSearch}
+      suggestions={suggestions}
+      onSearch={onSearch}
+      onKeyPress={onKeyPress}
+    />
+  )
 }
 
 export default JobSearchPresenter
