@@ -50,7 +50,11 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     setScrollPos(0)
     setMaxScrollPos(0)
     resetOffset()
-    if (skills.join(',') !== router?.query?.skills) {
+
+    const tmp = router?.query?.skills
+    const skillsParam: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
+    // check if the skills are already in the url
+    if (!(skillsParam.length === skills.length && skillsParam.every((skill, index) => skill === skills[index]))) {
       resetJobs()
     } else {
       toast.info('Already showing these skills', { autoClose: 2000 })
