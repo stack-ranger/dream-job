@@ -7,7 +7,7 @@ import useJobStore from '~/stores/jobStore'
 export default function HistoryPagePresenter() {
   const { searches, isHistoryLoading, reset, fetchSearches } =
     useHistoryStore()
-  const {jobs, getAllSaved, loading} = useJobStore() 
+  const {jobs, getAllSaved, loading, resetJobs} = useJobStore() 
   const { status } = useSession()
 
   useEffect(() => {
@@ -16,6 +16,10 @@ export default function HistoryPagePresenter() {
       getAllSaved(true)
     } else {
       reset
+    }
+
+    return () => {
+      resetJobs()
     }
   }, [status, fetchSearches, getAllSaved])
 
