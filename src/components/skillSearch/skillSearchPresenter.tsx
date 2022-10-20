@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import useHistoryStore from '~/stores/historyStore'
 import { useSession } from 'next-auth/react'
 import useScrollStore from '~/stores/scrollStore'
+import { toast } from 'react-toastify'
 
 const findMatches = (input: string, skillList: string[]) => {
   return skillList.filter((skill) => {
@@ -21,7 +22,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [search, setSearch] = useState<string>('')
   const { jobs, skills, setSkills, fetchJobs, resetJobs, resetOffset, getAllSaved } = useJobStore()
-  const { setScrollPos } = useScrollStore()
+  const { setScrollPos, setMaxScrollPos } = useScrollStore()
   const { registerSearch } = useHistoryStore()
   const router = useRouter()
 
@@ -42,10 +43,22 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
 
   const onSearch = async (e: InputChangeEventHandler) => {
     e.preventDefault()
+    if (skills.length == 0) {
+      toast.info('Select at least one skill', { autoClose: 2000 })
+      return
+    }
     setScrollPos(0)
+    setMaxScrollPos(0)
     resetOffset()
-    //TODO: reset only if router.push created a different url params
-    resetJobs()
+
+    const tmp = router?.query?.skills
+    const skillsParam: string[] = Array.isArray(tmp) ? tmp : tmp ? [tmp] : []
+    // check if the skills are already in the url
+    if (!(skillsParam.length === skills.length && skillsParam.every((skill, index) => skill === skills[index]))) {
+      resetJobs()
+    } else {
+      toast.info('Already showing these skills', { autoClose: 2000 })
+    }
     await router.push({ pathname: '/', query: { skills: skills, search: 'job' } }, undefined, { shallow: true })
     registerSearch(status === 'authenticated', `?search=job${skills.map((s) => `&skills=${s}`).join('')}`)
   }
@@ -76,6 +89,10 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   const onSearchChange = (e: InputChangeEventHandler) => setSearch(e.target.value)
 
   const onKeyPress = (e: InputChangeEventHandler) => {
+    if (e.key === 'Enter') {
+      onSearch(e)
+      return
+    }
     if (e.key === 'Backspace' && !search.length && skills.length) {
       e.preventDefault()
       const skillsCopy = [...skills]
