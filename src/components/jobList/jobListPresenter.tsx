@@ -4,12 +4,14 @@ import useJobStore from '~/stores/jobStore'
 import { useRouter } from 'next/router'
 import { debounce } from 'lodash'
 import { useSession } from 'next-auth/react'
+import useScrollStore from '~/stores/scrollStore'
 
 const JobListPresenter = () => {
-  const scrollX = global?.window && window.scrollX;
-  const scrollY = global?.window && window.scrollY;
+  const scrollX = global?.window && window.scrollX
+  const scrollY = global?.window && window.scrollY
   const { status } = useSession()
-  const { jobs, loading, fetchJobs, jobsPerQuery, scrollPos, setScrollPos } = useJobStore()
+  const { jobs, loading, fetchJobs, jobsPerQuery } = useJobStore()
+  const { scrollPos, setScrollPos, maxScrollPos, setMaxScrollPos } = useScrollStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
   const router = useRouter()
 
@@ -22,28 +24,24 @@ const JobListPresenter = () => {
   async function handleScroll() {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement
     const tmpPosition = clientHeight + scrollTop
-    if (scrollHeight - scrollTop <= clientHeight) {
-      if (tmpPosition > scrollPos) {
-        setScrollPos(scrollTop + clientHeight)
-        await fetchJobs(status === "authenticated")
+    if (scrollHeight - scrollTop - 200 <= clientHeight) {
+      if (tmpPosition > maxScrollPos) {
+        setMaxScrollPos(scrollTop + clientHeight)
+        await fetchJobs(status === 'authenticated')
       }
     }
   }
 
-  // restore scroll position after clicking on a job
-  useEffect(() => {
-    const scrollPosition = sessionStorage.getItem('scrollPosition')
-    if (scrollPosition) {
-      window.scrollTo(0, parseInt(scrollPosition, 10))
-      sessionStorage.removeItem('scrollPosition')
-    }
-  }, [])
-
-  if (typeof window !== 'undefined') window.onscroll = debounce(handleScroll, 10)
+  if (typeof window !== 'undefined' && router.pathname !== '/history') window.onscroll = debounce(handleScroll, 10)
 
   useLayoutEffect(() => {
-    window.scrollTo(scrollX, scrollY);
-  });
+    window.scrollTo(scrollX, scrollY)
+    // this is the case when coming back from detail page
+    if (scrollPos != 0) {
+      window.scrollTo(0, scrollPos)
+      setScrollPos(0)
+    }
+  })
 
   return <JobListView jobs={jobs} loading={loading} skills={currentSkillSearch} jobsPerQuery={jobsPerQuery} />
 }

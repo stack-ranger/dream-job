@@ -1,14 +1,18 @@
 import { ReactNode } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Header from '~/components/common/Header/headerPresenter'
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css'
+import Footer from '~/components/common/Footer/FooterView'
 
 const LayoutView = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <Header />
-      <main>{children}</main>
-      <ToastContainer/>
+      <div className="dark:bg-gray-900 flex flex-col h-screen">
+        <Header />
+        <main className="mt-6">{children}</main>
+        <ToastContainer />
+        <Footer />
+      </div>
     </>
   )
 }

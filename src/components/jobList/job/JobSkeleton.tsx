@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const JobSkeleton = () => {
   return (
-    <div className="w-full max-w-sm hover:scale-105 animate-pulse bg-gray-100 rounded-lg border border-gray-200 shadow-md">
+    <div className="w-full max-w-sm hover:scale-105 animate-pulse bg-gray-100 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800">
       <div className="flex flex-col items-center pb-10">
         <div className="my-3">
           <div className="flex items-center justify-center w-20 h-20 text-3xl font-bold text-white rounded-full">

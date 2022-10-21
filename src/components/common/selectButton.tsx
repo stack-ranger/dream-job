@@ -11,7 +11,6 @@ export const SelectButton = tw.button<SelectButtonProps>`
   text-sm 
   font-medium 
   text-gray-900 
-  bg-transparent 
   border
   border-gray-900 
   dark:border-white 
@@ -34,9 +33,11 @@ export const SelectButton = tw.button<SelectButtonProps>`
     z-10 
     ring-2 
     ring-gray-500 
-    bg-gray-900 
-    dark:bg-gray-700
+    bg-gray-800 
+    dark:bg-gray-800
     text-white    
+    dark:border-white 
+    dark:text-white
   `
       : `
     hover:border-2 
