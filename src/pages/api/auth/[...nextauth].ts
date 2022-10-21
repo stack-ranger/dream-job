@@ -68,12 +68,20 @@ export const authOptions: NextAuthOptions = {
         const userPassword = await prisma.password.findUnique({
           where: { email: input.email }
         })
-
+        console.log("Input password", input.password)
+ 
         if (userPassword?.password) {
+          console.log("DB password", userPassword?.password)
+
           const isValidPassword = verify(userPassword.password, input.password)
+          console.log("is valid", isValidPassword)
+
           if(!isValidPassword){
+            console.log("is invalidvalid", isValidPassword)
             return null
           }
+        } else {
+          return null
         }
 
         if (user) {
