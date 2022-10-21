@@ -10,7 +10,6 @@ import { verify } from 'argon2'
 import { checkValidEmail } from '~/utils/validator'
 
 
-interface IUser {}
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   callbacks: {
@@ -81,11 +80,9 @@ export const authOptions: NextAuthOptions = {
           where: { email: input.email }
         })
 
-        console.log(userPassword)
-        console.log(userPassword?.password, input.password) 
 
         if (userPassword?.password) {
-          console.log("verify ", await verify(userPassword.password, input.password))
+          await verify(userPassword.password, input.password)
         } 
 
         if (!userPassword?.password) return null
