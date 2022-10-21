@@ -9,5 +9,5 @@ export const checkEmailLength = (email:string) => {
 }
 
 export const checkPasswordLength = (password:string) => {
-  return password.length > 6 
+  return password.length >= 6 
 }

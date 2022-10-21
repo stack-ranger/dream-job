@@ -7,16 +7,19 @@ import useJobStore from '~/stores/jobStore'
 export default function HistoryPagePresenter() {
   const { searches, isHistoryLoading, reset, fetchSearches } =
     useHistoryStore()
-  const {jobs, getAllSaved, loading} = useJobStore() 
+  const {jobs, getAllSaved, loading, resetSavedJobs} = useJobStore() 
   const session = useSession()
 
   useEffect(() => {
-    console.log(session)
     if (session.status === 'authenticated') {
       fetchSearches()
       getAllSaved(true)
     } else {
       reset
+    }
+
+    return () => {
+      resetSavedJobs()
     }
   }, [session.status, fetchSearches, getAllSaved])
 

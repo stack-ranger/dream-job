@@ -8,8 +8,6 @@ export const searchesRouter = createProtectedRouter()
       query: z.string(),
     }),
     async resolve({ ctx, input }) {
-      console.log("ctx HÄR ISTÄLLET", ctx.session)
-
       try {
         await ctx.prisma.search.create({
           data: {
@@ -24,8 +22,6 @@ export const searchesRouter = createProtectedRouter()
   })
   .query('all', {
     async resolve({ ctx }) {
-      console.log("ctx HÄR ISTÄLLET", ctx.session.user.id)
-
       try {
         return await ctx.prisma.search.findMany({
           select: {
