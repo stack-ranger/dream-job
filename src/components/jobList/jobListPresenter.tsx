@@ -24,7 +24,7 @@ const JobListPresenter = () => {
   async function handleScroll() {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement
     const tmpPosition = clientHeight + scrollTop
-    if (scrollHeight - scrollTop <= clientHeight) {
+    if (scrollHeight - scrollTop - 200 <= clientHeight) {
       if (tmpPosition > maxScrollPos) {
         setMaxScrollPos(scrollTop + clientHeight)
         await fetchJobs(status === 'authenticated')
@@ -32,7 +32,7 @@ const JobListPresenter = () => {
     }
   }
 
-  if (typeof window !== 'undefined') window.onscroll = debounce(handleScroll, 10)
+  if (typeof window !== 'undefined' && router.pathname !== '/history') window.onscroll = debounce(handleScroll, 10)
 
   useLayoutEffect(() => {
     window.scrollTo(scrollX, scrollY)
