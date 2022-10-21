@@ -29,7 +29,7 @@ export const registrationRouter = createRouter()
             console.log(password)
             // Check if user exists.
             // Here we can check the google table as well.
-            const exists = await prisma.credentialUser.findFirst({
+            const exists = await prisma.user.findFirst({
                 where: { email },
               });
           
@@ -40,27 +40,34 @@ export const registrationRouter = createRouter()
                 });
               }
             
-           // const hashedPassword = await hash(password);
+            const hashedPassword = await hash(password);
+            const userId = await hash(email)
 
 
             try {
-                const result = await prisma.user.create({
+                const userResult = await prisma.user.create({
                     data: {
-                        id: Math.floor(Math.random() * 1000000000).toString(),
+                        id: userId,
                         name: email,
                         email: email,
                         emailVerified: null,
                         image: '',
-                        accounts: undefined,
-                        searches: undefined,
-                        sessions: undefined,
                         //hashedPassword: hashedPassword,
-                    }
+                    },
+
+
                 });
+                await prisma.password.create({
+                    data: {
+                        userId: userId,
+                        email: email,
+                        password: hashedPassword
+                    }
+                })
                 return {
                     status: 201,
                     message: "Account created successfully",
-                    result: result.email,
+                    result: userResult.email,
                   };
             } catch (error) {
                 console.log(error)

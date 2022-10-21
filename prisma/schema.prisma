@@ -39,12 +39,13 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+  Password      Password[]
   searches      Search[]
   sessions      Session[]
 }
@@ -63,7 +64,6 @@ model Search {
   createdAt DateTime @default(now())
   query     String
   user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
- // creduser  CredentialUser @relation(fields: [userId], references: [userId])
 }
 
 model Job {
@@ -120,4 +120,11 @@ model SavedJob {
   job       Job      @relation(fields: [jobId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([userId, jobId])
+}
+
+model Password {
+  email    String  @id
+  password String?
+  userId   String?
+  User     User?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_password")
 }

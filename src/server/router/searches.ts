@@ -8,7 +8,7 @@ export const searchesRouter = createProtectedRouter()
       query: z.string(),
     }),
     async resolve({ ctx, input }) {
-      console.log("ctx HÄR ISTÄLLET", ctx.session.user.id)
+      console.log("ctx HÄR ISTÄLLET", ctx.session)
 
       try {
         await ctx.prisma.search.create({

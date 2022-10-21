@@ -7,37 +7,36 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { env } from '~/env/server.mjs'
 import { prisma } from '~/server/db/client'
 import { verify } from 'argon2'
-interface IUser {
-  
-}
+import { userAgent } from 'next/server'
+interface IUser {}
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   callbacks: {
-    // invoked whenever session is checked
-    // returns info about userID or tokenID
-    session({ session, token, user }) {
-      // if jw. token, give session some of its info
-      if (token) {
-        session.id = token.id
-        session.sessionToken = token.id
-        session.userId = token.id
-       // session.user = token.user
-
+    session({ session, token }) {
+      // CREDENTIALS LOGIN
+      // if jw. token and user in the session, give session the user ID.
+      // session.user is created somwehre when we login successfully.
+      if (token?.userId && session?.user) {
+        session.user.id = String(token?.userId)
       }
 
+      // token sub is attached to the JWT if user uses Google
+      // The token sub = the userID so we append it to the session
+      // It is then used for different functionality inside the app
+      if (token?.sub && session?.user) {
+        session.user.id = token?.sub
+      }
       return session
     },
 
-    // invoked when signIn is triggered
-    // We grab the id and email and put on the token
-    // invoked before session callback
+    // invoked when signIn() is triggered, before session callback.
+    // In case of a credential signIn, We grab the user ID and put it on the token
+    // In case of google signIn, we do nothing. Just return token
     jwt: async ({ token, user }) => {
-      if (user) {
-        token.id = user.id
-        token.user = user
-        token.email = user.email
+      if (user?.userId) {
+        token.userId = user?.userId
+        token.isCredential = user?.isCredential
       }
-
       return token
     },
   },
@@ -62,36 +61,30 @@ export const authOptions: NextAuthOptions = {
       authorize: async (credentials, req) => {
         //user input
         const input = JSON.parse(JSON.stringify(credentials))
-        
+
         const user = await prisma.user.findFirst({
           where: { email: input.email },
         })
-        console.log(input)
-        console.log("från trpx auth",user)
+        const userPassword = await prisma.password.findUnique({
+          where: { email: input.email }
+        })
 
-        if (!user) {
-          return null
-        }
-        return{
-          userId: user.id,
-          name: user.name,
-          email: user.email,
-          emailVerified: user.emailVerified,
-          image: user.image
-        }
-        // Compare user object hashed password from db with inputPassword
-       /*
-        const isValidPassword = await verify(user.hashedPassword || '', input.password)
-
-        if (!isValidPassword) {
-          throw new Error('Password not valid')
-          return null
+        if (userPassword?.password) {
+          const isValidPassword = verify(userPassword.password, input.password)
+          if(!isValidPassword){
+            return null
+          }
         }
 
-        return {
-          userId: user.userId,
-          email: user.email,
-        } */
+        if (user) {
+          return {
+            name: user.email,
+            email: user.email,
+            userId: user.id,
+            isCredential: true,
+          }
+        }
+        return null
       },
     }),
   ],
