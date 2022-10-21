@@ -72,17 +72,18 @@ curl --request GET \
 ### Grading
 | Criteria                                       | Points |
 |------------------------------------------------|--------|
-| Regex                                         | 3      |
+| Regex                                          | 3      |
 | CSS Tailwind                                   | 5      |
 | Darkmode                                       | 5      |
 | Chart.js                                       | 5      |
 | Next.js (SSR)                                  | 20     |
-| UI-Components                                  | 5      |
+| UI-Components (styled components)              | 5      |
 | Typescript                                     | 10     |
 | tRPC                                           | 6      |
-| Authorization                                  | 10     |
+| Authorization (Own auth and Google)            | 10     |
 | Host own DB (Postgres)                         | 15     |
 | Deploy server in Docker container              | 10     |
+| Deploy additional Docker container  (pgadmin)  | 10     |
 | Additional mirco-service (fetch jobs from API) | 10     |
 
 ### Additional potential points
