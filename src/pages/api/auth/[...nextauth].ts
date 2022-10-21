@@ -7,7 +7,9 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { env } from '~/env/server.mjs'
 import { prisma } from '~/server/db/client'
 import { verify } from 'argon2'
-import { userAgent } from 'next/server'
+import { checkValidEmail } from '~/utils/validator'
+
+
 interface IUser {}
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
@@ -62,28 +64,43 @@ export const authOptions: NextAuthOptions = {
         //user input
         const input = JSON.parse(JSON.stringify(credentials))
 
+        /*
+        if (!checkValidEmail(input.email)) {
+          return {
+              status: 400,
+              message: 'Email format not valid.',
+            }
+      } */
+        // return user from db
         const user = await prisma.user.findFirst({
           where: { email: input.email },
         })
+
+        // return hashed password from db (table: password)
         const userPassword = await prisma.password.findUnique({
           where: { email: input.email }
         })
-        console.log("Input password", input.password)
- 
+
+        console.log(userPassword)
+        console.log(userPassword?.password, input.password) 
+
         if (userPassword?.password) {
-          console.log("DB password", userPassword?.password)
+          console.log("verify ", await verify(userPassword.password, input.password))
+        } 
 
-          const isValidPassword = verify(userPassword.password, input.password)
-          console.log("is valid", isValidPassword)
-
-          if(!isValidPassword){
-            console.log("is invalidvalid", isValidPassword)
+        if (!userPassword?.password) return null
+ 
+        // check if password exist (not the case for Google)
+        if (userPassword?.password) {
+          if(!await verify(userPassword.password, input.password)){
             return null
           }
         } else {
           return null
         }
-
+        
+        console.log(user)
+        // if user, return it
         if (user) {
           return {
             name: user.email,

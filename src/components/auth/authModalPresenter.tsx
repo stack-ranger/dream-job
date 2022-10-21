@@ -1,9 +1,8 @@
 import { signIn } from 'next-auth/react'
 import AuthModalView from './authModalView'
-import React, { useCallback, useEffect, useState } from 'react'
-import { trpc } from "~/utils/trpc";
-import { useRouter } from 'next/router';
-
+import React, { useEffect, useState } from 'react'
+import { trpc } from '~/utils/trpc'
+import { checkValidEmail, checkEmailLength, checkPasswordLength } from '~/utils/validator'
 
 const AuthModalPresenter = ({
   showModal,
@@ -16,8 +15,10 @@ const AuthModalPresenter = ({
   const [password, setPassword] = useState('')
   const [passwordRepeated, setPasswordRepeated] = useState('')
   const [error, setError] = useState(false)
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
   const [isReg, setIsRegistration] = useState(false)
-  const [resp, setResp] = useState<any>('')
+  const [isSuccessful, setIsSuccessful] = useState(false)
   const [user, setUser] = useState<{
     email: string
     password: string
@@ -26,97 +27,146 @@ const AuthModalPresenter = ({
     password: '',
   })
 
-  const registerUser = trpc.useMutation("registration.createUser");
-  const router = useRouter()
+  const registerUser = trpc.useMutation('registration.createUser')
 
+  const onErrorReturned = (message: string) => {
+    setError(true)
+    setMessage(message)
+    setLoading(false)
+  }
   const isRegistration = (showReg: boolean) => {
     setIsRegistration(showReg)
   }
-  const signUpUser = async() => {
-    try{
-      if(passwordRepeated === password) {
+  const signUpUser = async () => {
+    if (!checkEmailLength(email)) {
+      onErrorReturned('Email length is too short.')
+      return
+    }
+    if (passwordRepeated !== password) {
+      onErrorReturned('Passwords do not match.')
+      return
+    }
+
+    if (!checkPasswordLength(password) || !checkPasswordLength(passwordRepeated)) {
+      console.log(password)
+      console.log(passwordRepeated)
+      onErrorReturned('Password length is too short.')
+      return
+    }
+    setLoading(true)
+    try {
         setUser({
           email: email,
           password: password,
-        })                      // D HÄR DET INTE FUNKAR  
+        })
         const response = await registerUser.mutateAsync({
           email: user.email,
           password: user.password,
-        });
-         // we can do stuff with this response, e.g. load a toast alert or something
+        })
+        // we can do stuff with this response, e.g. load a toast alert or something
         if (response?.status === 201) {
-  
-          
-          console.log("Created User Successfully")
-       //   setEmail('')
-        //  setPassword('')
-          // for signing in after successfull registration! 
-          /*
-          signIn('credentials', {
-            email: user.email,
-            password: user.password,
-            redirect: false,
-            callbackUrl: `${window.location.origin}/protected`
-          }); 
-          */
+          setMessage(response.message)
+          setError(false)
+          setLoading(false)
+          setIsSuccessful(true)
           setIsRegistration(false)
           return response
+        } else if (response?.status === 400) {
+          onErrorReturned(response.message)
+          return
         }
-    }
-  } 
-    catch(err) {
-      setError(true)
+      
+    } catch (err: any) {
+      //fix
+      console.log(err)
       return err
     }
   }
-  const signInUser = async() => {
-    try{
-     setUser({
+
+  const signInUser = async () => {
+    if (!checkEmailLength(email)) {
+      onErrorReturned('Email length is too short.')
+      return
+    }
+    if (!checkValidEmail(email)) {
+      onErrorReturned('Email format not valid.')
+      return
+    }
+    if (!checkPasswordLength(password)) {
+      onErrorReturned('Password length is too short.')
+      return
+    }
+    setLoading(true)
+    try {
+      setUser({
         email: email,
-        password: password
+        password: password,
       })
-      const response: any = await signIn('credentials', {
+      const response = await signIn('credentials', {
         ...user,
         redirect: false,
-      }); 
-      response.error ? console.log(response) : console.log(response)
-      setShowModal(false)
-    }
-    catch(err){
-      setError(true)
+      })
+      if (response?.status === 200) {
+        setError(false)
+        setLoading(false)
+        setShowModal(false)
+        return response
+      }
+      if (response?.status === 401) {
+        onErrorReturned('Sign in failed. Please try again.')
+        return
+      }
+    } catch (err) {
+      console.log(err)
       return err
     }
   }
-  
+
+  // Can we refactor this?
   const onSubmit = async () => {
+    setIsSuccessful(false)
     if (isReg) {
-      const response = await signUpUser()
-    }else {
-      const response = await signInUser()
-      setResp(response)
+      await signUpUser()
+    } else {
+      await signInUser()
+    }
+  }
+  const dismissAlert = () => {
+    if (isSuccessful) {
+      setIsSuccessful(false)
+    } else {
+      setError(false)
     }
   }
 
   useEffect(() => {
-       setUser({email: email, password: password})
-  }, [email, password]);
+    console.log(email, password)
+    setUser({ email: email, password: password })
+  }, [email, password])
 
   const onSignIn = () => signIn('google')
   return (
-    <AuthModalView
-      isReg={isReg}
-      isRegistration={isRegistration}
-      showModal={showModal}
-      setShowModal={setShowModal}
-      onSignIn={onSignIn}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      setPasswordRepeated={setPasswordRepeated}
-      onSubmit={onSubmit}
-      email={email}
-      password={password}
-      repeatedPassword={passwordRepeated}
-    />
+    <>
+      <AuthModalView
+        isReg={isReg}
+        isRegistration={isRegistration}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        onSignIn={onSignIn}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        setPasswordRepeated={setPasswordRepeated}
+        onSubmit={onSubmit}
+        email={email}
+        password={password}
+        repeatedPassword={passwordRepeated}
+        error={error}
+        message={message}
+        loading={loading}
+        dismissAlert={dismissAlert}
+        isSuccessful={isSuccessful}
+      />
+    </>
   )
 }
 
