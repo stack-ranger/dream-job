@@ -34,7 +34,13 @@ const SkillSearchView = ({
                     className="flex items-center bg-gray-300 rounded-md text-sm px-2.5 mx-1 dark:bg-gray-500"
                   >
                     {tag}
-                    <button className="pl-2 text-md" onClick={() => removeSkill(index)}>
+                    <button
+                      className="pl-2 text-l "
+                      onClick={(e: InputChangeEventHandler) => {
+                        e.preventDefault()
+                        removeSkill(index)
+                      }}
+                    >
                       x
                     </button>
                   </div>
