@@ -29,10 +29,10 @@ const JobDetailView = ({
     )
   if (!job) return <div>Error Job not found</div>
   return (
-    <div className="flex justify-center gap-8 m-auto max-w-5xl p-5 sm:p-4 md:p-6 lg:p-8 xl:p-10">
+    <div className="flex justify-center border rounded-lg gap-8 m-auto max-w-5xl p-5 sm:p-4 md:p-6 lg:p-8 xl:p-10">
       <div className="relative">
         <div className="absolute left-0 rounded-lg text-white bg-blue-700 hover:bg-blue-800 py-2 px-3">
-          <ArrowUturnLeftIcon className="h-5 w-5" onClick={onClickBack} />
+          <ArrowUturnLeftIcon className="h-5 w-5 cursor-pointer" onClick={onClickBack} />
         </div>
         <SaveButton
           // @ts-ignore
@@ -104,7 +104,7 @@ const JobDetailView = ({
               {job.company_name}
             </div>
             {job.location && <div className="p-2 text-center text-sm">{job.location && job.location}</div>}
-            <div className="p-1 text-center text-sm text-gray-800">Posted: {job.date_posted.toDateString()}</div>
+            <div className="p-1 text-center text-sm text-gray-700">Posted: {job.date_posted.toDateString()}</div>
             <div className="max-w-sm flex flex-wrap justify-center p-3">
               {job.skills.map((skill, i) => (
                 <span
@@ -119,7 +119,7 @@ const JobDetailView = ({
             </div>
           </div>
         </div>
-        <div className="text-sm pt-2" dangerouslySetInnerHTML={{ __html: job.text }} />
+        <div className="text-sm pt-2 text-gray-500" dangerouslySetInnerHTML={{ __html: job.text }} />
       </div>
     </div>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import { SelectButton } from '../common/selectButton'
 import JobListPresenter from '../jobList/jobListPresenter'
 import JobSearchPresenter from '../jobSearch/jobSearchPresenter'
-import SkillPlot from '../skillPlot/skillPlot'
+import SkillPlot from '../skillPlot/skillPlotPresenter'
 import SkillSearchPresenter from '../skillSearch/skillSearchPresenter'
 import IconAnimationPresenter from '~/components/homePage/iconAnimation/iconAnimationPresenter'
 import Footer from '~/components/common/Footer/FooterView'
@@ -24,11 +24,11 @@ export default function HomePageView({
 }: HomePageViewProps) {
   return (
     <>
-      <div className="flex flex-col py-16">
-        <h1 className="pb-5 text-center font-black text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+      <div className="flex flex-col py-6">
+        <h1 className="pb-3 text-center font-black text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
           The stack matters!
         </h1>
-        <h2 className="text-center text-lg lg:text-xl font-bold text-gray-500 dark:text-gray-400">
+        <h2 className="text-center text-sm lg:text-lg font-bold text-gray-500 dark:text-gray-400">
           {searchSelected === 'job'
             ? 'Tell us with which stack want to work with and we will find the jobs for you.'
             : 'Tell us about the job you are interested in and we will find the most relevant stack for you.'}
@@ -69,7 +69,7 @@ export default function HomePageView({
           </div>
         </div>
       )}
-      <div className="pt-9">
+      <div className="pt-28">
         <IconAnimationPresenter activeSearch={searchSelected} />
       </div>
     </>

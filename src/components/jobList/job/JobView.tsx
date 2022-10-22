@@ -76,7 +76,7 @@ const JobView = ({
             <Image className="rounded-full" src={logo_url} alt={company_name} width={80} height={80} />
           )}
         </div>
-        <h5 className="mb-1 text-xl font-medium text-gray-900">{role}</h5>
+        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-gray-500 text-center">{role}</h5>
         <span className="text-sm text-gray-500">{company_name}</span>
         <div className="pt-5">
           {matchedSkills.map((skill, i) => (

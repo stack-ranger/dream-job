@@ -28,7 +28,8 @@ const HeaderView = ({
   }, [])
   if (!mounted) return null
   const switchTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
+    let newTheme = 'light'
+    newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
   }
   return (
@@ -42,7 +43,6 @@ const HeaderView = ({
                   Stack Ranger
                 </span>
                 <span className="pl-2 text-md flex items-center">
-                  <ChevronRightIcon className="w-5 h-5" /> {currentPage}
                 </span>
               </a>
               <button
@@ -72,7 +72,7 @@ const HeaderView = ({
                   <li>
                     <Link href="/">
                       <a
-                        className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400"
+                        className={`"${currentPage === 'Home' ? 'underline text-blue-500 dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400"`}
                         aria-current="page"
                         onClick={() => setCurrentPage('Home')}
                       >
@@ -83,7 +83,7 @@ const HeaderView = ({
                   <li>
                     <Link href="/history">
                       <a
-                        className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                        className={`"${currentPage === 'History' ? 'underline text-blue-500 dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400" `}
                         onClick={() => setCurrentPage('History')}
                       >
                         History

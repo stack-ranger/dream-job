@@ -16,7 +16,7 @@ module.exports = {
             },
             animation: {
                 icons: 'icons 40s linear infinite',
-            }
+            },
         },
     },
     plugins: [
