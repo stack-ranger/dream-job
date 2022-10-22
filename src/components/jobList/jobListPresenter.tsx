@@ -39,7 +39,6 @@ const JobListPresenter = () => {
     // this is the case when coming back from detail page
     if (scrollPos != 0) {
       window.scrollTo(0, scrollPos)
-      setScrollPos(0)
     }
   })
 

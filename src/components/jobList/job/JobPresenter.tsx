@@ -7,10 +7,12 @@ import { useSession } from 'next-auth/react'
 import JobView from '~/components/jobList/job/JobView'
 import { toast } from 'react-toastify'
 import { useState } from 'react'
+import useScrollStore from '~/stores/scrollStore'
 
 const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkills: string[] }) => {
   const { status } = useSession()
   const { deleteJob, saveJob, isJobButtonLoading } = useJobStore()
+  const { setScrollPos } = useScrollStore()
   const [isThisJobButtonLoading, setIsThisJobButtonLoading] = useState(false)
 
   const router = useRouter()
@@ -18,7 +20,7 @@ const JobPresenter = ({ job, selectedSkills }: { job: JobInterface; selectedSkil
 
   const handleClick = (e: InputChangeEventHandler) => {
     e.preventDefault()
-    sessionStorage.setItem('scrollPosition', String(window.pageYOffset))
+    setScrollPos(window.scrollY)
     router.push(`/detail/${job.id}`)
   }
 
