@@ -98,7 +98,7 @@ export const SkillPlotView = ({ skills, jobSearch }: SkillPlotViewProps) => {
     return () => chart.destroy()
   }, [skills, jobSearch, theme])
   return (
-    <div className={skills.length > 0 ? 'overflow-auto lg:flex sm:block' : 'hidden'}>
+    <div className={skills.length > 0 ? 'overflow-auto px-2 lg:flex sm:block' : 'hidden'}>
       <div className="mx-auto px-4 py-2 bg-white rounded-lg shadow-xl border border-rounded dark:bg-gray-800 dark:border-gray-500 sm:w-[30rem] sm:px-8 lg:py-4 md:w-[40rem] md:px-14 md:py-8 lg:w-[42rem] lg:mr-2 lg:px-20 lg:py-12">
         <canvas id="chart" className="h-72" />
       </div>
