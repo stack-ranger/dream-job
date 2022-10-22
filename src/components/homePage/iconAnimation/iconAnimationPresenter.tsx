@@ -1,6 +1,4 @@
 import IconAnimationView from '~/components/homePage/iconAnimation/iconAnimationView'
-import useJobStore from '~/stores/jobStore'
-import useSkillCountStore from '~/stores/skillStore'
 import { useRouter } from 'next/router'
 
 const iconArray = [

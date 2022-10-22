@@ -29,6 +29,7 @@ export const SkillPlotView = ({ skills, jobSearch, noSkillsFound, loading }: Ski
     }
     const canvas = getCanvasElementById('chart')
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const config: any = {
       type: 'bar',
       data: {

@@ -1,4 +1,3 @@
-import { PhotoIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 
 const JobSkeleton = () => {
@@ -14,6 +13,7 @@ const JobSkeleton = () => {
               height={80}
               placeholder="blur"
               blurDataURL="/loading.svg"
+              alt="loading"
             />
           </div>
         </div>

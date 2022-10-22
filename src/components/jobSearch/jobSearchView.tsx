@@ -15,12 +15,12 @@ const JobSearchView = ({
   onKeyPress: (e: InputChangeEventHandler) => void
 }) => {
   return (
-    <div className="w-96">
+    <div className="w-72 sm:w-96">
       <form className="flex items-center">
         <label className="sr-only">Search</label>
         <div className="relative w-full">
           <div>
-            <div className="flex max-w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
+            <div className="flex w-72 sm:w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
               <input
                 ref={(ref) => ref && ref.focus()}
                 onFocus={(e) =>
@@ -45,7 +45,7 @@ const JobSearchView = ({
         </button>
       </form>
       <div className="rounded-md -mt-1">
-        <ul className="absolute z-50 w-96">
+        <ul className="absolute z-50 w-72 sm:w-96">
           {search.trim() &&
             suggestions.length > 0 &&
             suggestions.map((suggestion, i) => (

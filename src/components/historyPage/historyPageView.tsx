@@ -1,9 +1,9 @@
 import { Spinner, Table } from 'flowbite-react'
-import { Session } from 'next-auth'
 import Link from 'next/link'
 import React from 'react'
 import { Search } from '~/stores/historyStore'
 import JobListView from '../jobList/jobListView'
+import { JobInterface } from '~/types/job'
 const { Children } = React
 
 export default function HistoryPageView({
@@ -19,7 +19,7 @@ export default function HistoryPageView({
   isHistoryLoading: boolean
   isJobsLoading: boolean
   searches: Search[]
-  savedJobs: any[]
+  savedJobs: JobInterface[]
 }) {
   return (
     <div className="flex flex-col items-center justify-center w-full pb-10">

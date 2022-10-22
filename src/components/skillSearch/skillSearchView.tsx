@@ -21,44 +21,40 @@ const SkillSearchView = ({
   onSearch: (e: InputChangeEventHandler) => void
 }) => {
   return (
-    <div className="w-96">
+    <div className="w-72 sm:w-96">
       <form className="flex items-center">
         <label className="sr-only">Search</label>
-        <div className="relative w-full">
-          <div>
-            <div>
-              <div className="flex max-w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
-                {skills.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center bg-gray-300 rounded-md text-sm px-2.5 mx-1 dark:bg-gray-500"
-                  >
-                    {tag}
-                    <button
-                      className="pl-2 text-l "
-                      onClick={(e: InputChangeEventHandler) => {
-                        e.preventDefault()
-                        removeSkill(index)
-                      }}
-                    >
-                      x
-                    </button>
-                  </div>
-                ))}
-                <input
-                  ref={(ref) => ref && ref.focus()}
-                  onFocus={(e) =>
-                    e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)
-                  }
-                  disabled={skills.length >= 5}
-                  value={search}
-                  placeholder={skills.length <= 4 ? 'Add a skill' : ''}
-                  onKeyDown={onKeyPress}
-                  onChange={onSearchChange}
-                  className="overflow-auto border-0 outline-none px-2 bg-gray-50 dark:bg-transparent"
-                />
+        <div className="relative">
+          <div className="flex w-72 sm:w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
+            {skills.map((tag, index) => (
+              <div
+                key={index}
+                className="flex items-center bg-gray-300 rounded-md text-sm px-2.5 mx-1 dark:bg-gray-500"
+              >
+                {tag}
+                <button
+                  className="pl-2 text-l "
+                  onClick={(e: InputChangeEventHandler) => {
+                    e.preventDefault()
+                    removeSkill(index)
+                  }}
+                >
+                  x
+                </button>
               </div>
-            </div>
+            ))}
+            <input
+              ref={(ref) => ref && ref.focus()}
+              onFocus={(e) =>
+                e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)
+              }
+              disabled={skills.length >= 5}
+              value={search}
+              placeholder={skills.length <= 4 ? 'Add a skill' : ''}
+              onKeyDown={onKeyPress}
+              onChange={onSearchChange}
+              className="overflow-auto border-0 outline-none px-2 bg-gray-50 dark:bg-transparent"
+            />
           </div>
         </div>
         <button
@@ -71,7 +67,7 @@ const SkillSearchView = ({
         </button>
       </form>
       <div className="rounded-md -mt-1">
-        <ul className="absolute z-50 w-96">
+        <ul className="absolute z-50 w-72 sm:w-96">
           {search.trim() &&
             suggestions.length > 0 &&
             suggestions.map((suggestion, i) => (

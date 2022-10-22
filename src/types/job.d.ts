@@ -51,7 +51,7 @@ export interface JobStoreInterface {
   loading: boolean
   isJobButtonLoading: boolean
   noJobsFound: boolean
-  savedJobs: any[]
+  savedJobs: JobInterface[]
   setSkills: (newSkills: string[]) => void
   fetchJobs: (loggedIn: boolean) => void
   resetJobs: () => void

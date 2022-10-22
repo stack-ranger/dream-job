@@ -8,7 +8,7 @@ const IconAnimationView = ({ icons, visible }: { icons: string[]; visible: boole
           <div className="flex -mx-4 animate-icons">
             {icons.map((icon, i) => (
               <div key={i} className={'self-start flex-none mx-4'}>
-                <Image src={`/highResIcons/${icon}.svg`} width={60} height={60} />
+                <Image src={`/highResIcons/${icon}.svg`} width={60} height={60} alt={icon} />
               </div>
             ))}
           </div>

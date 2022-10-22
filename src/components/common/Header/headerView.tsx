@@ -1,9 +1,6 @@
-//import { Navbar } from 'flowbite-react'
 import LoginModal from '~/components/auth/authModalPresenter'
 import { Session } from 'next-auth'
-import { useTheme } from 'next-themes'
-import { useState, useEffect } from 'react'
-import { MoonIcon, SunIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 const HeaderView = ({
@@ -11,28 +8,20 @@ const HeaderView = ({
   signOut,
   showModal,
   setShowModal,
+  switchTheme,
+  theme,
+  currentPage,
+  setCurrentPage,
 }: {
   session: Session | null
   signOut: () => void
   showModal: boolean
   setShowModal: (showModal: boolean) => void
+  switchTheme: () => void
+  theme: string
+  currentPage: string
+  setCurrentPage: (currentPage: string) => void
 }) => {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const [currentPage, setCurrentPage] = useState('Home')
-
-  useEffect(() => {
-    // @ts-ignore
-    import('flowbite')
-    setMounted(true)
-    if (theme === 'system') setTheme('light')
-    setMounted(true)
-  }, [])
-  if (!mounted) return null
-  const switchTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
-    setTheme(newTheme)
-  }
   return (
     <div className="sticky top-0 z-50 dark:bg-gray-900 bg-white">
       {typeof window !== 'undefined' && (

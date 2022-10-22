@@ -16,10 +16,10 @@ export default function HistoryPagePresenter() {
     } else {
       reset()
     }
-
     return () => {
       resetJobs()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, fetchSearches, getAllSaved])
 
   return (
