@@ -27,7 +27,7 @@ const SkillSearchView = ({
         <div className="relative w-full">
           <div>
             <div>
-              <div className="flex max-w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
+              <div className="flex w-96 overflow-auto border rounded-md bg-gray-50 p-2 dark:bg-gray-700">
                 {skills.map((tag, index) => (
                   <div
                     key={index}

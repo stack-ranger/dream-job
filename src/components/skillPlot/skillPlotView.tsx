@@ -8,9 +8,10 @@ interface SkillPlotViewProps {
   skills: SkillCount[]
   jobSearch: string
   noSkillsFound: boolean
+  loading: boolean
 }
 
-export const SkillPlotView = ({ skills, jobSearch, noSkillsFound }: SkillPlotViewProps) => {
+export const SkillPlotView = ({ skills, jobSearch, noSkillsFound, loading }: SkillPlotViewProps) => {
   const { theme } = useTheme()
 
   useEffect(() => {
@@ -102,6 +103,11 @@ export const SkillPlotView = ({ skills, jobSearch, noSkillsFound }: SkillPlotVie
   }, [skills, jobSearch, theme])
   return (
     <>
+      {loading && skills.length === 0 && (
+        <div className="flex justify-center items-center">
+          <Image src="/loading.svg" alt="loading" width={150} height={150} />
+        </div>
+      )}
       {noSkillsFound && (
         <div className="flex justify-center text-center text-sm lg:text-lg font-medium text-gray-500 dark:text-gray-400">
           Sorry, we could not found any skills for this job ☹
