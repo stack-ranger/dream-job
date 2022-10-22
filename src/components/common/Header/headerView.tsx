@@ -25,11 +25,12 @@ const HeaderView = ({
     // @ts-ignore
     import('flowbite')
     setMounted(true)
+    if(theme==='system')setTheme('light')
+    setMounted(true)
   }, [])
   if (!mounted) return null
   const switchTheme = () => {
-    let newTheme = 'light'
-    newTheme = theme === 'light' ? 'dark' : 'light'
+    const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
   }
   return (
@@ -72,7 +73,7 @@ const HeaderView = ({
                   <li>
                     <Link href="/">
                       <a
-                        className={`"${currentPage === 'Home' ? 'underline text-blue-500 dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400"`}
+                        className={`"${currentPage === 'Home' ? 'text-blue-500  dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400"`}
                         aria-current="page"
                         onClick={() => setCurrentPage('Home')}
                       >
@@ -83,7 +84,7 @@ const HeaderView = ({
                   <li>
                     <Link href="/history">
                       <a
-                        className={`"${currentPage === 'History' ? 'underline text-blue-500 dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400" `}
+                        className={`"${currentPage === 'History' ? 'text-blue-500 dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400" `}
                         onClick={() => setCurrentPage('History')}
                       >
                         History
