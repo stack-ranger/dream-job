@@ -3,6 +3,7 @@ import getRandomColor from '~/utils/randColor'
 import { HomeIcon, BriefcaseIcon, ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import { SaveButton } from '~/components/common/saveButton'
 import Image from 'next/image'
+import { InputChangeEventHandler } from '~/types/events'
 
 const JobDetailView = ({
   job,
@@ -18,13 +19,13 @@ const JobDetailView = ({
   matchingSkills: string[]
   isBookmarked: boolean
   bookmarkJob: () => void
-  onClickBack: () => void
+  onClickBack: (e: InputChangeEventHandler) => void
   isJobButtonLoading: boolean
 }) => {
   if (isLoading)
     return (
-      <div className="spinner-grow inline-block w-12 h-12 bg-current rounded-full opacity-0" role="status">
-        <span className="visually-hidden">Loading...</span>
+      <div className="flex justify-center items-center">
+        <Image src="/loading.svg" alt="loading" width={150} height={150} />
       </div>
     )
   if (!job) return <div>Error Job not found</div>
