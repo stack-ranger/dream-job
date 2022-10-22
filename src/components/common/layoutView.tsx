@@ -9,7 +9,7 @@ const LayoutView = ({ children }: { children: ReactNode }) => {
     <>
       <div className="dark:bg-gray-900 flex flex-col h-screen">
         <Header />
-        <main className="mt-6">{children}</main>
+        <main className="mt-6 dark:bg-gray-900">{children}</main>
         <ToastContainer />
         <Footer />
       </div>

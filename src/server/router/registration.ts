@@ -1,10 +1,7 @@
 import { prisma } from '../db/client'
-import { Prisma } from '@prisma/client'
 import { createRouter } from './context'
 import { z } from 'zod'
-import * as trpc from '@trpc/server'
 import { hash } from 'argon2'
-import { TRPCError } from '@trpc/server'
 import { checkValidEmail } from '~/utils/validator'
 
 /*
@@ -23,7 +20,7 @@ export const registrationRouter = createRouter().mutation('createUser', {
     email: z.string(), //.min(2).max(20),
     password: z.string(), //.min(2).max(20),
   }),
-  resolve: async function ({ input, ctx }) {
+  resolve: async function ({ input }) {
     const { email, password } = input
 
     if (!checkValidEmail(email)) {

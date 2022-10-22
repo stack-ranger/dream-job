@@ -7,8 +7,6 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { env } from '~/env/server.mjs'
 import { prisma } from '~/server/db/client'
 import { verify } from 'argon2'
-import { checkValidEmail } from '~/utils/validator'
-
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
@@ -59,17 +57,10 @@ export const authOptions: NextAuthOptions = {
       credentials: {},
 
       // fires off when we sends signIn request to backend API
-      authorize: async (credentials, req) => {
+      authorize: async (credentials) => {
         //user input
         const input = JSON.parse(JSON.stringify(credentials))
 
-        /*
-        if (!checkValidEmail(input.email)) {
-          return {
-              status: 400,
-              message: 'Email format not valid.',
-            }
-      } */
         // return user from db
         const user = await prisma.user.findFirst({
           where: { email: input.email },

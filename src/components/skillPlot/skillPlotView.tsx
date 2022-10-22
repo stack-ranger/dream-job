@@ -2,18 +2,28 @@ import { useEffect } from 'react'
 import { SkillCount } from '~/types/skill'
 import Image from 'next/image'
 import Chart from 'chart.js/auto'
-import useSkillCountStore from '~/stores/skillStore'
+import { useTheme } from 'next-themes';
 
 interface SkillPlotViewProps {
   skills: SkillCount[]
+  jobSearch: string
 }
 
-export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
-  const { jobSearch } = useSkillCountStore()
-  useEffect(() => {
+export const SkillPlotView = ({ skills, jobSearch }: SkillPlotViewProps) => {
+  const { theme } = useTheme()
 
-    let canvas: any = document.getElementById('chart')
-    canvas = canvas.getContext('2d')
+  useEffect(() => {
+    console.log(theme)
+    const getCanvasElementById = (id: string): HTMLCanvasElement => {
+      const canvas = document.getElementById(id);
+  
+      if (!(canvas instanceof HTMLCanvasElement)) {
+          throw new Error(`The element of id "${id}" is not a HTMLCanvasElement. Make sure a <canvas id="${id}""> element is present in the document.`);
+      }
+  
+      return canvas;
+  }
+    const canvas =  getCanvasElementById('chart')
 
     const config: any = {
       type: 'bar',
@@ -33,11 +43,11 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
           title: {
             text: `Results for ${jobSearch}`,
             display: true,
-            color: 'black',
-            fontFamily: 'Arial',
-
+            color: 'rgb(107 114 128)',
             font: {
-              size: 16,
+              size: 20,
+              family: 'sans-serif',
+              weight: 10,
             },
           },
           legend: {
@@ -48,23 +58,29 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
           x: {
             offset: true,
             ticks: {
-              color: 'black',
               min: 0,
+              color: 'rgb(107 114 128)',
               font: {
-                size: 16,
+                size: 14,
+                family: 'sans-serif',
+                weight: 1,
               },
             },
             grid: {
               display: false,
+              borderColor: 'rgb(107 114 128)',
             },
           },
 
           y: {
             ticks: {
-              color: 'black',
               min: 0,
+              color: 'rgb(107 114 128)',
+              borderColor: 'rgb(107 114 128)',
               font: {
-                size: 16,
+                size: 14,
+                family: 'sans-serif',
+                weight: 1,
               },
               callback: function (tick: number, index: number) {
                 return index % 2 !== 0 ? tick : ''
@@ -72,6 +88,7 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
             },
             grid: {
               display: false,
+              borderColor: 'rgb(107 114 128)',
             },
           },
         },
@@ -79,16 +96,16 @@ export const SkillPlotView = ({ skills }: SkillPlotViewProps) => {
     }
     const chart = new Chart(canvas, config)
     return () => chart.destroy()
-  }, [skills])
+  }, [skills, jobSearch, theme])
   return (
-    <div className={skills.length > 0 ? 'block lg:flex lg:justify-between' : 'hidden'}>
-      <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl mr-10 border border-rounded dark:bg-gray-800 dark:border-gray-500">
+    <div className={skills.length > 0 ? 'overflow-auto px-2 lg:flex sm:block' : 'hidden'}>
+      <div className="mx-auto px-4 py-2 bg-white rounded-lg shadow-xl border border-rounded dark:bg-gray-800 dark:border-gray-500 sm:w-[30rem] sm:px-8 lg:py-4 md:w-[40rem] md:px-14 md:py-8 lg:w-[42rem] lg:mr-2 lg:px-20 lg:py-12">
         <canvas id="chart" className="h-72" />
       </div>
       <div className="block h-96 overflow-auto">
         <ul>
           {skills.map((skill, i) => (
-            <div key={i} className="px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform w-72 lg:w-128 dark:bg-gray-800 dark:border-gray-500">
+            <div key={i} className="bg-white mt-2 px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform dark:bg-gray-800 dark:border-gray-500 text-gray-500 sm:w-[30rem] md:w-[40rem] lg:w-[24rem] lg:mt-0">
               <li className="flex justify-between items-center" key={i}>
                 <div className="capitalize">{skill.name}</div>
                 {skill.icon.length > 0 && (
