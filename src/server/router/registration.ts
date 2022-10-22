@@ -25,10 +25,7 @@ export const registrationRouter = createRouter().mutation('createUser', {
   }),
   resolve: async function ({ input, ctx }) {
     const { email, password } = input
-    console.log(email)
-    console.log(password)
 
-    
     if (!checkValidEmail(email)) {
         return {
             status: 400,
@@ -76,7 +73,7 @@ export const registrationRouter = createRouter().mutation('createUser', {
         result: userResult.email,
       }
     } catch (error) {
-      console.log(error)
+      return null
     }
   },
 })

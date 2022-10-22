@@ -24,7 +24,6 @@ const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
     const res = await trpcClient.query( //returns ALL jobs, even unauthorized ones. 
       'searches.all'
     )
-    console.log(res) 
     const processed = res?.map(i => ({
       type: new URLSearchParams(i.query).get("search") || "Not available",
       createdAt: i.createdAt.toLocaleString(),
@@ -36,8 +35,6 @@ const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
   },
   reset: () =>{ set({}) },
   registerSearch: (loggedIn: boolean, query: string) => {
-    console.log(loggedIn)
-    console.log(query)
     if(loggedIn)
       trpcClient.mutation(
         'searches.save', {query: query}

@@ -3,7 +3,7 @@ import AuthModalView from './authModalView'
 import React, { useEffect, useState } from 'react'
 import { trpc } from '~/utils/trpc'
 import { checkValidEmail, checkEmailLength, checkPasswordLength } from '~/utils/validator'
-
+import { toast } from 'react-toastify'
 const AuthModalPresenter = ({
   showModal,
   setShowModal,
@@ -48,8 +48,6 @@ const AuthModalPresenter = ({
     }
 
     if (!checkPasswordLength(password) || !checkPasswordLength(passwordRepeated)) {
-      console.log(password)
-      console.log(passwordRepeated)
       onErrorReturned('Password length is too short.')
       return
     }
@@ -76,9 +74,8 @@ const AuthModalPresenter = ({
           return
         }
       
-    } catch (err: any) {
-      //fix
-      console.log(err)
+    } catch (err) {
+      onErrorReturned('Sign up failed. Please try again.')
       return err
     }
   }
@@ -110,6 +107,7 @@ const AuthModalPresenter = ({
         setError(false)
         setLoading(false)
         setShowModal(false)
+        toast.info(`Welcome ${user.email}!\n You can now search and save job positions and explore trending tech stacks.`, { autoClose: 15000 })        
         return response
       }
       if (response?.status === 401) {
@@ -117,7 +115,7 @@ const AuthModalPresenter = ({
         return
       }
     } catch (err) {
-      console.log(err)
+      onErrorReturned('Sign in failed. Please try again.')
       return err
     }
   }
@@ -140,7 +138,6 @@ const AuthModalPresenter = ({
   }
 
   useEffect(() => {
-    console.log(email, password)
     setUser({ email: email, password: password })
   }, [email, password])
 

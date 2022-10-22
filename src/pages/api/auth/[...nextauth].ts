@@ -96,7 +96,6 @@ export const authOptions: NextAuthOptions = {
           return null
         }
         
-        console.log(user)
         // if user, return it
         if (user) {
           return {
