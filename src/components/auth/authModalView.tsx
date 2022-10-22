@@ -19,32 +19,26 @@ interface IAuthStates {
   onSignIn: () => void
   onSubmit: () => void
   dismissAlert: () => void
+  handleSubmit: (e: React.FormEvent) => void
+  onDismiss: () => void
 }
 
 const AuthModalView = (props: IAuthStates) => {
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    props.onSubmit()
-  }
-  const onDismiss = () => {
-    props.dismissAlert()
-  }
   return (
     <Modal show={props.showModal} size="md" popup={true} onClose={() => props.setShowModal(false)}>
       <Modal.Header />
       <Modal.Body>
         <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
-          {(props.error) && (
-            <Alert color="failure" rounded={false} withBorderAccent={true} onDismiss={onDismiss}>
+          {props.error && (
+            <Alert color="failure" rounded={false} withBorderAccent={true} onDismiss={props.onDismiss}>
               <h3 className="text-xs font-xs text-red-700 dark:text-red-800">{props.message}</h3>
             </Alert>
-          )} 
-          {(props.isSuccessful) && (
-            <Alert color="success" rounded={false} withBorderAccent={true} onDismiss={onDismiss}>
+          )}
+          {props.isSuccessful && (
+            <Alert color="success" rounded={false} withBorderAccent={true} onDismiss={props.onDismiss}>
               <h3 className="text-xs font-xs text-green-700 dark:text-green-800">{props.message}</h3>
             </Alert>
-          )} 
+          )}
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">
             {props.isReg ? 'Sign up to our platform' : 'Sign in to our platform'}
           </h3>
@@ -97,7 +91,7 @@ const AuthModalView = (props: IAuthStates) => {
             </div>
           )}
           <div className="w-full">
-            <Button onClick={handleSubmit}>
+            <Button onClick={props.handleSubmit}>
               {props.loading ? <Spinner color="info" size="sm" /> : props.isReg ? 'Sign up' : 'Sign in'}
             </Button>
           </div>
@@ -107,7 +101,9 @@ const AuthModalView = (props: IAuthStates) => {
               href="#"
               className="text-blue-700 hover:underline dark:text-blue-500"
               onClick={() => {
-                props.isReg ? (props.isRegistration(false), props.dismissAlert()) : (props.isRegistration(true), props.dismissAlert())
+                props.isReg
+                  ? (props.isRegistration(false), props.dismissAlert())
+                  : (props.isRegistration(true), props.dismissAlert())
               }}
             >
               {props.isReg ? 'Sign in here.' : 'Sign up here.'}

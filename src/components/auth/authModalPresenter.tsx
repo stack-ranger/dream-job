@@ -53,27 +53,26 @@ const AuthModalPresenter = ({
     }
     setLoading(true)
     try {
-        setUser({
-          email: email,
-          password: password,
-        })
-        const response = await registerUser.mutateAsync({
-          email: user.email,
-          password: user.password,
-        })
-        // we can do stuff with this response, e.g. load a toast alert or something
-        if (response?.status === 201) {
-          setMessage(response.message)
-          setError(false)
-          setLoading(false)
-          setIsSuccessful(true)
-          setIsRegistration(false)
-          return response
-        } else if (response?.status === 400) {
-          onErrorReturned(response.message)
-          return
-        }
-      
+      setUser({
+        email: email,
+        password: password,
+      })
+      const response = await registerUser.mutateAsync({
+        email: user.email,
+        password: user.password,
+      })
+      // we can do stuff with this response, e.g. load a toast alert or something
+      if (response?.status === 201) {
+        setMessage(response.message)
+        setError(false)
+        setLoading(false)
+        setIsSuccessful(true)
+        setIsRegistration(false)
+        return response
+      } else if (response?.status === 400) {
+        onErrorReturned(response.message)
+        return
+      }
     } catch (err) {
       onErrorReturned('Sign up failed. Please try again.')
       return err
@@ -107,7 +106,10 @@ const AuthModalPresenter = ({
         setError(false)
         setLoading(false)
         setShowModal(false)
-        toast.info(`Welcome ${user.email}!\n You can now search and save job positions and explore trending tech stacks.`, { autoClose: 15000 })        
+        toast.info(
+          `Welcome ${user.email}!\n You can now search and save job positions and explore trending tech stacks.`,
+          { autoClose: 15000 }
+        )
         return response
       }
       if (response?.status === 401) {
@@ -141,10 +143,20 @@ const AuthModalPresenter = ({
     setUser({ email: email, password: password })
   }, [email, password])
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    onSubmit()
+  }
+  const onDismiss = () => {
+    dismissAlert()
+  }
+
   const onSignIn = () => signIn('google')
   return (
     <>
       <AuthModalView
+        handleSubmit={handleSubmit}
+        onDismiss={onDismiss}
         isReg={isReg}
         isRegistration={isRegistration}
         showModal={showModal}

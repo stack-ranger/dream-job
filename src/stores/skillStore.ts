@@ -7,7 +7,6 @@ const useSkillCountStore = create<SkillStoreInterface>((set) => ({
   loading: false,
   jobSearch: '',
   noSkillsFound: false,
-  // jobSearch
   fetchSkillsCount: async (role: string) => {
     set({ loading: true })
     const res = await trpcClient.query('skills.all', { role: role, number: 10 })

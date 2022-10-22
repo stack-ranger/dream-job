@@ -6,14 +6,12 @@ import Footer from '~/components/common/Footer/FooterView'
 
 const LayoutView = ({ children }: { children: ReactNode }) => {
   return (
-    <>
-      <div className="dark:bg-gray-900 flex flex-col h-screen">
-        <Header />
-        <main className="mt-6 dark:bg-gray-900">{children}</main>
-        <ToastContainer />
-        <Footer />
-      </div>
-    </>
+    <div className="dark:bg-gray-900 flex flex-col h-screen">
+      <Header />
+      <main className="mt-6 dark:bg-gray-900">{children}</main>
+      <ToastContainer />
+      <Footer />
+    </div>
   )
 }
 

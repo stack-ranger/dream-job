@@ -1,6 +1,7 @@
 import IconAnimationView from '~/components/homePage/iconAnimation/iconAnimationView'
 import { useRouter } from 'next/router'
 
+// icons to be shown in the animation
 const iconArray = [
   'gcp',
   'redux',

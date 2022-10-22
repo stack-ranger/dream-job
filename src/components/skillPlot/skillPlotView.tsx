@@ -1,107 +1,13 @@
-import { useEffect } from 'react'
 import { SkillCount } from '~/types/skill'
 import Image from 'next/image'
-import Chart from 'chart.js/auto'
-import { useTheme } from 'next-themes'
 
 interface SkillPlotViewProps {
   skills: SkillCount[]
-  jobSearch: string
   noSkillsFound: boolean
   loading: boolean
 }
 
-export const SkillPlotView = ({ skills, jobSearch, noSkillsFound, loading }: SkillPlotViewProps) => {
-  const { theme } = useTheme()
-
-  useEffect(() => {
-    console.log(theme)
-    const getCanvasElementById = (id: string): HTMLCanvasElement => {
-      const canvas = document.getElementById(id)
-
-      if (!(canvas instanceof HTMLCanvasElement)) {
-        throw new Error(
-          `The element of id "${id}" is not a HTMLCanvasElement. Make sure a <canvas id="${id}""> element is present in the document.`
-        )
-      }
-
-      return canvas
-    }
-    const canvas = getCanvasElementById('chart')
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const config: any = {
-      type: 'bar',
-      data: {
-        labels: skills.map((skill) => skill.name),
-        datasets: [
-          {
-            data: skills.map((skill) => skill.count),
-            backgroundColor: 'rgb(147 51 234)',
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            text: `Results for ${jobSearch}`,
-            display: true,
-            color: 'rgb(107 114 128)',
-            font: {
-              size: 20,
-              family: 'sans-serif',
-              weight: 10,
-            },
-          },
-          legend: {
-            display: false,
-          },
-        },
-        scales: {
-          x: {
-            offset: true,
-            ticks: {
-              min: 0,
-              color: 'rgb(107 114 128)',
-              font: {
-                size: 14,
-                family: 'sans-serif',
-                weight: 1,
-              },
-            },
-            grid: {
-              display: false,
-              borderColor: 'rgb(107 114 128)',
-            },
-          },
-
-          y: {
-            ticks: {
-              min: 0,
-              color: 'rgb(107 114 128)',
-              borderColor: 'rgb(107 114 128)',
-              font: {
-                size: 14,
-                family: 'sans-serif',
-                weight: 1,
-              },
-              callback: function (tick: number, index: number) {
-                return index % 2 !== 0 ? tick : ''
-              },
-            },
-            grid: {
-              display: false,
-              borderColor: 'rgb(107 114 128)',
-            },
-          },
-        },
-      },
-    }
-    const chart = new Chart(canvas, config)
-    return () => chart.destroy()
-  }, [skills, jobSearch, theme])
+export const SkillPlotView = ({ skills, noSkillsFound, loading }: SkillPlotViewProps) => {
   return (
     <>
       {loading && skills.length === 0 && (

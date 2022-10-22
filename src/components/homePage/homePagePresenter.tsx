@@ -8,8 +8,6 @@ export default function HomePagePresenter({ jobTitles, skillList }: { jobTitles:
   const router = useRouter()
   const { resetJobStore, setNoJobsFound } = useJobStore()
   const { resetSkillCountStore, setNoSkillsFound } = useSkillCountStore()
-
-  // why ['job', 'skill'].includes(searchParam) ? searchParam : 'job' is not working?
   const [searchSelected, setSearchSelected] = useState<'job' | 'skill'>('job')
 
   useEffect(() => {
