@@ -98,14 +98,14 @@ export const SkillPlotView = ({ skills, jobSearch }: SkillPlotViewProps) => {
     return () => chart.destroy()
   }, [skills, jobSearch, theme])
   return (
-    <div className={skills.length > 0 ? ' lg:flex sm:block' : 'hidden'}>
-      <div className="mx-auto px-20 py-12 bg-white rounded-lg shadow-xl border border-rounded dark:bg-gray-800 dark:border-gray-500 sm:w-[30rem] md:w-[40rem] lg:w-[42rem] lg:mr-2">
+    <div className={skills.length > 0 ? 'overflow-auto lg:flex sm:block' : 'hidden'}>
+      <div className="mx-auto px-4 py-2 bg-white rounded-lg shadow-xl border border-rounded dark:bg-gray-800 dark:border-gray-500 sm:w-[30rem] sm:px-8 lg:py-4 md:w-[40rem] md:px-14 md:py-8 lg:w-[42rem] lg:mr-2 lg:px-20 lg:py-12">
         <canvas id="chart" className="h-72" />
       </div>
       <div className="block h-96 overflow-auto">
         <ul>
           {skills.map((skill, i) => (
-            <div key={i} className="px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform dark:bg-gray-800 dark:border-gray-500 text-gray-500 sm:w-[30rem] md:w-[40rem] lg:w-[24rem] lg:mt-0">
+            <div key={i} className="bg-white mt-2 px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform dark:bg-gray-800 dark:border-gray-500 text-gray-500 sm:w-[30rem] md:w-[40rem] lg:w-[24rem] lg:mt-0">
               <li className="flex justify-between items-center" key={i}>
                 <div className="capitalize">{skill.name}</div>
                 {skill.icon.length > 0 && (
