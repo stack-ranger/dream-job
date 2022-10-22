@@ -25,7 +25,7 @@ const JobView = ({
 }) => {
   return (
     <div
-      className="w-full cursor-pointer max-w-sm hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100 dark:bg-gray-800 dark:border-gray-500"
+      className="w-full cursor-pointer hover:scale-105 bg-white rounded-lg border border-gray-200 shadow-md transition-opacity ease-in duration-1000 opacity-100 dark:bg-gray-800 dark:border-gray-500"
       onClick={onClick}
     >
       <div className={`flex flex-col items-center pb-3 relative dark:border-gray-500 rounded-lg`}>
