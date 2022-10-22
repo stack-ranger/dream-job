@@ -1,6 +1,5 @@
 import { Modal, Alert, Label, TextInput, Button, Spinner } from 'flowbite-react'
-import { getStaticProps } from '~/pages'
-import React, { SetStateAction, Dispatch, useState } from 'react'
+import React, { SetStateAction, Dispatch } from 'react'
 
 interface IAuthStates {
   email: string
