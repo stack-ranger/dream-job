@@ -6,8 +6,8 @@ import HomePageView from './homePageView'
 
 export default function HomePagePresenter({ jobTitles, skillList }: { jobTitles: string[]; skillList: string[] }) {
   const router = useRouter()
-  const { resetJobStore } = useJobStore()
-  const { resetSkillCountStore } = useSkillCountStore()
+  const { resetJobStore, setNoJobsFound } = useJobStore()
+  const { resetSkillCountStore, setNoSkillsFound } = useSkillCountStore()
 
   // why ['job', 'skill'].includes(searchParam) ? searchParam : 'job' is not working?
   const [searchSelected, setSearchSelected] = useState<'job' | 'skill'>('job')
@@ -26,12 +26,14 @@ export default function HomePagePresenter({ jobTitles, skillList }: { jobTitles:
     setSearchSelected('job')
     resetParams()
     resetJobStore()
+    setNoSkillsFound(false)
   }
 
   const skillSearchClick = () => {
     setSearchSelected('skill')
     resetParams()
     resetSkillCountStore()
+    setNoJobsFound(false)
   }
 
   return (

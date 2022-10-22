@@ -58,6 +58,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
       resetJobs()
     } else {
       toast.info('Already showing these skills', { autoClose: 2000 })
+      return
     }
     await router.push({ pathname: '/', query: { skills: skills, search: 'job' } }, undefined, { shallow: true })
     registerSearch(status === 'authenticated', `?search=job${skills.map((s) => `&skills=${s}`).join('')}`)

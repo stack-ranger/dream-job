@@ -10,7 +10,7 @@ const JobListPresenter = () => {
   const scrollX = global?.window && window.scrollX
   const scrollY = global?.window && window.scrollY
   const { status } = useSession()
-  const { jobs, loading, fetchJobs, jobsPerQuery } = useJobStore()
+  const { jobs, loading, fetchJobs, jobsPerQuery, noJobsFound } = useJobStore()
   const { scrollPos, setScrollPos, maxScrollPos, setMaxScrollPos } = useScrollStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
   const router = useRouter()
@@ -43,7 +43,15 @@ const JobListPresenter = () => {
     }
   })
 
-  return <JobListView jobs={jobs} loading={loading} skills={currentSkillSearch} jobsPerQuery={jobsPerQuery} />
+  return (
+    <JobListView
+      jobs={jobs}
+      loading={loading}
+      skills={currentSkillSearch}
+      jobsPerQuery={jobsPerQuery}
+      noJobsFound={noJobsFound}
+    />
+  )
 }
 
 export default JobListPresenter

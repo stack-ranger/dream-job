@@ -2,28 +2,31 @@ import { useEffect } from 'react'
 import { SkillCount } from '~/types/skill'
 import Image from 'next/image'
 import Chart from 'chart.js/auto'
-import { useTheme } from 'next-themes';
+import { useTheme } from 'next-themes'
 
 interface SkillPlotViewProps {
   skills: SkillCount[]
   jobSearch: string
+  noSkillsFound: boolean
 }
 
-export const SkillPlotView = ({ skills, jobSearch }: SkillPlotViewProps) => {
+export const SkillPlotView = ({ skills, jobSearch, noSkillsFound }: SkillPlotViewProps) => {
   const { theme } = useTheme()
 
   useEffect(() => {
     console.log(theme)
     const getCanvasElementById = (id: string): HTMLCanvasElement => {
-      const canvas = document.getElementById(id);
-  
+      const canvas = document.getElementById(id)
+
       if (!(canvas instanceof HTMLCanvasElement)) {
-          throw new Error(`The element of id "${id}" is not a HTMLCanvasElement. Make sure a <canvas id="${id}""> element is present in the document.`);
+        throw new Error(
+          `The element of id "${id}" is not a HTMLCanvasElement. Make sure a <canvas id="${id}""> element is present in the document.`
+        )
       }
-  
-      return canvas;
-  }
-    const canvas =  getCanvasElementById('chart')
+
+      return canvas
+    }
+    const canvas = getCanvasElementById('chart')
 
     const config: any = {
       type: 'bar',
@@ -98,34 +101,46 @@ export const SkillPlotView = ({ skills, jobSearch }: SkillPlotViewProps) => {
     return () => chart.destroy()
   }, [skills, jobSearch, theme])
   return (
-    <div className={skills.length > 0 ? 'overflow-auto px-2 lg:flex sm:block' : 'hidden'}>
-      <div className="mx-auto px-4 py-2 bg-white rounded-lg shadow-xl border border-rounded dark:bg-gray-800 dark:border-gray-500 sm:w-[30rem] sm:px-8 lg:py-4 md:w-[40rem] md:px-14 md:py-8 lg:w-[42rem] lg:mr-2 lg:px-20 lg:py-12">
-        <canvas id="chart" className="h-72" />
-      </div>
-      <div className="block h-96 overflow-auto">
-        <ul>
-          {skills.map((skill, i) => (
-            <div key={i} className="bg-white mt-2 px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform dark:bg-gray-800 dark:border-gray-500 text-gray-500 sm:w-[30rem] md:w-[40rem] lg:w-[24rem] lg:mt-0">
-              <li className="flex justify-between items-center" key={i}>
-                <div className="capitalize">{skill.name}</div>
-                {skill.icon.length > 0 && (
-                  <div className="h-12 w-12 relative">
-                    <Image src={'/icons/' + skill.icon} alt={skill.icon} layout={'fill'} objectFit={'cover'} />
-                  </div>
-                )}
-              </li>
-              <p className="text-sm mt-2">Link to Documentation:</p>
-              <a
-                href={skill.docs}
-                className={skill?.docs ? 'text-xs text-blue-700 hover:text-blue-800 overflow-auto' : 'text-black text-xs'}
+    <>
+      {noSkillsFound && (
+        <div className="flex justify-center text-center text-sm lg:text-lg font-medium text-gray-500 dark:text-gray-400">
+          Sorry, we could not found any skills for this job ☹
+        </div>
+      )}
+      <div className={skills.length > 0 ? 'overflow-auto px-2 lg:flex sm:block' : 'hidden'}>
+        <div className="mx-auto px-4 py-2 bg-white rounded-lg shadow-xl border border-rounded dark:bg-gray-800 dark:border-gray-500 sm:w-[30rem] sm:px-8 lg:py-4 md:w-[40rem] md:px-14 md:py-8 lg:w-[42rem] lg:mr-2 lg:px-20 lg:py-12">
+          <canvas id="chart" className="h-72" />
+        </div>
+        <div className="block h-96 overflow-auto">
+          <ul>
+            {skills.map((skill, i) => (
+              <div
+                key={i}
+                className="bg-white mt-2 px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform dark:bg-gray-800 dark:border-gray-500 text-gray-500 sm:w-[30rem] md:w-[40rem] lg:w-[24rem] lg:mt-0"
               >
-                {skill?.docs ? skill.docs : 'No Link Found.'}
-              </a>
-            </div>
-          ))}
-        </ul>
+                <li className="flex justify-between items-center" key={i}>
+                  <div className="capitalize">{skill.name}</div>
+                  {skill.icon.length > 0 && (
+                    <div className="h-12 w-12 relative">
+                      <Image src={'/icons/' + skill.icon} alt={skill.icon} layout={'fill'} objectFit={'cover'} />
+                    </div>
+                  )}
+                </li>
+                <p className="text-sm mt-2">Link to Documentation:</p>
+                <a
+                  href={skill.docs}
+                  className={
+                    skill?.docs ? 'text-xs text-blue-700 hover:text-blue-800 overflow-auto' : 'text-black text-xs'
+                  }
+                >
+                  {skill?.docs ? skill.docs : 'No Link Found.'}
+                </a>
+              </div>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

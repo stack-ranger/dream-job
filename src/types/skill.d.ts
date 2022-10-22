@@ -25,7 +25,9 @@ export interface SkillStoreInterface {
   loading: boolean
   skillsCount: SkillCount[]
   jobSearch: string
+  noSkillsFound: boolean
   fetchSkillsCount: (role: string) => void
   resetSkillCountStore: () => void
   setStoreJobSearch: (role: string) => void
+  setNoSkillsFound: (noSkillsFound: boolean) => void
 }
