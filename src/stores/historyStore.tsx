@@ -21,7 +21,7 @@ const useHistoryStore = create<HistoryStoreInterface>((set, get) => ({
   isHistoryLoading: false,
   fetchSearches: async () => {
     set({isHistoryLoading: true})
-    const res = await trpcClient.query(
+    const res = await trpcClient.query( //returns ALL jobs, even unauthorized ones. 
       'searches.all'
     )
     const processed = res?.map(i => ({

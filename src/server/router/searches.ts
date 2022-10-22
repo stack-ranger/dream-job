@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { createProtectedRouter } from './context'
 
 export const searchesRouter = createProtectedRouter()
+
   .mutation('save', {
     input: z.object({
       query: z.string(),

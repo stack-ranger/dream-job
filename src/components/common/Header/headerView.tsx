@@ -1,5 +1,5 @@
 //import { Navbar } from 'flowbite-react'
-import LoginModal from '~/components/loginModal/loginModalPresenter'
+import LoginModal from '~/components/auth/authModalPresenter'
 import { Session } from 'next-auth'
 import { useTheme } from 'next-themes'
 import { useState, useEffect } from 'react'
@@ -95,7 +95,7 @@ const HeaderView = ({
                       <Link href="#">
                         <a
                           onClick={() => signOut()}
-                          className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                          className="cursor-pointer block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                         >
                           Logout
                         </a>
@@ -106,7 +106,7 @@ const HeaderView = ({
                       <li>
                         <a
                           onClick={() => setShowModal(true)}
-                          className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                          className="cursor-pointer block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                         >
                           Login
                         </a>
