@@ -27,7 +27,7 @@ const useJobStore = create<JobStoreInterface>((set, get) => ({
       { keywords: get().skills, number: store.jobsPerQuery, skip: store.offset },
       { context: { enabled: false } }
     )
-    set({ noJobsFound: res.length === 0 })
+    set({ noJobsFound: res.length === 0 && store.jobs.length === 0 })
 
     let toUpdate = [...store.jobs, ...res]
 
