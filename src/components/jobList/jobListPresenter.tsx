@@ -34,7 +34,11 @@ const JobListPresenter = () => {
     }
   }
 
-  if (typeof window !== 'undefined' && router.pathname !== '/history') window.onscroll = debounce(handleScroll, 10)
+  useEffect(() => {
+    const debouncedScroll = debounce(handleScroll, 50)
+    if (typeof window !== 'undefined') window.addEventListener('scroll', debouncedScroll, true)
+    return () => window.removeEventListener('scroll', debouncedScroll, true)
+  }, [])
 
   useBrowserLayoutEffect(() => {
     window.scrollTo(scrollX, scrollY)
