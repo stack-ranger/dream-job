@@ -34,7 +34,8 @@ const JobListPresenter = () => {
     }
   }
 
-  if (typeof window !== 'undefined' && router.pathname !== '/history') window.onscroll = debounce(handleScroll, 10)
+  const hasRouterQueryParams = Object.keys(router.query).length > 0
+  if (typeof window !== 'undefined' && hasRouterQueryParams) window.onscroll = debounce(handleScroll, 10)
 
   useBrowserLayoutEffect(() => {
     window.scrollTo(scrollX, scrollY)
