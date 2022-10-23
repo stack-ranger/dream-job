@@ -1,9 +1,6 @@
-//import { Navbar } from 'flowbite-react'
 import LoginModal from '~/components/auth/authModalPresenter'
 import { Session } from 'next-auth'
-import { useTheme } from 'next-themes'
-import { useState, useEffect } from 'react'
-import { MoonIcon, SunIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 const HeaderView = ({
@@ -11,28 +8,20 @@ const HeaderView = ({
   signOut,
   showModal,
   setShowModal,
+  switchTheme,
+  theme,
+  currentPage,
+  setCurrentPage,
 }: {
   session: Session | null
   signOut: () => void
   showModal: boolean
   setShowModal: (showModal: boolean) => void
+  switchTheme: () => void
+  theme: string
+  currentPage: string
+  setCurrentPage: (currentPage: string) => void
 }) => {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const [currentPage, setCurrentPage] = useState('Home')
-
-  useEffect(() => {
-    // @ts-ignore
-    import('flowbite')
-    setMounted(true)
-    if(theme==='system')setTheme('light')
-    setMounted(true)
-  }, [])
-  if (!mounted) return null
-  const switchTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
-    setTheme(newTheme)
-  }
   return (
     <div className="sticky top-0 z-50 dark:bg-gray-900 bg-white">
       {typeof window !== 'undefined' && (
@@ -43,8 +32,7 @@ const HeaderView = ({
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                   Stack Ranger
                 </span>
-                <span className="pl-2 text-md flex items-center">
-                </span>
+                <span className="pl-2 text-md flex items-center"></span>
               </a>
               <button
                 data-collapse-toggle="navbar-default"
@@ -73,7 +61,9 @@ const HeaderView = ({
                   <li>
                     <Link href="/">
                       <a
-                        className={`"${currentPage === 'Home' ? 'text-blue-500  dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400"`}
+                        className={`"${
+                          currentPage === 'Home' ? 'text-blue-500  dark:text-blue-500' : 'text-gray-700'
+                        } block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400"`}
                         aria-current="page"
                         onClick={() => setCurrentPage('Home')}
                       >
@@ -81,16 +71,20 @@ const HeaderView = ({
                       </a>
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/history">
-                      <a
-                        className={`"${currentPage === 'History' ? 'text-blue-500 dark:text-blue-500' : 'text-gray-700'} block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400" `}
-                        onClick={() => setCurrentPage('History')}
-                      >
-                        History
-                      </a>
-                    </Link>
-                  </li>
+                  {session && (
+                    <li>
+                      <Link href="/history">
+                        <a
+                          className={`"${
+                            currentPage === 'History' ? 'text-blue-500 dark:text-blue-500' : 'text-gray-700'
+                          } block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent active:bg-blue-400" `}
+                          onClick={() => setCurrentPage('History')}
+                        >
+                          History
+                        </a>
+                      </Link>
+                    </li>
+                  )}
                   {session ? (
                     <li>
                       <Link href="#">

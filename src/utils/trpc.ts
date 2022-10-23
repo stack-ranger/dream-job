@@ -1,4 +1,4 @@
-import type { AppRouter } from '../server/router'
+import type { AppRouter } from '~/server/router'
 import { createReactQueryHooks, createTRPCClient } from '@trpc/react'
 import type { inferProcedureOutput, inferProcedureInput } from '@trpc/server'
 import superjson from 'superjson'

@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
     session({ session, token }) {
       // CREDENTIALS LOGIN
       // if jw. token and user in the session, give session the user ID.
-      // session.user is created somwehre when we login successfully.
+      // session.user is created somewhere when we login successfully.
       if (token?.userId && session?.user) {
         session.user.id = String(token?.userId)
       }
@@ -32,8 +32,11 @@ export const authOptions: NextAuthOptions = {
     // In case of a credential signIn, We grab the user ID and put it on the token
     // In case of google signIn, we do nothing. Just return token
     jwt: async ({ token, user }) => {
+      // @ts-ignore
       if (user?.userId) {
+        // @ts-ignore
         token.userId = user?.userId
+        // @ts-ignore
         token.isCredential = user?.isCredential
       }
       return token
@@ -56,7 +59,8 @@ export const authOptions: NextAuthOptions = {
       type: 'credentials',
       credentials: {},
 
-      // fires off when we sends signIn request to backend API
+      // fires off when we send signIn request to backend API
+      // @ts-ignore
       authorize: async (credentials) => {
         //user input
         const input = JSON.parse(JSON.stringify(credentials))
@@ -68,25 +72,24 @@ export const authOptions: NextAuthOptions = {
 
         // return hashed password from db (table: password)
         const userPassword = await prisma.password.findUnique({
-          where: { email: input.email }
+          where: { email: input.email },
         })
-
 
         if (userPassword?.password) {
           await verify(userPassword.password, input.password)
-        } 
+        }
 
         if (!userPassword?.password) return null
- 
+
         // check if password exist (not the case for Google)
         if (userPassword?.password) {
-          if(!await verify(userPassword.password, input.password)){
+          if (!(await verify(userPassword.password, input.password))) {
             return null
           }
         } else {
           return null
         }
-        
+
         // if user, return it
         if (user) {
           return {

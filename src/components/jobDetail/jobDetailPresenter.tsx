@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { JobInterface } from '~/types/job'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { InputChangeEventHandler } from '~/types/events'
 
 const JobDetailPresenter = ({ jobId }: { jobId: string }) => {
   const { status } = useSession()
@@ -36,6 +37,11 @@ const JobDetailPresenter = ({ jobId }: { jobId: string }) => {
     }
   }
 
+  const onClickBack = (e: InputChangeEventHandler) => {
+    e.preventDefault()
+    router.back()
+  }
+
   return (
     <JobDetailView
       job={job || null}
@@ -43,7 +49,7 @@ const JobDetailPresenter = ({ jobId }: { jobId: string }) => {
       matchingSkills={matchedSkills}
       isBookmarked={job?.saved ?? false}
       bookmarkJob={bookmarkJob}
-      onClickBack={() => router.back()}
+      onClickBack={onClickBack}
       isJobButtonLoading={isJobButtonLoading || isThisJobButtonLoading}
     />
   )

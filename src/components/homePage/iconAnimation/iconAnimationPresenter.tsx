@@ -1,7 +1,7 @@
 import IconAnimationView from '~/components/homePage/iconAnimation/iconAnimationView'
-import useJobStore from '~/stores/jobStore'
-import useSkillCountStore from '~/stores/skillStore'
+import { useRouter } from 'next/router'
 
+// icons to be shown in the animation
 const iconArray = [
   'gcp',
   'redux',
@@ -21,13 +21,10 @@ const iconArray = [
   'typescript',
 ]
 
-const IconAnimationPresenter = ({ activeSearch }: { activeSearch: string }) => {
-  const { jobs } = useJobStore()
-  const { skillsCount } = useSkillCountStore()
+const IconAnimationPresenter = () => {
+  const router = useRouter()
+  const hasRouterQuery = Boolean(router.query.skills || router.query.role)
 
-  const visible =
-    (activeSearch === 'job' && jobs.length === 0) || (activeSearch === 'skill' && skillsCount.length === 0)
-
-  return <IconAnimationView icons={[...iconArray, ...iconArray]} visible={visible} />
+  return <IconAnimationView icons={[...iconArray, ...iconArray]} visible={!hasRouterQuery} />
 }
 export default IconAnimationPresenter

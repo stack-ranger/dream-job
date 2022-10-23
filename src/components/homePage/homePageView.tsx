@@ -5,7 +5,6 @@ import JobSearchPresenter from '../jobSearch/jobSearchPresenter'
 import SkillPlot from '../skillPlot/skillPlotPresenter'
 import SkillSearchPresenter from '../skillSearch/skillSearchPresenter'
 import IconAnimationPresenter from '~/components/homePage/iconAnimation/iconAnimationPresenter'
-import Footer from '~/components/common/Footer/FooterView'
 
 interface HomePageViewProps {
   searchSelected: 'job' | 'skill'
@@ -52,7 +51,7 @@ export default function HomePageView({
 
       {searchSelected === 'job' && (
         <div className="flex-col">
-          <div className="pt-12 flex justify-center">
+          <div className="pt-12 flex justify-center w-max-96">
             <SkillSearchPresenter skillList={skillList} />
           </div>
           <JobListPresenter />
@@ -70,7 +69,7 @@ export default function HomePageView({
         </div>
       )}
       <div className="pt-28">
-        <IconAnimationPresenter activeSearch={searchSelected} />
+        <IconAnimationPresenter />
       </div>
     </>
   )

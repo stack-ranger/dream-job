@@ -31,6 +31,7 @@ const JobSearchPresenter = ({ jobList }: { jobList: string[] }) => {
       setStoreJobSearch(roleParam)
       fetchSkillsCount(roleParam)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router?.query?.role])
 
   const onSearch = async (e: InputChangeEventHandler) => {

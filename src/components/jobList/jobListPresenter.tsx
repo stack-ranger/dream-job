@@ -9,9 +9,11 @@ import useScrollStore from '~/stores/scrollStore'
 const JobListPresenter = () => {
   const scrollX = global?.window && window.scrollX
   const scrollY = global?.window && window.scrollY
+  // useLayoutEffect not working with SSR
+  const useBrowserLayoutEffect = process.browser ? useLayoutEffect : useEffect
   const { status } = useSession()
-  const { jobs, loading, fetchJobs, jobsPerQuery } = useJobStore()
-  const { scrollPos, setScrollPos, maxScrollPos, setMaxScrollPos } = useScrollStore()
+  const { jobs, loading, fetchJobs, jobsPerQuery, noJobsFound } = useJobStore()
+  const { scrollPos, maxScrollPos, setMaxScrollPos } = useScrollStore()
   const [currentSkillSearch, setCurrentSkillSearch] = useState<string[]>([])
   const router = useRouter()
 
@@ -34,16 +36,23 @@ const JobListPresenter = () => {
 
   if (typeof window !== 'undefined' && router.pathname !== '/history') window.onscroll = debounce(handleScroll, 10)
 
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     window.scrollTo(scrollX, scrollY)
     // this is the case when coming back from detail page
     if (scrollPos != 0) {
       window.scrollTo(0, scrollPos)
-      setScrollPos(0)
     }
   })
 
-  return <JobListView jobs={jobs} loading={loading} skills={currentSkillSearch} jobsPerQuery={jobsPerQuery} />
+  return (
+    <JobListView
+      jobs={jobs}
+      loading={loading}
+      skills={currentSkillSearch}
+      jobsPerQuery={jobsPerQuery}
+      noJobsFound={noJobsFound}
+    />
+  )
 }
 
 export default JobListPresenter

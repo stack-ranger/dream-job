@@ -58,6 +58,7 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
       resetJobs()
     } else {
       toast.info('Already showing these skills', { autoClose: 2000 })
+      return
     }
     await router.push({ pathname: '/', query: { skills: skills, search: 'job' } }, undefined, { shallow: true })
     registerSearch(status === 'authenticated', `?search=job${skills.map((s) => `&skills=${s}`).join('')}`)
@@ -74,6 +75,9 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
   }, [search])
 
   const appendSkill = (skill: string) => {
+    if (skills.includes(skill)) {
+      toast.info('Skill already selected', { autoClose: 2000 })
+    }
     if (skillList.includes(skill) && !skills.includes(skill) && skills.length < maxSkills) {
       const newSkills: string[] = [...skills, skill]
       setSkills(newSkills)
@@ -96,12 +100,16 @@ const SkillSearchPresenter = ({ skillList }: { skillList: string[] }) => {
     if (e.key === 'Backspace' && !search.length && skills.length) {
       e.preventDefault()
       const skillsCopy = [...skills]
+      const popped = skillsCopy.pop()
       setSkills(skillsCopy)
-      setSearch(skillsCopy.pop() || '')
+      setSearch(popped || '')
     }
 
     // Limit the number of tags to 5
-    if (skills.length >= maxSkills) return
+    if (skills.length >= maxSkills) {
+      toast.info(`You can only select ${maxSkills} skills`, { autoClose: 2000 })
+      return
+    }
 
     const searchTrimmed = search.trim()
     if (
