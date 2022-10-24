@@ -26,7 +26,7 @@ const JobListPresenter = () => {
   async function handleScroll() {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement
     const tmpPosition = clientHeight + scrollTop
-    if (scrollHeight - scrollTop < clientHeight) {
+    if (scrollHeight - scrollTop - 200 <= clientHeight) {
       if (tmpPosition > maxScrollPos) {
         setMaxScrollPos(scrollTop + clientHeight)
         await fetchJobs(status === 'authenticated')
