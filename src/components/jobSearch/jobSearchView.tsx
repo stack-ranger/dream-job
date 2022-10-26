@@ -29,7 +29,7 @@ const JobSearchView = ({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={onKeyPress}
-                placeholder={'Search for role'}
+                placeholder={'Enter role'}
                 className="overflow-auto border-0 outline-none px-2 bg-gray-50 dark:bg-transparent"
               />
             </div>

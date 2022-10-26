@@ -36,7 +36,7 @@ export default function HomePageView({
       <div className="flex flex-row justify-center">
         <div className="inline-flex rounded-md shadow-sm h-10" role="group">
           <SelectButton type="button" $isSelected={searchSelected === 'job'} $position="left" onClick={jobSearchClick}>
-            Search Jobs
+            Add Skills
           </SelectButton>
           <SelectButton
             type="button"
@@ -44,7 +44,7 @@ export default function HomePageView({
             $position="right"
             onClick={skillSearchClick}
           >
-            Search Skills
+            Add Jobs
           </SelectButton>
         </div>
       </div>
