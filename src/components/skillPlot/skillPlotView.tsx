@@ -8,6 +8,7 @@ interface SkillPlotViewProps {
 }
 
 export const SkillPlotView = ({ skills, noSkillsFound, loading }: SkillPlotViewProps) => {
+  
   return (
     <>
       {loading && skills.length === 0 && (
@@ -29,7 +30,7 @@ export const SkillPlotView = ({ skills, noSkillsFound, loading }: SkillPlotViewP
             {skills.map((skill, i) => (
               <div
                 key={i}
-                className="bg-white mt-2 px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform dark:bg-gray-800 dark:border-gray-500 text-gray-500 sm:w-[30rem] md:w-[40rem] lg:w-[24rem] lg:mt-0"
+                className="bg-white mt-2 px-4 py-6 mb-2 shadow-lg block border border-rounded rounded-lg hover:transform dark:bg-gray-800 dark:border-gray-500 text-gray-800 dark:text-gray-300 sm:w-[30rem] md:w-[40rem] lg:w-[24rem] lg:mt-0"
               >
                 <li className="flex justify-between items-center" key={i}>
                   <div className="capitalize">{skill.name}</div>
@@ -43,7 +44,7 @@ export const SkillPlotView = ({ skills, noSkillsFound, loading }: SkillPlotViewP
                 <a
                   href={skill.docs}
                   className={
-                    skill?.docs ? 'text-xs text-blue-700 hover:text-blue-800 overflow-auto' : 'text-black text-xs'
+                    skill?.docs ? 'text-xs text-blue-700 hover:text-blue-800 overflow-auto' : 'text-black text-xs dark:text-gray-300'
                   }
                 >
                   {skill?.docs ? skill.docs : 'No Link Found.'}
