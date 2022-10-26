@@ -10,6 +10,7 @@ const SkillPlot = () => {
   const { theme } = useTheme()
 
   useEffect(() => {
+    console.log(theme)
     const getCanvasElementById = (id: string): HTMLCanvasElement => {
       const canvas = document.getElementById(id)
 
@@ -41,7 +42,7 @@ const SkillPlot = () => {
           title: {
             text: `Results for ${jobSearch}`,
             display: true,
-            color: 'rgb(107 114 128)',
+            color: theme === 'dark' ? '#d1d5db' : '#1f2937',
             font: {
               size: 20,
               family: 'sans-serif',
@@ -57,7 +58,7 @@ const SkillPlot = () => {
             offset: true,
             ticks: {
               min: 0,
-              color: 'rgb(107 114 128)',
+              color: theme === 'dark' ? '#d1d5db' : '#1f2937',
               font: {
                 size: 14,
                 family: 'sans-serif',
@@ -66,15 +67,15 @@ const SkillPlot = () => {
             },
             grid: {
               display: false,
-              borderColor: 'rgb(107 114 128)',
+              borderColor: theme === 'dark' ? '#d1d5db' : '#1f2937',
             },
           },
 
           y: {
             ticks: {
               min: 0,
-              color: 'rgb(107 114 128)',
-              borderColor: 'rgb(107 114 128)',
+              color: theme === 'dark' ? '#d1d5db' : '#1f2937',
+              borderColor: theme === 'dark' ? '#d1d5db' : '#1f2937',
               font: {
                 size: 14,
                 family: 'sans-serif',
@@ -86,7 +87,7 @@ const SkillPlot = () => {
             },
             grid: {
               display: false,
-              borderColor: 'rgb(107 114 128)',
+              borderColor: theme === 'dark' ? '#d1d5db' : '#1f2937',
             },
           },
         },
