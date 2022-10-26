@@ -105,7 +105,7 @@ const JobDetailView = ({
               {job.company_name}
             </div>
             {job.location && <div className="p-2 text-center text-sm">{job.location && job.location}</div>}
-            <div className="p-1 text-center text-sm text-gray-700">Posted: {job.date_posted.toDateString()}</div>
+            <div className="p-1 text-center text-sm text-gray-700 dark:text-gray-300">Posted: {job.date_posted.toDateString()}</div>
             <div className="max-w-sm flex flex-wrap justify-center p-3">
               {job.skills.map((skill, i) => (
                 <span
@@ -120,7 +120,7 @@ const JobDetailView = ({
             </div>
           </div>
         </div>
-        <div className="text-sm pt-2 text-gray-500" dangerouslySetInnerHTML={{ __html: job.text }} />
+        <div className="text-sm pt-2 text-gray-500 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: job.text }} />
       </div>
     </div>
   )
